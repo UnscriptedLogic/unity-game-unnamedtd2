@@ -1,0 +1,74 @@
+{
+    "name": "DefaultControls",
+    "maps": [
+        {
+            "name": "DesktopControls",
+            "id": "6a65baf1-ab7f-42a7-a2bd-39f1c2fad1ca",
+            "actions": [
+                {
+                    "name": "CurrentMousePosition",
+                    "type": "Value",
+                    "id": "e388e1da-6497-4462-944f-365ba948faac",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "CurrentMousePosDelta",
+                    "type": "Value",
+                    "id": "581938fb-fa90-432d-b565-a476996cad2d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "6dc1da5c-eba4-46f6-b080-d0d22e35d73e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "697d2744-e325-4250-a055-845aed744091",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CurrentMousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f3c503d7-5245-486c-9e81-ec383e5b76b1",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CurrentMousePosDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "252ccc37-06b6-4383-9e24-59c770ea2a9d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

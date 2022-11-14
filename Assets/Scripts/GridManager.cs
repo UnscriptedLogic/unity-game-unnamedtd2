@@ -7,6 +7,7 @@ namespace GridManagement
     public class GridManager : MonoBehaviour
     {
         [SerializeField] private Vector2Int gridSize;
+        [SerializeField] private GameObject nodePrefab;
         [SerializeField] private Grid grid;
 
         private void Start()
@@ -20,8 +21,7 @@ namespace GridManagement
             {
                 for (int y = -gridSize.y; y < gridSize.y; y++)
                 {
-                    GameObject node = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    node.transform.position = GridCoordsToPosition(new Vector3Int(x, y, 0));
+                    GameObject node = Instantiate(nodePrefab, new Vector3(x, 0, y), Quaternion.identity);
                 }
             }
         }

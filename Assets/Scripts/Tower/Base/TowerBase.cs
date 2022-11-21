@@ -37,12 +37,21 @@ namespace TowerManagement
         protected Transform currentTarget;
         protected List<Transform> targetsInRange = new List<Transform>();
 
-        private void Update()
+        protected float _reloadTime;
+
+        protected virtual void Start()
+        {
+            _reloadTime = reloadTime;
+        }
+
+        protected virtual void Update()
         {
             if (currentTarget != null)
             {
                 WhileTargetFound();
             }
+
+
         }
 
         protected virtual void FixedUpdate()
@@ -137,6 +146,11 @@ namespace TowerManagement
             //rotationHead.rotation = Quaternion.Euler(0f, rotation.y, 0f);
 
             rotationHead.LookAt(targetPos);
+        }
+
+        protected void CommonTowerFunctionality()
+        {
+
         }
 
         protected virtual void OnValidate()

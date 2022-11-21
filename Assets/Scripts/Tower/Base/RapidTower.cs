@@ -6,14 +6,19 @@ namespace TowerManagement
 {
     public class RapidTower : TowerBase
     {
-        protected override void OnTargetFound()
+        protected override void Update()
         {
-
+            base.Update();
         }
 
-        protected override void WhileTargetFound()
+        protected override void FireProjectile()
         {
             
+        }
+
+        protected override void OnTargetFound()
+        {
+            FireProjectile();
         }
 
         protected override void OnTargetLost()

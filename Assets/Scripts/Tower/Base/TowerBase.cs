@@ -34,10 +34,18 @@ namespace TowerManagement
         [SerializeField] protected LayerMask unitLayer;
         [SerializeField] protected TargetSortMode targetSortMode = TargetSortMode.First;
 
+        protected float _reloadTime;
+
         protected Transform currentTarget;
         protected List<Transform> targetsInRange = new List<Transform>();
 
-        private void Update()
+        protected virtual void Start()
+        {
+            rangeCollider.radius = range;
+            _reloadTime = reloadTime;
+        }
+
+        protected virtual void Update()
         {
             if (currentTarget != null)
             {
@@ -125,6 +133,11 @@ namespace TowerManagement
                 target = currentTarget;
             }
 
+            if (currentTarget == null)
+            {
+                return;
+            }
+
             Vector3 targetPos = target.position;
             if (levelled)
             {
@@ -137,6 +150,23 @@ namespace TowerManagement
             //rotationHead.rotation = Quaternion.Euler(0f, rotation.y, 0f);
 
             rotationHead.LookAt(targetPos);
+        }
+
+        protected virtual void CommonTowerLogic()
+        {
+            if (_reloadTime <= 0f)
+            {
+                if (currentTarget != null)
+                {
+                    RotateToTarget(rotationHeads[0], levelled: true);
+                    FireProjectile();
+                    _reloadTime = reloadTime;
+                }
+            }
+            else
+            {
+                _reloadTime -= Time.deltaTime;
+            }
         }
 
         protected virtual void OnValidate()

@@ -1,3 +1,4 @@
+using ProjectileManagement;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,17 @@ namespace TowerManagement
             Weakest
         }
 
-        [Header("Base Settings")]
+        [Header("Base Tower Settings")]
         [SerializeField] protected float damage = 1f;
         [SerializeField] protected float range = 1f;
         [SerializeField] protected float reloadTime = 1f;
 
+        [Header("Base Projectile Settings")]
+        [SerializeField] protected float projectileSpeed = 10f;
+        [SerializeField] protected float projectileLifetime = 3f;
+
         [Header("Base Components")]
+        [SerializeField] protected GameObject[] projectilePrefabs;
         [SerializeField] protected SphereCollider rangeCollider;
         [SerializeField] protected Transform[] rotationHeads;
         [SerializeField] protected Transform[] shootAnchors;
@@ -152,6 +158,15 @@ namespace TowerManagement
             rotationHead.LookAt(targetPos);
         }
 
+        protected GameObject CreateBullet()
+        {
+            GameObject bullet = Instantiate(projectilePrefabs[0], shootAnchors[0].position, shootAnchors[0].rotation);
+            ProjectileSettings projectileSettings = new ProjectileSettings(projectileSpeed, damage, projectileLifetime);
+            ProjectileBase projectileBase = bullet.GetComponent<ProjectileBase>();
+            projectileBase.Initialize(projectileSettings);
+            return bullet;
+        }
+
         protected virtual void CommonTowerLogic()
         {
             if (_reloadTime <= 0f)
@@ -205,6 +220,8 @@ namespace TowerManagement
         protected virtual void FireProjectile()
         {
             Debug.Log("FireProjectile()");
+
+            CreateBullet();
         }
 
         protected virtual void OnProjectileFired()

@@ -14,7 +14,7 @@ namespace TowerManagement
 
         protected override void OnTargetFound()
         {
-
+            base.OnTargetFound();
         }
 
         protected override void OnTargetLost()

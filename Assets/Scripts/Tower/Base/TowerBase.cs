@@ -28,8 +28,9 @@ namespace TowerManagement
         [SerializeField] protected float projectileLifetime = 3f;
 
         [Header("Base Components")]
-        [SerializeField] protected GameObject[] projectilePrefabs;
+        [SerializeField] protected Animator animator;
         [SerializeField] protected SphereCollider rangeCollider;
+        [SerializeField] protected GameObject[] projectilePrefabs;
         [SerializeField] protected Transform[] rotationHeads;
         [SerializeField] protected Transform[] shootAnchors;
 
@@ -67,12 +68,14 @@ namespace TowerManagement
                 {
                     currentTarget = null;
                     OnTargetLost();
+                    return;
                 }
 
                 if (Vector3.Distance(currentTarget.position, transform.position) >= range + 1f)
                 {
                     currentTarget = null;
                     OnTargetLost();
+                    return;
                 }
             }
 
@@ -84,8 +87,14 @@ namespace TowerManagement
             Collider[] colliders = Physics.OverlapSphere(transform.position, range, unitLayer);
             for (int i = 0; i < colliders.Length; i++)
             {
-                targetsInRange.Add(colliders[i].transform);
+                if (HasLOSToTarget(colliders[i].transform))
+                {
+                    targetsInRange.Add(colliders[i].transform);
+                }
+            }
 
+            if (targetsInRange.Count > 0)
+            {
                 SortTargets();
             }
         }
@@ -104,9 +113,11 @@ namespace TowerManagement
                     break;
                 case TargetSortMode.Closest:
                     //Closest distance to tower
+                    target = targetsInRange.OrderBy(t => Vector3.Distance(t.position, transform.position)).FirstOrDefault();
                     break;
                 case TargetSortMode.Furthest:
                     //Furthest distance to tower
+                    target = targetsInRange.OrderByDescending(t => Vector3.Distance(t.position, transform.position)).FirstOrDefault();
                     break;
                 case TargetSortMode.Strongest:
                     //Highest health point in range
@@ -117,8 +128,6 @@ namespace TowerManagement
                 default:
                     break;
             }
-
-            target = targetsInRange[0];
 
             if (currentTarget == null || target != currentTarget)
             {
@@ -204,7 +213,8 @@ namespace TowerManagement
 
         protected virtual void OnTargetFound()
         {
-            Debug.Log("OnTargetFound()");
+            Debug.Log("TargetFound()");
+            animator.SetBool("Attacking", true);
         }
 
         protected virtual void WhileTargetFound()
@@ -214,7 +224,8 @@ namespace TowerManagement
 
         protected virtual void OnTargetLost()
         {
-            Debug.Log("OnTargetLost()");
+            Debug.Log("TargetLost()");
+            animator.SetBool("Attacking", false);
         }
 
         protected virtual void FireProjectile()

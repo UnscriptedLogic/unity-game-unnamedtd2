@@ -31,6 +31,13 @@ namespace ProjectileManagement
             initialized = false;
         }
 
+        private void Update()
+        {
+            if (!initialized) return;
+
+            Move();
+        }
+
         public void Initialize(ProjectileSettings projectileSettings)
         {
             speed = projectileSettings.speed;
@@ -39,6 +46,11 @@ namespace ProjectileManagement
 
             Destroy(gameObject, lifeTime);
             initialized = true;
+        }
+
+        protected void Move()
+        {
+            transform.position += transform.forward * speed * Time.deltaTime;
         }
     }
 }

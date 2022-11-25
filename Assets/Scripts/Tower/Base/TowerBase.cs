@@ -1,7 +1,9 @@
+using Core;
 using ProjectileManagement;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnitManagement;
 using UnityEngine;
 
 namespace TowerManagement
@@ -64,14 +66,7 @@ namespace TowerManagement
         {
             if (currentTarget != null)
             {
-                if (!HasLOSToTarget(currentTarget))
-                {
-                    currentTarget = null;
-                    OnTargetLost();
-                    return;
-                }
-
-                if (Vector3.Distance(currentTarget.position, transform.position) >= range + 1f)
+                if (LostTarget())
                 {
                     currentTarget = null;
                     OnTargetLost();
@@ -167,13 +162,45 @@ namespace TowerManagement
             rotationHead.LookAt(targetPos);
         }
 
-        protected GameObject CreateBullet()
+        protected bool LostTarget()
         {
-            GameObject bullet = Instantiate(projectilePrefabs[0], shootAnchors[0].position, shootAnchors[0].rotation);
-            ProjectileSettings projectileSettings = new ProjectileSettings(projectileSpeed, damage, projectileLifetime);
-            ProjectileBase projectileBase = bullet.GetComponent<ProjectileBase>();
-            projectileBase.Initialize(projectileSettings);
+            if (!currentTarget.gameObject.activeInHierarchy)
+            {
+                return true;
+            }
+
+            if (!HasLOSToTarget(currentTarget))
+            {
+                return true;
+            }
+
+            if (Vector3.Distance(currentTarget.position, transform.position) >= range + 1f)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        protected GameObject CreateBullet(out ProjectileBase projectileBase)
+        {
+            GameObject bullet = PoolManager.poolManagerInstance.PullFromPool(projectilePrefabs[0], shootAnchors[0].position, shootAnchors[0].rotation, false);
+            ProjectileSettings projectileSettings = new ProjectileSettings(projectileSpeed, projectileLifetime);
+            projectileBase = bullet.GetComponent<ProjectileBase>();
+            projectileBase.InitializeAndSetActive(projectileSettings);
             return bullet;
+        }
+
+        protected virtual void SubscribeProjectileEvents(ProjectileBase projectileBase)
+        {
+            projectileBase.OnEnemyHit += OnProjectileHit;
+            projectileBase.OnProjectileDestroyed += OnProjectileDestroyed;
+        }
+
+        protected virtual void UnsubscribeProjectileEvents(ProjectileBase projectileBase)
+        {
+            projectileBase.OnEnemyHit -= OnProjectileHit;
+            projectileBase.OnProjectileDestroyed -= OnProjectileDestroyed;
         }
 
         protected virtual void CommonTowerLogic()
@@ -232,7 +259,8 @@ namespace TowerManagement
         {
             Debug.Log("FireProjectile()");
 
-            CreateBullet();
+            CreateBullet(out ProjectileBase projectileBase);
+            SubscribeProjectileEvents(projectileBase);
         }
 
         protected virtual void OnProjectileFired()
@@ -240,9 +268,15 @@ namespace TowerManagement
             Debug.Log("OnProjectileFired()");
         }
 
-        protected virtual void OnProjectileHit()
+        protected virtual void OnProjectileHit(UnitBase unit)
         {
             Debug.Log("OnProjectileHit()");
+            unit.TakeDamage(damage);
+        }
+
+        protected virtual void OnProjectileDestroyed(ProjectileBase projectile)
+        {
+            UnsubscribeProjectileEvents(projectile);
         }
     }
 }

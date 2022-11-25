@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnitManagement;
 using UnityEngine;
 
 namespace TowerManagement
@@ -10,16 +11,6 @@ namespace TowerManagement
         {
             base.Update();
             CommonTowerLogic();
-        }
-
-        protected override void OnTargetFound()
-        {
-            base.OnTargetFound();
-        }
-
-        protected override void OnTargetLost()
-        {
-            base.OnTargetLost();
         }
     }
 }

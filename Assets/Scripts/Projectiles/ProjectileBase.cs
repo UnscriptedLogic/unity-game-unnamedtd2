@@ -1,5 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using Core;
+using System;
+using UnitManagement;
 using UnityEngine;
 
 namespace ProjectileManagement
@@ -7,13 +8,11 @@ namespace ProjectileManagement
     public struct ProjectileSettings
     {
         public float speed;
-        public float damage;
         public float lifetime;
 
-        public ProjectileSettings(float speed, float damage, float lifetime)
+        public ProjectileSettings(float speed, float lifetime)
         {
             this.speed = speed;
-            this.damage = damage;
             this.lifetime = lifetime;
         }
     }
@@ -21,36 +20,57 @@ namespace ProjectileManagement
     public class ProjectileBase : MonoBehaviour
     {
         [SerializeField] protected float speed = 1f;
-        [SerializeField] protected float damage = 1f;
         [SerializeField] protected float lifeTime = 1f;
 
-        protected bool initialized;
+        public event Action<UnitBase> OnEnemyHit;
+        public event Action<ProjectileBase> OnProjectileDestroyed;
 
-        private void OnEnable()
-        {
-            initialized = false;
-        }
+        protected float _lifetime;
+        protected bool initialized;
 
         private void Update()
         {
             if (!initialized) return;
 
+            if (_lifetime <= 0f)
+            {
+                PoolManager.poolManagerInstance.PushToPool(gameObject);
+            }
+            else
+            {
+                _lifetime -= Time.deltaTime;
+            }
+
             Move();
         }
 
-        public void Initialize(ProjectileSettings projectileSettings)
+        public void InitializeAndSetActive(ProjectileSettings projectileSettings)
         {
             speed = projectileSettings.speed;
-            damage = projectileSettings.damage;
             lifeTime = projectileSettings.lifetime;
-
-            Destroy(gameObject, lifeTime);
+            _lifetime = lifeTime;
             initialized = true;
+
+            gameObject.SetActive(true);
         }
 
         protected void Move()
         {
             transform.position += transform.forward * speed * Time.deltaTime;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                OnEnemyHit?.Invoke(other.GetComponent<UnitBase>());
+                PoolManager.poolManagerInstance.PushToPool(gameObject);
+            }
+        }
+
+        private void OnDisable()
+        {
+            OnProjectileDestroyed?.Invoke(this);
         }
     }
 }

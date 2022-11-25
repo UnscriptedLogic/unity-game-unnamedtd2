@@ -1,18 +1,42 @@
+using Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitBase : MonoBehaviour
+namespace UnitManagement
 {
-    // Start is called before the first frame update
-    void Start()
+    public class UnitBase : MonoBehaviour
     {
-        
-    }
+        [SerializeField] protected float health = 5f;
+        [SerializeField] protected float speed = 5f;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        protected float currentHealth;
+
+        protected virtual void Start()
+        {
+            currentHealth = health;
+        }
+
+        public void TakeDamage(float damage)
+        {
+            currentHealth -= damage;
+            OnUnitDamaged(damage);
+            if (currentHealth <= 0f)
+            {
+                currentHealth = 0f;
+                OnUnitDeath();
+                return;
+            }
+        }
+
+        protected virtual void OnUnitDamaged(float damage)
+        {
+
+        }
+
+        protected virtual void OnUnitDeath()
+        {
+            PoolManager.poolManagerInstance.PushToPool(gameObject);
+        }
     }
 }

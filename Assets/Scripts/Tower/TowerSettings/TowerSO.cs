@@ -7,7 +7,7 @@ namespace TowerManagement
     public class TowerSO : ScriptableObject
     {
         [Serializable]
-        private class UpgradeOption 
+        public class UpgradeOption 
         {
             [Header("Next Upgrade Settings")]
             public Sprite nextUpgradeIcon;
@@ -16,7 +16,7 @@ namespace TowerManagement
         }
 
         [Serializable]
-        private class TowerLevel
+        public class TowerLevel
         {
             [Header("Level Settings")]
             public string overrideName;
@@ -28,11 +28,21 @@ namespace TowerManagement
         }
 
         [SerializeField] private Sprite icon;
+        [SerializeField] private Color bgColor;
+        [SerializeField] private Color brColor;
         [SerializeField] private string towerName;
         [SerializeField] private float cost;
         [TextArea(5, 10)][SerializeField] private string towerDescription;
 
         [SerializeField] private TowerLevel[] towerLevels;
+
+        public Sprite Icon => icon;
+        public Color BGColor => bgColor;
+        public Color BRColor => brColor;
+        public string TowerName => towerName;
+        public float Cost => cost;
+        public string TowerDescription => towerDescription;
+        public TowerLevel[] TowerLevels => towerLevels;
 
         private void OnValidate()
         {

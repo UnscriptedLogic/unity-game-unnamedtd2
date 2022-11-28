@@ -1,18 +1,27 @@
 using Core;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections.Generic;
+using TowerManagement;
 
 namespace BuildManagement
 {
     public class BuildManager : MonoBehaviour
     {
+        [Header("Level Available Towers")]
+        [SerializeField] private TowerListSO availableTowers;
+
+        [Header("Build Settings")]
         private InputManager inputManager;
         [SerializeField] private Camera cam;
         [SerializeField] private LayerMask buildLayer;
         [SerializeField] private GameObject nodeHighlighterPrefab;
         [SerializeField] private float verticalOffset;
+
+        [Header("UI")]
+        [SerializeField] private GameObject towerButtonPrefab;
+        [SerializeField] private Transform towerListParent;
+        private List<Button> buildButtons;
 
         private GameObject nodeHighlighter;
 
@@ -20,6 +29,8 @@ namespace BuildManagement
         {
             inputManager = InputManager.instance;
             inputManager.OnMouseMoving += InputManager_OnMouseMoving;
+
+            
         }
 
         private void Start()

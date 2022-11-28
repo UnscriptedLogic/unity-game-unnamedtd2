@@ -31,7 +31,7 @@ namespace UnitManagement
 
         protected virtual void OnUnitDamaged(float damage)
         {
-
+            //Damage flashing or something
         }
 
         protected virtual void OnUnitDeath()

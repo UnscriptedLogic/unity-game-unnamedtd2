@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TowerManagement
 {
-    [CreateAssetMenu(menuName = "ScriptableObjects/New Tower", fileName = "New Tower")]
+    [CreateAssetMenu(menuName = "ScriptableObjects/New Tower", fileName = "New Tower", order = 0)]
     public class TowerSO : ScriptableObject
     {
         [Serializable]

@@ -21,7 +21,7 @@ namespace GridManagement
             {
                 for (int y = -gridSize.y; y < gridSize.y; y++)
                 {
-                    GameObject node = Instantiate(nodePrefab, new Vector3(x, 0, y), Quaternion.identity);
+                    GameObject node = Instantiate(nodePrefab, new Vector3(grid.transform.position.x + x, 0, grid.transform.position.z + y), Quaternion.identity);
                 }
             }
         }

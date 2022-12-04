@@ -6,11 +6,11 @@ namespace GridManagement
 {
     public class GridNode : MonoBehaviour
     {
-        public int coordx, coordy;
-        public float hCost;
-        public float gCost;
-        public GridNode cameFromNode;
-        public bool isPath;
+        [HideInInspector] public int coordx, coordy;
+        [HideInInspector] public float hCost;
+        [HideInInspector] public float gCost;
+        [HideInInspector] public GridNode cameFromNode;
+        [HideInInspector] public bool isPath;
 
         public float Elevation => transform.position.y;
         public float fCost => hCost + gCost;

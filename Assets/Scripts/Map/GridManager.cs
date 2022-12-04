@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace GridManagement
@@ -15,7 +16,7 @@ namespace GridManagement
 
         protected Dictionary<Tuple<int, int>, GridNode> gridNodes;
 
-        public virtual void GenerateNodes()
+        public virtual async Task GenerateNodes()
         {
             gridNodes = new Dictionary<Tuple<int, int>, GridNode>();
 
@@ -27,9 +28,11 @@ namespace GridManagement
 
                 gridNode.coordx = x;
                 gridNode.coordy = y;
-
+                
                 node.name = $"Node {x}, {y}";
             });
+
+            await Task.Yield();
         }
 
         protected void ForEachNode(Action<int, int> method)

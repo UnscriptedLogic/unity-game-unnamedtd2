@@ -36,15 +36,16 @@ namespace GridManagement
         [SerializeField] protected int seed;
         [SerializeField] protected bool random = true;
 
+        [Header("Water Settings")]
+        [SerializeField] protected Transform waterObject;
 
-        private void Start()
-        {
-            GenerateNodes();
-        }
+        [Header("End Points")]
+        [SerializeField] protected GameObject homePrefab;
+        [SerializeField] protected GameObject spawnPrefab;
 
-        public override async void GenerateNodes()
+        public override async Task GenerateNodes()
         {
-            base.GenerateNodes();
+            await base.GenerateNodes();
 
             if (random)
             {
@@ -66,16 +67,54 @@ namespace GridManagement
 
             await Task.Yield();
 
+            PathwayGen();
+            GenerateWater();
+
+            await Task.Yield();
+
+            GameObject homeNode = Instantiate(homePrefab, transform);
+            homeNode.transform.position = pathManager.Path[0].transform.position + Vector3.up;
+
+            GameObject spawnNode = Instantiate(spawnPrefab, transform);
+            spawnNode.transform.position = pathManager.Path[pathManager.Path.Length - 1].transform.position + Vector3.up;
+        }
+
+        protected void GenerateWater()
+        {
+            float elevation = (int)UnityEngine.Random.Range(0, 3) + 0.3f;
+
+            if (elevation > pathManager.Path[0].Elevation)
+            {
+                elevation = pathManager.Path[0].Elevation + 0.3f;
+            }
+
+            if (elevation <= 0.3f)
+            {
+                waterObject.gameObject.SetActive(false);
+                return;
+            }
+
+            waterObject.position = new Vector3(waterObject.position.x, elevation, waterObject.position.z);
+            waterObject.localScale = new Vector3(gridSize.x * 2 - 0.25f, elevation, gridSize.y * 2 - 0.25f);
+            waterObject.gameObject.SetActive(true);
+
+            ForEachNode(node =>
+            {
+                Vector3 position = new Vector3(node.transform.position.x, elevation, node.transform.position.z);
+                if (!Physics.CheckSphere(position, 0.25f))
+                {
+                    GameObject waterNode = Instantiate(nodePrefab, position - Vector3.up * 0.5f, Quaternion.identity);
+                    Destroy(waterNode.transform.GetChild(0).gameObject);
+                }
+            });
+        }
+
+        private void PathwayGen()
+        {
             float elevation = pathManager.Path[0].Elevation;
             for (int i = 1; i < pathManager.Path.Length; i++)
             {
                 Vector3 pos = new Vector3(pathManager.Path[i].transform.position.x, elevation, pathManager.Path[i].transform.position.z);
-
-                //Collider[] pathwayReplaced = Physics.OverlapSphere(pathManager.Path[i].transform.position, 0.25f);
-                //foreach (Collider collider in pathwayReplaced)
-                //{
-                //    Destroy(collider.gameObject);
-                //}
 
                 GameObject pathwayNode = Instantiate(pathPrefab, pos, Quaternion.identity, transform);
 

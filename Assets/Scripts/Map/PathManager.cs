@@ -15,6 +15,7 @@ namespace Core.Pathing
         private int seed = 10; //The seed for randomization
         [SerializeField] private int weightPointCount = 5; //The amount of 'crucial' points the path needs to meet (for proper path spread across the map)
         [SerializeField] private float weightPointDistance = 5f; //The amount of distance between the weightpoints;
+        [SerializeField] private float pathCoverPercentage = 17.5f;
         [SerializeField] private bool allowOverlap = false;
 
         private Dictionary<Tuple<int, int>, GridNode> nodeDict;
@@ -60,7 +61,7 @@ namespace Core.Pathing
 
         private bool IsPathValid()
         {
-            if ((float)path.Count / (float)nodes.Count * 100f < 17.5f)
+            if ((float)path.Count / (float)nodes.Count * 100f < pathCoverPercentage)
             {
                 Debug.Log($"Path too short: {((float)path.Count / (float)nodes.Count) * 100f}%");
                 return false;

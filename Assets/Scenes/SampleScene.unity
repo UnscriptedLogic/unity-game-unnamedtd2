@@ -1411,7 +1411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71e9f5e6041a714459bcf63713db9fc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 12, y: 12}
+  gridSize: {x: 20, y: 20}
   nodePrefab: {fileID: 5097329705688066731, guid: 138f881d833a7b444a6e64a243fc1462,
     type: 3}
   grid: {fileID: 1532291991}
@@ -1431,6 +1431,7 @@ MonoBehaviour:
     type: 3}
   seed: 0
   random: 1
+  alwaysGenerateWater: 1
   waterObject: {fileID: 1879678213}
   homePrefab: {fileID: 5097329705688066731, guid: 990abd5abb279374dbf4368eb948e49b,
     type: 3}
@@ -1448,8 +1449,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217269feff06cb943befb5960d7af876, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weightPointCount: 7
-  weightPointDistance: 8
+  weightPointCount: 8
+  weightPointDistance: 9
+  pathCoverPercentage: 10
   allowOverlap: 0
 --- !u!1 &2035665609
 GameObject:

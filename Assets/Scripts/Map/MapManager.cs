@@ -37,6 +37,7 @@ namespace GridManagement
         [SerializeField] protected bool random = true;
 
         [Header("Water Settings")]
+        [SerializeField] protected bool alwaysGenerateWater;
         [SerializeField] protected Transform waterObject;
 
         [Header("End Points")]
@@ -75,17 +76,24 @@ namespace GridManagement
 
         protected void GenerateWater()
         {
-            float elevation = (int)UnityEngine.Random.Range(0, 3) + 0.3f;
-
-            if (elevation > pathManager.Path[0].Elevation)
+            float elevation = 0f;
+            if (alwaysGenerateWater)
             {
                 elevation = pathManager.Path[0].Elevation + 0.3f;
-            }
-
-            if (elevation <= 0.3f)
+            } 
+            else
             {
-                waterObject.gameObject.SetActive(false);
-                return;
+                elevation = (int)UnityEngine.Random.Range(0, 3) + 0.3f;
+                if (elevation > pathManager.Path[0].Elevation)
+                {
+                    elevation = pathManager.Path[0].Elevation + 0.3f;
+                }
+
+                if (elevation <= 0.3f)
+                {
+                    waterObject.gameObject.SetActive(false);
+                    return;
+                }
             }
 
             waterObject.position = new Vector3(waterObject.position.x, elevation, waterObject.position.z);

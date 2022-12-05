@@ -19,6 +19,7 @@ namespace Core.Pathing
         [SerializeField] private bool allowOverlap = false;
 
         private Dictionary<Tuple<int, int>, GridNode> nodeDict;
+        private Vector3[] waypoints;
 
         private GridNode[] weightPoints;
         private List<GridNode> nodes;
@@ -26,6 +27,7 @@ namespace Core.Pathing
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
 
         public GridNode[] Path { get => path.ToArray(); }
+        public Vector3[] PathPoints { get => waypoints; }
         public CancellationTokenSource TokenSource => tokenSource;
 
         public async Task GeneratePath(Dictionary<Tuple<int, int>, GridNode> nodeDict, Vector2 gridSize, int seed)
@@ -192,6 +194,16 @@ namespace Core.Pathing
                 {
                     gridNodes.Add(node);
                 }
+            }
+        }
+
+        public void InitPath()
+        {
+            waypoints = new Vector3[path.Count];
+            for (int i = 0; i < path.Count; i++)
+            {
+                Debug.Log(path[i]);
+                waypoints[i] = path[i].transform.position;
             }
         }
 

@@ -105,7 +105,7 @@ namespace GridManagement
                 Vector3 position = new Vector3(node.transform.position.x, elevation, node.transform.position.z);
                 if (!Physics.CheckSphere(position, 0.25f))
                 {
-                    GameObject waterNode = Instantiate(nodePrefab, position - Vector3.up * 0.5f, Quaternion.identity);
+                    GameObject waterNode = Instantiate(nodePrefab, position - Vector3.up * 0.5f, Quaternion.identity, transform);
                     Destroy(waterNode.transform.GetChild(0).gameObject);
                 }
             });
@@ -117,7 +117,7 @@ namespace GridManagement
             GameObject homeNode = Instantiate(homePrefab, transform);
             homeNode.transform.position = pathManager.Path[0].transform.position + Vector3.up;
 
-            for (int i = 1; i < pathManager.Path.Length; i++)
+            for (int i = 0; i < pathManager.Path.Length; i++)
             {
                 Vector3 pos = new Vector3(pathManager.Path[i].transform.position.x, elevation, pathManager.Path[i].transform.position.z);
 
@@ -147,6 +147,8 @@ namespace GridManagement
             GameObject spawnNode = Instantiate(spawnPrefab, transform);
             Vector3 endNode = pathManager.Path[pathManager.Path.Length - 1].transform.position;
             spawnNode.transform.position = new Vector3(endNode.x, elevation + 1, endNode.z);
+
+            pathManager.InitPath();
         }
 
         private void LandFill()
@@ -158,7 +160,7 @@ namespace GridManagement
                 int height = (int)node.transform.position.y;
                 for (int i = 0; i < height; i++)
                 {
-                    GameObject fillObject = Instantiate(fillPrefab, new Vector3(node.transform.position.x, i, node.transform.position.z), Quaternion.identity);
+                    GameObject fillObject = Instantiate(fillPrefab, new Vector3(node.transform.position.x, i, node.transform.position.z), Quaternion.identity, transform);
                     fill.Add(fillObject);
                 }
             });

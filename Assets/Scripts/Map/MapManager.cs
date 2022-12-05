@@ -71,12 +71,6 @@ namespace GridManagement
             GenerateWater();
 
             await Task.Yield();
-
-            GameObject homeNode = Instantiate(homePrefab, transform);
-            homeNode.transform.position = pathManager.Path[0].transform.position + Vector3.up;
-
-            GameObject spawnNode = Instantiate(spawnPrefab, transform);
-            spawnNode.transform.position = pathManager.Path[pathManager.Path.Length - 1].transform.position + Vector3.up;
         }
 
         protected void GenerateWater()
@@ -112,6 +106,9 @@ namespace GridManagement
         private void PathwayGen()
         {
             float elevation = pathManager.Path[0].Elevation;
+            GameObject homeNode = Instantiate(homePrefab, transform);
+            homeNode.transform.position = pathManager.Path[0].transform.position + Vector3.up;
+
             for (int i = 1; i < pathManager.Path.Length; i++)
             {
                 Vector3 pos = new Vector3(pathManager.Path[i].transform.position.x, elevation, pathManager.Path[i].transform.position.z);
@@ -138,6 +135,10 @@ namespace GridManagement
                     }
                 }
             }
+
+            GameObject spawnNode = Instantiate(spawnPrefab, transform);
+            Vector3 endNode = pathManager.Path[pathManager.Path.Length - 1].transform.position;
+            spawnNode.transform.position = new Vector3(endNode.x, elevation + 1, endNode.z);
         }
 
         private void LandFill()

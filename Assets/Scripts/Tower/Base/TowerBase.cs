@@ -154,14 +154,9 @@ namespace TowerManagement
                 targetPos.y = rotationHead.position.y;
             }
 
-            //Vector3 direction = target.position - rotationHead.position;
-            //Quaternion lookRotation = Quaternion.LookRotation(direction);
-            //Vector3 rotation = Quaternion.Lerp(rotationHead.rotation, lookRotation, Time.deltaTime * 10f).eulerAngles;
-            //rotationHead.rotation = Quaternion.Euler(0f, rotation.y, 0f);
-
             rotationHead.LookAt(targetPos);
         }
-
+        
         protected bool LostTarget()
         {
             if (!currentTarget.gameObject.activeInHierarchy)

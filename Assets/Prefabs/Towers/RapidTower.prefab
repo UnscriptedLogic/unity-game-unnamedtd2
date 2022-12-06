@@ -384,7 +384,7 @@ MonoBehaviour:
   damage: 1
   range: 5
   reloadTime: 0.1
-  projectileSpeed: 10
+  projectileSpeed: 20
   projectileLifetime: 3
   animator: {fileID: 7782421079505764516}
   rangeCollider: {fileID: 7782421079505764518}

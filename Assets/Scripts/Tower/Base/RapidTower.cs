@@ -11,6 +11,7 @@ namespace TowerManagement
         {
             base.Update();
             CommonTowerLogic();
+            RotateToTarget(rotationHeads[1], levelled: false);
         }
     }
 }

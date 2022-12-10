@@ -280,7 +280,7 @@ GameObject:
   - component: {fileID: 7782421079505764513}
   - component: {fileID: 7782421079505764518}
   - component: {fileID: 7782421079505764519}
-  - component: {fileID: 7782421079505764516}
+  - component: {fileID: 2733427867580396670}
   m_Layer: 0
   m_Name: RapidTower
   m_TagString: Untagged
@@ -334,7 +334,7 @@ MonoBehaviour:
   reloadTime: 0.1
   projectileSpeed: 20
   projectileLifetime: 3
-  animator: {fileID: 7782421079505764516}
+  animator: {fileID: 2733427867580396670}
   rangeCollider: {fileID: 7782421079505764518}
   projectilePrefabs:
   - {fileID: 4722038810580600616, guid: ecca9451b944ae648a79b42b25079957, type: 3}
@@ -343,6 +343,7 @@ MonoBehaviour:
   - {fileID: 5469793397867929031}
   shootAnchors:
   - {fileID: 7782421080683869980}
+  audioClips: []
   drawGizmos: 1
   losBaseOffset: 0.6
   losObstructionLayer:
@@ -352,7 +353,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   targetSortMode: 2
---- !u!95 &7782421079505764516
+--- !u!95 &2733427867580396670
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -362,7 +363,7 @@ Animator:
   m_GameObject: {fileID: 7782421079505764512}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f42b33c6ebad4d641aec9ccb03a6d024, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9cf21fc237f3b7a48a8b6e76d5577415, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

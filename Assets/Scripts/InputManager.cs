@@ -17,6 +17,7 @@ namespace Core
         public event Action<Vector2> OnMouseUp;
         public event Action<Vector2> OnDirectionalMovement;
         public event Action<float> OnMouseScroll;
+        public event Action<float> OnRotateCamera;
 
         private void Awake()
         {
@@ -36,8 +37,15 @@ namespace Core
             controls.DirectionalMovement.canceled += DirectionalMovement_canceled;
             controls.Zoom.started += Zoom_started;
             controls.Zoom.canceled += Zoom_canceled;
+
+            controls.CameraRotation.started += CameraRotation_started;
         }
-        
+
+        private void CameraRotation_started(InputAction.CallbackContext obj)
+        {
+            OnRotateCamera?.Invoke(obj.ReadValue<float>());
+        }
+
         private void Zoom_canceled(InputAction.CallbackContext obj)
         {
             OnMouseScroll?.Invoke(obj.ReadValue<float>());

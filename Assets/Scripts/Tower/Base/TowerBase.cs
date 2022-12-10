@@ -36,6 +36,9 @@ namespace TowerManagement
         [SerializeField] protected Transform[] rotationHeads;
         [SerializeField] protected Transform[] shootAnchors;
 
+        [Space(10)]
+        [SerializeField] protected AudioClip[] audioClips;
+
         [Header("Base Settings")]
         [SerializeField] protected bool drawGizmos;
         [SerializeField] protected float losBaseOffset = 0.5f;

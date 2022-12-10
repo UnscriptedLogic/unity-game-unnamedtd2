@@ -71,6 +71,15 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""CameraRotation"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e9f5925-1275-4d8f-b4e3-10818384253b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -183,6 +192,39 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""f838abda-0695-433f-8cad-ca85fcfd606b"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraRotation"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""e619e918-7bc9-4fa1-adc6-1e511eb79615"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""1af8071c-82b7-4488-8afa-c7074693a6ba"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -196,6 +238,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         m_DesktopControls_Interact = m_DesktopControls.FindAction("Interact", throwIfNotFound: true);
         m_DesktopControls_DirectionalMovement = m_DesktopControls.FindAction("DirectionalMovement", throwIfNotFound: true);
         m_DesktopControls_Zoom = m_DesktopControls.FindAction("Zoom", throwIfNotFound: true);
+        m_DesktopControls_CameraRotation = m_DesktopControls.FindAction("CameraRotation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -260,6 +303,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_DesktopControls_Interact;
     private readonly InputAction m_DesktopControls_DirectionalMovement;
     private readonly InputAction m_DesktopControls_Zoom;
+    private readonly InputAction m_DesktopControls_CameraRotation;
     public struct DesktopControlsActions
     {
         private @DefaultControls m_Wrapper;
@@ -269,6 +313,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_DesktopControls_Interact;
         public InputAction @DirectionalMovement => m_Wrapper.m_DesktopControls_DirectionalMovement;
         public InputAction @Zoom => m_Wrapper.m_DesktopControls_Zoom;
+        public InputAction @CameraRotation => m_Wrapper.m_DesktopControls_CameraRotation;
         public InputActionMap Get() { return m_Wrapper.m_DesktopControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -293,6 +338,9 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 @Zoom.started -= m_Wrapper.m_DesktopControlsActionsCallbackInterface.OnZoom;
                 @Zoom.performed -= m_Wrapper.m_DesktopControlsActionsCallbackInterface.OnZoom;
                 @Zoom.canceled -= m_Wrapper.m_DesktopControlsActionsCallbackInterface.OnZoom;
+                @CameraRotation.started -= m_Wrapper.m_DesktopControlsActionsCallbackInterface.OnCameraRotation;
+                @CameraRotation.performed -= m_Wrapper.m_DesktopControlsActionsCallbackInterface.OnCameraRotation;
+                @CameraRotation.canceled -= m_Wrapper.m_DesktopControlsActionsCallbackInterface.OnCameraRotation;
             }
             m_Wrapper.m_DesktopControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -312,6 +360,9 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 @Zoom.started += instance.OnZoom;
                 @Zoom.performed += instance.OnZoom;
                 @Zoom.canceled += instance.OnZoom;
+                @CameraRotation.started += instance.OnCameraRotation;
+                @CameraRotation.performed += instance.OnCameraRotation;
+                @CameraRotation.canceled += instance.OnCameraRotation;
             }
         }
     }
@@ -323,5 +374,6 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnDirectionalMovement(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
+        void OnCameraRotation(InputAction.CallbackContext context);
     }
 }

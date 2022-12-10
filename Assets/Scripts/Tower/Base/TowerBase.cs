@@ -36,7 +36,7 @@ namespace TowerManagement
         [SerializeField] protected Transform[] rotationHeads;
         [SerializeField] protected Transform[] shootAnchors;
 
-        [Header("Audio Clips")]
+        [Space(10)]
         [SerializeField] protected AudioClip[] audioClips;
 
         [Header("Base Settings")]

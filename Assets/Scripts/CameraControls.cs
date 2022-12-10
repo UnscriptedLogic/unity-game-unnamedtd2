@@ -16,21 +16,12 @@ public class CameraControls : MonoBehaviour
     private Vector2 axis;
     private Vector2 currentMousePos;
 
-    private Vector3 zoomPos;
-    private Vector3 oldZoomPos;
-
-    private float current;
-    private Vector2 range = new Vector2(0, 360);
-    
     private void Start()
     {
         inputManager = InputManager.instance;
         inputManager.OnDirectionalMovement += InputManager_OnDirectionalMovement;
         inputManager.OnMouseMoving += InputManager_OnMouseMoving;
         inputManager.OnMouseScroll += InputManager_OnMouseScroll;
-
-        zoomPos = transform.position;
-        oldZoomPos = transform.position;
     }
 
     private void InputManager_OnMouseScroll(float scroll)

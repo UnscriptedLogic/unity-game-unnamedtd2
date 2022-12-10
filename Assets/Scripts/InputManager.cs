@@ -18,6 +18,7 @@ namespace Core
         public event Action<Vector2> OnDirectionalMovement;
         public event Action<float> OnMouseScroll;
         public event Action<float> OnRotateCamera;
+        public event Action OnResetCamera;
 
         private void Awake()
         {
@@ -39,42 +40,20 @@ namespace Core
             controls.Zoom.canceled += Zoom_canceled;
 
             controls.CameraRotation.started += CameraRotation_started;
+            controls.ResetCamera.started += ResetCamera_started;
         }
 
-        private void CameraRotation_started(InputAction.CallbackContext obj)
-        {
-            OnRotateCamera?.Invoke(obj.ReadValue<float>());
-        }
+        private void ResetCamera_started(InputAction.CallbackContext obj) => OnResetCamera?.Invoke();
+        private void CameraRotation_started(InputAction.CallbackContext obj) => OnRotateCamera?.Invoke(obj.ReadValue<float>());
 
-        private void Zoom_canceled(InputAction.CallbackContext obj)
-        {
-            OnMouseScroll?.Invoke(obj.ReadValue<float>());
-        }
+        private void Zoom_canceled(InputAction.CallbackContext obj) => OnMouseScroll?.Invoke(obj.ReadValue<float>());
+        private void Zoom_started(InputAction.CallbackContext obj) => OnMouseScroll?.Invoke(obj.ReadValue<float>());
 
-        private void Zoom_started(InputAction.CallbackContext obj)
-        {
-            OnMouseScroll?.Invoke(obj.ReadValue<float>());
-        }
+        private void DirectionalMovement_started(InputAction.CallbackContext obj) => OnDirectionalMovement?.Invoke(obj.ReadValue<Vector2>());
+        private void DirectionalMovement_canceled(InputAction.CallbackContext obj) => OnDirectionalMovement?.Invoke(obj.ReadValue<Vector2>());
 
-        private void DirectionalMovement_started(InputAction.CallbackContext obj)
-        {
-            OnDirectionalMovement?.Invoke(obj.ReadValue<Vector2>());
-        }
-
-        private void DirectionalMovement_canceled(InputAction.CallbackContext obj)
-        {
-            OnDirectionalMovement?.Invoke(obj.ReadValue<Vector2>());
-        }
-
-        private void Interact_canceled(InputAction.CallbackContext obj)
-        {
-            OnMouseUp?.Invoke(controls.CurrentMousePosition.ReadValue<Vector2>());
-        }
-
-        private void Interact_started(InputAction.CallbackContext obj)
-        {
-            OnMouseDown?.Invoke(controls.CurrentMousePosition.ReadValue<Vector2>());
-        }
+        private void Interact_canceled(InputAction.CallbackContext obj) => OnMouseUp?.Invoke(controls.CurrentMousePosition.ReadValue<Vector2>());
+        private void Interact_started(InputAction.CallbackContext obj) => OnMouseDown?.Invoke(controls.CurrentMousePosition.ReadValue<Vector2>());
 
         private void OnDisable()
         {

@@ -19,6 +19,7 @@ public class CameraControls : MonoBehaviour
     private InputManager inputManager;
     private Vector2 axis;
     private Vector2 currentMousePos;
+    private Vector3 startCameraPos;
     private Quaternion rotationToLerp;
     private float rotationAngle;
     private bool isResetting;
@@ -27,6 +28,7 @@ public class CameraControls : MonoBehaviour
     {
         inputManager = InputManager.instance;
         EnableAllInput();
+        startCameraPos = transform.localPosition;
     }
 
     private void InputManager_OnResetCamera()
@@ -80,7 +82,8 @@ public class CameraControls : MonoBehaviour
         if (isResetting)
         {
             anchor.position = Vector3.Lerp(anchor.position, new Vector3(0f, anchor.position.y, 0f), lerpSpeed * Time.deltaTime);
-            
+            transform.localPosition = Vector3.Lerp(transform.localPosition, startCameraPos, lerpSpeed * Time.deltaTime);
+
             if (Vector3.Distance(anchor.position, new Vector3(0f, anchor.position.y, 0f)) <= 0.1f)
             {
                 isResetting = false;

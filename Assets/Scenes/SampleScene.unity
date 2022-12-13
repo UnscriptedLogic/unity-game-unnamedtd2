@@ -340,7 +340,7 @@ MonoBehaviour:
   scrollSpeed: 5
   minY: 1
   maxY: 30
-  rotationSpeed: 10
+  lerpSpeed: 10
   bounds: {x: 40, y: 40}
   anchor: {fileID: 1523867747}
   panParent: {fileID: 1385244360}
@@ -1545,6 +1545,8 @@ MonoBehaviour:
   random: 1
   alwaysGenerateWater: 1
   waterObject: {fileID: 1879678213}
+  waterPrefab: {fileID: 8613283881132888705, guid: 7235e5f728fd3664e9dd36f85e2e5806,
+    type: 3}
   homePrefab: {fileID: 5097329705688066731, guid: 990abd5abb279374dbf4368eb948e49b,
     type: 3}
   spawnPrefab: {fileID: 5097329705688066731, guid: 8eed0bb105d568643bd7deb405f9bf9b,

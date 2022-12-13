@@ -21,6 +21,7 @@ namespace ProjectileManagement
     {
         [SerializeField] protected float speed = 1f;
         [SerializeField] protected float lifeTime = 1f;
+        [SerializeField] protected TrailRenderer[] trailRenderers;
 
         public event Action<UnitBase> OnEnemyHit;
         public event Action<ProjectileBase> OnProjectileDestroyed;
@@ -65,6 +66,14 @@ namespace ProjectileManagement
             {
                 OnEnemyHit?.Invoke(other.GetComponent<UnitBase>());
                 PoolManager.poolManagerInstance.PushToPool(gameObject);
+            }
+        }
+
+        private void OnEnable()
+        {
+            for (int i = 0; i < trailRenderers.Length; i++)
+            {
+                trailRenderers[i].Clear();
             }
         }
 

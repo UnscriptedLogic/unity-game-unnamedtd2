@@ -39,6 +39,7 @@ namespace GridManagement
         [Header("Water Settings")]
         [SerializeField] protected bool alwaysGenerateWater;
         [SerializeField] protected Transform waterObject;
+        [SerializeField] protected GameObject waterPrefab;
 
         [Header("End Points")]
         [SerializeField] protected GameObject homePrefab;
@@ -105,7 +106,7 @@ namespace GridManagement
                 Vector3 position = new Vector3(node.transform.position.x, elevation, node.transform.position.z);
                 if (!Physics.CheckSphere(position, 0.25f))
                 {
-                    GameObject waterNode = Instantiate(nodePrefab, position - Vector3.up * 0.5f, Quaternion.identity, transform);
+                    GameObject waterNode = Instantiate(waterPrefab, position - Vector3.up * 0.5f, Quaternion.identity, transform);
                     Destroy(waterNode.transform.GetChild(0).gameObject);
                 }
             });

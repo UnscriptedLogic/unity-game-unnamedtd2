@@ -3,6 +3,13 @@ using UnityEngine;
 
 namespace TowerManagement
 {
+    public enum TowerPlacement
+    {
+        Ground,
+        Water,
+        Path
+    }
+
     [CreateAssetMenu(menuName = "ScriptableObjects/New Tower", fileName = "New Tower", order = 0)]
     public class TowerSO : ScriptableObject
     {
@@ -32,6 +39,7 @@ namespace TowerManagement
         [SerializeField] private Color brColor;
         [SerializeField] private string towerName;
         [SerializeField] private float cost;
+        [SerializeField] private TowerPlacement towerPlacement;
         [TextArea(5, 10)][SerializeField] private string towerDescription;
 
         [SerializeField] private TowerLevel[] towerLevels;
@@ -42,6 +50,7 @@ namespace TowerManagement
         public string TowerName => towerName;
         public float Cost => cost;
         public string TowerDescription => towerDescription;
+        public TowerPlacement TowerPlacement => towerPlacement;
         public TowerLevel[] TowerLevels => towerLevels;
 
         private void OnValidate()

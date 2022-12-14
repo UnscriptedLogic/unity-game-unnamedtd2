@@ -1141,9 +1141,11 @@ MonoBehaviour:
   buildLayer:
     serializedVersion: 2
     m_Bits: 64
+  verticalOffset: 0.5
   nodeHighlighterPrefab: {fileID: 6465252190825764111, guid: 7f3e263f7f5ad7e428ae40d05239e0fa,
     type: 3}
-  verticalOffset: 0.5
+  validPlacementMat: {fileID: 2100000, guid: 7744e95083b7bf44dafef8cf56cb3cde, type: 2}
+  invalidPlacementMat: {fileID: 2100000, guid: 6db8c828045495040a99ea355c357743, type: 2}
   towerButtonPrefab: {fileID: 7601562104459301587, guid: 3077a34ac9c7f1445a1b416754cf75ff,
     type: 3}
   towerListParent: {fileID: 2035665610}

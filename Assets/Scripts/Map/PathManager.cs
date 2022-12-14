@@ -202,7 +202,6 @@ namespace Core.Pathing
             waypoints = new Vector3[path.Count];
             for (int i = 0; i < path.Count; i++)
             {
-                Debug.Log(path[i]);
                 waypoints[i] = path[i].transform.position;
             }
         }

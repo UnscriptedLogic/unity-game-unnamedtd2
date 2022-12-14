@@ -17,6 +17,8 @@ namespace UserInterfaceManagement
         [SerializeField] private Transform pathView;
         [SerializeField] private GameObject segmentPrefab;
         [SerializeField] private GameObject segmentKnob;
+        [SerializeField] private Color levelboughtColor;
+        [SerializeField] private Color currentLevelColor;
 
         [Header("Upgrade Section")]
         [SerializeField] private GameObject upgradeSection;
@@ -66,20 +68,42 @@ namespace UserInterfaceManagement
 
                 //TODO: Implement Upgrade Logic
             }
+
+            InitPathView(towerSO, levelIndex);
         }
 
-        public void InitPathView(TowerSO towerSO)
+        public void InitPathView(TowerSO towerSO, int levelIndex)
         {
             //Clear all segments
-            foreach (Transform child in pathView.transform)
+            for (int i = 0; i < pathView.childCount; i++)
             {
-                Destroy(child.gameObject);
+                Destroy(pathView.GetChild(0));
             }
 
             //Create Segments
             for (int i = 0; i < towerSO.TowerLevels.Length; i++)
             {
                 GameObject segment = Instantiate(segmentPrefab, pathView);
+                if (i < levelIndex)
+                {
+                    segment.GetComponent<Image>().color = levelboughtColor;
+                }
+                else if (i == levelIndex)
+                {
+                    segment.GetComponent<Image>().color = currentLevelColor;
+                }
+
+                //Clear all knobs
+                for (int j = 0; j < segment.transform.childCount; j++)
+                {
+                    Destroy(segment.transform.GetChild(0));
+                }
+
+                //Create Knobs
+                for (int j = 0; j < towerSO.TowerLevels[i].upgradeOptions.Length; j++)
+                {
+                    GameObject knob = Instantiate(segmentKnob, segment.transform);
+                }
             }
             
         }

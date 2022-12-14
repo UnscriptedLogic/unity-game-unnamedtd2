@@ -38,3 +38,39 @@ MonoBehaviour:
         type: 3}
       nextUpgradeCost: 175
       nextUpgradeDesc: '- Increases range by 10'
+  - overrideName: Rapid Tower
+    sellCost: 450
+    towerIcon: {fileID: 21300000, guid: 8e544f3e10c77914aaea36914fdb5e9f, type: 3}
+    towerPrefab: {fileID: 7782421079505764512, guid: f0e3f8ada9ec29448961806f1fa3c2a7,
+      type: 3}
+    upgradeOptions:
+    - nextUpgradeIcon: {fileID: 21300000, guid: d188163f5df6d4e43996570a04d8f72c,
+        type: 3}
+      nextUpgradeCost: 100
+      nextUpgradeDesc: '- Increases attack speed by 5'
+    - nextUpgradeIcon: {fileID: 21300000, guid: 4b04c9e5a91a9024fa4967ee466261c9,
+        type: 3}
+      nextUpgradeCost: 250
+      nextUpgradeDesc: '- Increases piercing power by 2'
+  - overrideName: Rapid Tower
+    sellCost: 450
+    towerIcon: {fileID: 21300000, guid: 8e544f3e10c77914aaea36914fdb5e9f, type: 3}
+    towerPrefab: {fileID: 7782421079505764512, guid: f0e3f8ada9ec29448961806f1fa3c2a7,
+      type: 3}
+    upgradeOptions:
+    - nextUpgradeIcon: {fileID: 21300000, guid: d188163f5df6d4e43996570a04d8f72c,
+        type: 3}
+      nextUpgradeCost: 100
+      nextUpgradeDesc: '- Increases attack speed by 5'
+    - nextUpgradeIcon: {fileID: 21300000, guid: 4b04c9e5a91a9024fa4967ee466261c9,
+        type: 3}
+      nextUpgradeCost: 250
+      nextUpgradeDesc: '- Increases piercing power by 2'
+    - nextUpgradeIcon: {fileID: 21300000, guid: 4b04c9e5a91a9024fa4967ee466261c9,
+        type: 3}
+      nextUpgradeCost: 250
+      nextUpgradeDesc: '- Increases piercing power by 2'
+    - nextUpgradeIcon: {fileID: 21300000, guid: 4b04c9e5a91a9024fa4967ee466261c9,
+        type: 3}
+      nextUpgradeCost: 250
+      nextUpgradeDesc: '- Increases piercing power by 2'

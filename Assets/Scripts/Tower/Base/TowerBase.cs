@@ -1,5 +1,6 @@
 using Core;
 using ProjectileManagement;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,13 @@ namespace TowerManagement
             Weakest
         }
 
+        [Serializable]
+        public class RotationHeads
+        {
+            public Transform rotationHead;
+            public bool levelled;
+        }
+
         [Header("Base Tower Settings")]
         [SerializeField] protected float damage = 1f;
         [SerializeField] protected float range = 1f;
@@ -33,7 +41,7 @@ namespace TowerManagement
         [SerializeField] protected Animator animator;
         [SerializeField] protected SphereCollider rangeCollider;
         [SerializeField] protected GameObject[] projectilePrefabs;
-        [SerializeField] protected Transform[] rotationHeads;
+        [SerializeField] protected RotationHeads[] rotationHeads;
         [SerializeField] protected Transform[] shootAnchors;
 
         [Space(10)]
@@ -207,7 +215,12 @@ namespace TowerManagement
             {
                 if (currentTarget != null)
                 {
-                    RotateToTarget(rotationHeads[0], levelled: true);
+                    Debug.Log(rotationHeads.Length);
+                    for (int i = 0; i < rotationHeads.Length; i++)
+                    {
+                        RotateToTarget(rotationHeads[i].rotationHead, levelled: rotationHeads[i].levelled);
+                    }
+
                     FireProjectile();
                     _reloadTime = reloadTime;
                 }
@@ -245,6 +258,7 @@ namespace TowerManagement
         protected virtual void WhileTargetFound()
         {
             Debug.Log("WhileTargetFound()");
+            CommonTowerLogic();
         }
 
         protected virtual void OnTargetLost()

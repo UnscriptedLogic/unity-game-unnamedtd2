@@ -7,11 +7,6 @@ namespace TowerManagement
 {
     public class RapidTower : TowerBase
     {
-        protected override void Update()
-        {
-            base.Update();
-            CommonTowerLogic();
-            RotateToTarget(rotationHeads[1], levelled: false);
-        }
+
     }
 }

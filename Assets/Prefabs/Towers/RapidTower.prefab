@@ -107,8 +107,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2624319775197035766}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.052, z: -0.708}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.052000046, z: -0.708}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -339,8 +339,10 @@ MonoBehaviour:
   projectilePrefabs:
   - {fileID: 4722038810580600616, guid: ecca9451b944ae648a79b42b25079957, type: 3}
   rotationHeads:
-  - {fileID: 7576197817483752961}
-  - {fileID: 5469793397867929031}
+  - rotationHead: {fileID: 5469793397867929031}
+    levelled: 0
+  - rotationHead: {fileID: 7576197817483752961}
+    levelled: 1
   shootAnchors:
   - {fileID: 7782421080683869980}
   audioClips: []

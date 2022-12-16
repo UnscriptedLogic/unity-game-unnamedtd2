@@ -9,6 +9,8 @@ namespace UserInterfaceManagement
 {
     public class InspectWindow : MonoBehaviour
     {
+        [SerializeField] private ContentSizeFitter contentSizeFitter;
+
         [Header("Inspect Window")]
         [SerializeField] private Image headerIcon;
         [SerializeField] private TextMeshProUGUI title;
@@ -17,31 +19,39 @@ namespace UserInterfaceManagement
         [SerializeField] private Transform pathView;
         [SerializeField] private GameObject segmentPrefab;
         [SerializeField] private GameObject segmentKnob;
-        [SerializeField] private Color levelboughtColor;
         [SerializeField] private Color currentLevelColor;
+        [SerializeField] private Color upgradeBoughtColor;
 
         [Header("Upgrade Section")]
         [SerializeField] private GameObject upgradeSection;
         [SerializeField] private GameObject upgradeButtonPrefab;
+        [SerializeField] private GameObject fullyUpgraded;
 
         [Header("Sell Section")]
         [SerializeField] private TextMeshProUGUI sellCost;
         [SerializeField] private Button sellButton;
 
-        [Header("Test")]
-        [SerializeField] private TowerSO testtowerSO;
-        [SerializeField] private int testlevel;
-
-        private void Start()
+        public void ShowModal(TowerSO towerSO, List<int> upgradeHistory)
         {
-            ShowModal(testtowerSO, testlevel);
+            Clear();
+            InitHeader(towerSO);
         }
 
-        public void ShowModal(TowerSO towerSO, int level)
+        public void Clear()
         {
-            InitHeader(towerSO);
-            InitUpgradeButtons(towerSO, level);
-            InitSellButton(towerSO, level);
+            fullyUpgraded.SetActive(false);
+
+            // Clear all the upgrade buttons
+            foreach (Transform child in upgradeSection.transform)
+            {
+                Destroy(child.gameObject);
+            }
+
+            //Clear all segments
+            for (int i = 0; i < pathView.childCount; i++)
+            {
+                Destroy(pathView.GetChild(i).gameObject);
+            }
         }
 
         public void InitHeader(TowerSO towerSO)
@@ -50,45 +60,44 @@ namespace UserInterfaceManagement
             title.text = towerSO.TowerName;
         }
 
-        public void InitUpgradeButtons(TowerSO towerSO, int levelIndex)
+        public Button[] InitUpgradeButtons(TowerSO towerSO, int[] upgradeHistory)
         {
-            // Clear all the upgrade buttons
-            foreach (Transform child in upgradeSection.transform)
+            // Create the upgrade buttons
+            int levelIndex = upgradeHistory.Length;
+            TowerSO.UpgradeOption[] upgradeOptions;
+
+            if (upgradeHistory.Length == towerSO.TowerLevels.Length)
             {
-                Destroy(child.gameObject);
+                //All upgrades completed
+                fullyUpgraded.SetActive(true);
+                InitPathView(towerSO, levelIndex, upgradeHistory);
+                return null;
             }
 
-            // Create the upgrade buttons
-            TowerSO.UpgradeOption[] upgradeOptions;
+            Button[] upgradeButtons = new Button[towerSO.TowerLevels[levelIndex].upgradeOptions.Length];
             for (int i = 0; i < towerSO.TowerLevels[levelIndex].upgradeOptions.Length; i++)
             {
                 upgradeOptions = towerSO.TowerLevels[levelIndex].upgradeOptions;
                 GameObject upgradeButton = Instantiate(upgradeButtonPrefab, upgradeSection.transform);
-                upgradeButton.GetComponent<UpgradeButton>().InitButton(upgradeOptions[i].nextUpgradeIcon, upgradeOptions[i].nextUpgradeDesc, upgradeOptions[i].nextUpgradeCost);
-
-                //TODO: Implement Upgrade Logic
+                UpgradeButton upgradeButtonScript = upgradeButton.GetComponent<UpgradeButton>();
+                upgradeButtonScript.InitButton(upgradeOptions[i].nextUpgradeIcon, upgradeOptions[i].nextUpgradeDesc, upgradeOptions[i].nextUpgradeCost);
+                upgradeButtons[i] = upgradeButtonScript.UpgradeBtn;
             }
 
-            InitPathView(towerSO, levelIndex);
+            InitPathView(towerSO, levelIndex, upgradeHistory);
+
+            return upgradeButtons;
         }
 
-        public void InitPathView(TowerSO towerSO, int levelIndex)
+        public void InitPathView(TowerSO towerSO, int levelIndex, int[] upgradeHistory)
         {
-            //Clear all segments
-            for (int i = 0; i < pathView.childCount; i++)
-            {
-                Destroy(pathView.GetChild(0));
-            }
+            List<GameObject[]> knobs = new List<GameObject[]>();
 
             //Create Segments
             for (int i = 0; i < towerSO.TowerLevels.Length; i++)
             {
                 GameObject segment = Instantiate(segmentPrefab, pathView);
-                if (i < levelIndex)
-                {
-                    segment.GetComponent<Image>().color = levelboughtColor;
-                }
-                else if (i == levelIndex)
+                if (i == levelIndex)
                 {
                     segment.GetComponent<Image>().color = currentLevelColor;
                 }
@@ -100,17 +109,38 @@ namespace UserInterfaceManagement
                 }
 
                 //Create Knobs
+                GameObject[] buttonList = new GameObject[towerSO.TowerLevels[i].upgradeOptions.Length];
                 for (int j = 0; j < towerSO.TowerLevels[i].upgradeOptions.Length; j++)
                 {
-                    GameObject knob = Instantiate(segmentKnob, segment.transform);
+                    buttonList[j] = Instantiate(segmentKnob, segment.transform);
                 }
+                knobs.Add(buttonList);
             }
-            
+
+            //Color knobs
+            for (int i = 0; i < upgradeHistory.Length; i++)
+            {
+                knobs[i][upgradeHistory[i]].GetComponent<Image>().color = upgradeBoughtColor;
+            }
+
+            RefreshContentSize();
         }
 
         public void InitSellButton(TowerSO towerSO, int level)
         {
             sellCost.text = $"${towerSO.TowerLevels[level].sellCost}";
+        }
+
+        private void RefreshContentSize()
+        {
+            IEnumerator Routine()
+            {
+                contentSizeFitter.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
+                yield return null;
+                contentSizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            }
+            
+            StartCoroutine(Routine());
         }
     }
 }

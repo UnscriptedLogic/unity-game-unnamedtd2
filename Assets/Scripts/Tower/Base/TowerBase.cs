@@ -29,17 +29,16 @@ namespace TowerManagement
         }
 
         [Header("Base Tower Settings")]
-        [SerializeField] protected float damage = 1f;
-        [SerializeField] protected float range = 1f;
-        [SerializeField] protected float reloadTime = 1f;
+        public float damage = 1f;
+        public float range = 1f;
+        public float reloadTime = 1f;
 
         [Header("Base Projectile Settings")]
-        [SerializeField] protected float projectileSpeed = 10f;
-        [SerializeField] protected float projectileLifetime = 3f;
+        public float projectileSpeed = 10f;
+        public float projectileLifetime = 3f;
 
         [Header("Base Components")]
         [SerializeField] protected Animator animator;
-        [SerializeField] protected SphereCollider rangeCollider;
         [SerializeField] protected GameObject[] projectilePrefabs;
         [SerializeField] protected RotationHeads[] rotationHeads;
         [SerializeField] protected Transform[] shootAnchors;
@@ -61,7 +60,7 @@ namespace TowerManagement
 
         protected virtual void Start()
         {
-            rangeCollider.radius = range;
+            //rangeCollider.radius = range;
             _reloadTime = reloadTime;
         }
 
@@ -233,7 +232,7 @@ namespace TowerManagement
 
         protected virtual void OnValidate()
         {
-            rangeCollider.radius = range;
+            //rangeCollider.radius = range;
         }
 
         protected virtual void OnDrawGizmos()
@@ -251,25 +250,25 @@ namespace TowerManagement
 
         protected virtual void OnTargetFound()
         {
-            Debug.Log("TargetFound()");
+            //Debug.Log("TargetFound()");
             animator.SetBool("Attacking", true);
         }
 
         protected virtual void WhileTargetFound()
         {
-            Debug.Log("WhileTargetFound()");
+            //Debug.Log("WhileTargetFound()");
             CommonTowerLogic();
         }
 
         protected virtual void OnTargetLost()
         {
-            Debug.Log("TargetLost()");
+            //Debug.Log("TargetLost()");
             animator.SetBool("Attacking", false);
         }
 
         protected virtual void FireProjectile()
         {
-            Debug.Log("FireProjectile()");
+            //Debug.Log("FireProjectile()");
 
             CreateBullet(out ProjectileBase projectileBase);
             SubscribeProjectileEvents(projectileBase);
@@ -277,12 +276,12 @@ namespace TowerManagement
 
         protected virtual void OnProjectileFired()
         {
-            Debug.Log("OnProjectileFired()");
+            //Debug.Log("OnProjectileFired()");
         }
 
         protected virtual void OnProjectileHit(UnitBase unit)
         {
-            Debug.Log("OnProjectileHit()");
+            //Debug.Log("OnProjectileHit()");
             unit.TakeDamage(damage);
         }
 

@@ -11,6 +11,9 @@ namespace UserInterfaceManagement
         [SerializeField] private Image icon;
         [SerializeField] private TextMeshProUGUI desc;
         [SerializeField] private TextMeshProUGUI cost;
+        [SerializeField] private Button button;
+
+        public Button UpgradeBtn => button;
 
         public void InitButton(Sprite sprite, string description, float cost)
         {

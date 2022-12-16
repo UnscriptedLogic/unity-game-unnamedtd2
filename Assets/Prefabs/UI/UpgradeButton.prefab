@@ -579,3 +579,4 @@ MonoBehaviour:
   icon: {fileID: 6247291337157535933}
   desc: {fileID: 6247291337814963213}
   cost: {fileID: 6247291338027663023}
+  button: {fileID: 6247291337565227191}

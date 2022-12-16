@@ -8,6 +8,7 @@ TagManager:
   - Pathway
   - Ground
   - Water
+  - PathwayNode
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - UI
   - Buildable
   - Unit
-  - 
+  - Tower
   - 
   - 
   - 

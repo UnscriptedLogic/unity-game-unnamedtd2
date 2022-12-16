@@ -49,6 +49,8 @@ namespace BuildManagement
 
         private List<Button> buildButtons;
 
+        private GameObject nodeDebug;
+
         private void Awake()
         {
             inputManager = InputManager.instance;
@@ -65,9 +67,15 @@ namespace BuildManagement
                     isBuilding = true;
                     towerHoldSO = availableTowers.TowerList[towerIndex];
                     towerHold = Instantiate(availableTowers.TowerList[towerIndex].TowerLevels[0].towerPrefab);
-                    towerHold.GetComponent<TowerBase>().enabled = false;
+                    EnableTowerHoldComponents(false);
                 });
             }
+        }
+
+        private void EnableTowerHoldComponents(bool enabled)
+        {
+            towerHold.GetComponentInChildren<TowerBase>().enabled = enabled;
+            towerHold.GetComponentInChildren<Collider>().enabled = enabled;
         }
 
         private void Start()
@@ -81,6 +89,12 @@ namespace BuildManagement
 
         private bool CanBePlaced(TowerSO towerSO, GameObject node)
         {
+            nodeDebug = node;
+            if (Physics.CheckBox(node.transform.position + Vector3.up, Vector3.one * 0.4f))
+            {
+                return false;
+            }
+
             List<PlacementCondition> placementConditions = new List<PlacementCondition>()
             {
                 new PlacementCondition(IsNodeTypeValid(node, out string nodeType), $"Tower Not On {nodeType}")
@@ -105,8 +119,10 @@ namespace BuildManagement
             return isTypeValid;
         }
 
-        private void InputManager_OnMouseDown(Vector2 obj)
+        private void InputManager_OnMouseDown(Vector2 mouseScreenPos, bool isOverUI)
         {
+            if (isOverUI) return;
+
             if (isBuilding)
             {
                 if (!canBePlaced)
@@ -115,10 +131,58 @@ namespace BuildManagement
                     return;
                 }
 
+                EnableTowerHoldComponents(true);
+
                 isBuilding = false;
-                towerHold.GetComponent<TowerBase>().enabled = true;
                 towerHold = null;
                 nodeHighlighterRenderer.material = currentPlacementMaterial;
+
+                return;
+            }
+
+            Ray ray = cam.ScreenPointToRay(mouseScreenPos);
+            if (Physics.Raycast(ray, out RaycastHit hitinfo, 1000f, buildLayer))
+            {
+                Collider[] colliders = Physics.OverlapBox(hitinfo.collider.gameObject.transform.position + Vector3.up, Vector3.one * 0.4f);
+                for (int i = 0; i < colliders.Length; i++)
+                {
+                    if (colliders[i].CompareTag("Tower"))
+                    {
+                        TowerBase tower = colliders[i].GetComponent<TowerBase>();
+                        Debug.Log("Tower Found " + tower == null);
+                        if (tower != null)
+                        {
+                            InspectWindow inspectWindow = UINavigator.Push("InspectWindow").GetComponent<InspectWindow>();
+                            TowerUpgradeHandler upgradeHandler = tower.GetComponentInParent<TowerUpgradeHandler>();
+                            LinkButtons(upgradeHandler, inspectWindow);
+
+                            return;
+                        }
+                    }
+                }
+            }
+
+            if (UINavigator.GetTopPageName() == "InspectWindow")
+            {
+                UINavigator.Pop();
+            }
+        }
+
+        private static void LinkButtons(TowerUpgradeHandler upgradeHandler, InspectWindow inspectWindow)
+        {
+            inspectWindow.ShowModal(upgradeHandler.TowerSO, upgradeHandler.UpgradesChosen);
+            Button[] buttons = inspectWindow.InitUpgradeButtons(upgradeHandler.TowerSO, upgradeHandler.UpgradesChosen.ToArray());
+            if (buttons != null)
+            {
+                for (int j = 0; j < buttons.Length; j++)
+                {
+                    int upgradeIndex = j;
+                    buttons[j].onClick.AddListener(() =>
+                    {
+                        upgradeHandler.UpgradeTower(upgradeIndex);
+                        LinkButtons(upgradeHandler, inspectWindow);
+                    });
+                } 
             }
         }
 

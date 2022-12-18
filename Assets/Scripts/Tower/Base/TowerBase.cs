@@ -36,6 +36,7 @@ namespace TowerManagement
         [Header("Base Projectile Settings")]
         public float projectileSpeed = 10f;
         public float projectileLifetime = 3f;
+        public int pierce = 1;
 
         [Header("Base Components")]
         [SerializeField] protected Animator animator;
@@ -187,9 +188,9 @@ namespace TowerManagement
             return false;
         }
 
-        protected GameObject CreateBullet(out ProjectileBase projectileBase)
+        protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Transform anchor)
         {
-            GameObject bullet = PoolManager.poolManagerInstance.PullFromPool(projectilePrefabs[0], shootAnchors[0].position, shootAnchors[0].rotation, false);
+            GameObject bullet = PoolManager.poolManagerInstance.PullFromPool(prefab, anchor.position, anchor.rotation, false);
             ProjectileSettings projectileSettings = new ProjectileSettings(projectileSpeed, projectileLifetime);
             projectileBase = bullet.GetComponent<ProjectileBase>();
             projectileBase.InitializeAndSetActive(projectileSettings);
@@ -270,7 +271,7 @@ namespace TowerManagement
         {
             //Debug.Log("FireProjectile()");
 
-            CreateBullet(out ProjectileBase projectileBase);
+            CreateBullet(out ProjectileBase projectileBase, projectilePrefabs[0], shootAnchors[0]);
             SubscribeProjectileEvents(projectileBase);
         }
 

@@ -29,48 +29,77 @@ MonoBehaviour:
     - nextUpgradeIcon: {fileID: 21300000, guid: 9d832cd53ef18f54ea55aed29ea06ccd,
         type: 3}
       nextUpgradeCost: 100
-      nextUpgradeDesc: '- Decreases reload time by 0.05s'
+      nextUpgradeDesc: '- Decreases reload time by 0.025s'
+      overrideObject: {fileID: 0}
     - nextUpgradeIcon: {fileID: 21300000, guid: c14e4bdae0c876549aa87ae77768ecfd,
         type: 3}
       nextUpgradeCost: 250
-      nextUpgradeDesc: '- Increases damage by 2'
+      nextUpgradeDesc: '- Increases damage by 1'
+      overrideObject: {fileID: 0}
     - nextUpgradeIcon: {fileID: 21300000, guid: 849b7a75ceaff4f4487985defe009ede,
         type: 3}
       nextUpgradeCost: 175
-      nextUpgradeDesc: '- Increases range by 5'
+      nextUpgradeDesc: '- Increases range by 2'
+      overrideObject: {fileID: 0}
   - overrideName: Rapid Tower
     sellCost: 450
     towerIcon: {fileID: 21300000, guid: 8e544f3e10c77914aaea36914fdb5e9f, type: 3}
-    towerPrefab: {fileID: 7782421079505764512, guid: f0e3f8ada9ec29448961806f1fa3c2a7,
-      type: 3}
+    towerPrefab: {fileID: 0}
     upgradeOptions:
     - nextUpgradeIcon: {fileID: 21300000, guid: d188163f5df6d4e43996570a04d8f72c,
         type: 3}
       nextUpgradeCost: 100
-      nextUpgradeDesc: '- Decreases reload time further by 0.025s'
+      nextUpgradeDesc: '- Decreases reload time further by 0.01s'
+      overrideObject: {fileID: 0}
     - nextUpgradeIcon: {fileID: 21300000, guid: 4b04c9e5a91a9024fa4967ee466261c9,
         type: 3}
       nextUpgradeCost: 250
-      nextUpgradeDesc: '- Increases damage by 5'
+      nextUpgradeDesc: '- Increases damage by 2'
+      overrideObject: {fileID: 0}
     - nextUpgradeIcon: {fileID: 21300000, guid: 4b04c9e5a91a9024fa4967ee466261c9,
         type: 3}
       nextUpgradeCost: 250
       nextUpgradeDesc: '- Increases piercing power by 2'
+      overrideObject: {fileID: 0}
   - overrideName: Rapid Tower
     sellCost: 450
     towerIcon: {fileID: 21300000, guid: 8e544f3e10c77914aaea36914fdb5e9f, type: 3}
-    towerPrefab: {fileID: 7782421079505764512, guid: f0e3f8ada9ec29448961806f1fa3c2a7,
-      type: 3}
+    towerPrefab: {fileID: 0}
     upgradeOptions:
     - nextUpgradeIcon: {fileID: 21300000, guid: 887f33d6bf83c174e8e7fd1d52f499bb,
         type: 3}
       nextUpgradeCost: 100
       nextUpgradeDesc: Projectiles fly further for longer
+      overrideObject: {fileID: 0}
     - nextUpgradeIcon: {fileID: 21300000, guid: bebf9688b9b717b48a826919a77ee68e,
         type: 3}
       nextUpgradeCost: 475
       nextUpgradeDesc: Projectiles fly faster
+      overrideObject: {fileID: 0}
     - nextUpgradeIcon: {fileID: 21300000, guid: 8c7e683a9b3843a4681a55e0996e1798,
         type: 3}
       nextUpgradeCost: 750
       nextUpgradeDesc: Increases damage and piercing power by 2
+      overrideObject: {fileID: 0}
+  - overrideName: Rapid Tower
+    sellCost: 450
+    towerIcon: {fileID: 21300000, guid: 8e544f3e10c77914aaea36914fdb5e9f, type: 3}
+    towerPrefab: {fileID: 0}
+    upgradeOptions:
+    - nextUpgradeIcon: {fileID: 21300000, guid: 1fac1a4f68032954fb48842dd3b341fd,
+        type: 3}
+      nextUpgradeCost: 2500
+      nextUpgradeDesc: Adds 2 more barrels at the side of the tower, outputting triple
+        the bullets
+      overrideObject: {fileID: 5041612393443500118, guid: ee550260c4469974f9071175d5e19a8f,
+        type: 3}
+    - nextUpgradeIcon: {fileID: 21300000, guid: 8c7e683a9b3843a4681a55e0996e1798,
+        type: 3}
+      nextUpgradeCost: 3690
+      nextUpgradeDesc: Increases piercing power by 6
+      overrideObject: {fileID: 0}
+    - nextUpgradeIcon: {fileID: 21300000, guid: 85c609ee479553b47a1870e960d6b23f,
+        type: 3}
+      nextUpgradeCost: 1750
+      nextUpgradeDesc: Bullets create explosion on impact
+      overrideObject: {fileID: 0}

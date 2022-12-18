@@ -149,7 +149,6 @@ namespace BuildManagement
                     if (colliders[i].CompareTag("Tower"))
                     {
                         TowerBase tower = colliders[i].GetComponent<TowerBase>();
-                        Debug.Log("Tower Found " + tower == null);
                         if (tower != null)
                         {
                             InspectWindow inspectWindow = UINavigator.Push("InspectWindow").GetComponent<InspectWindow>();

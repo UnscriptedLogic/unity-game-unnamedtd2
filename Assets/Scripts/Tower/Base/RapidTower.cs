@@ -1,37 +1,35 @@
+using ProjectileManagement;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnitManagement;
 using UnityEngine;
 
 namespace TowerManagement
 {
-    public class RapidTower : TowerUpgradeHandler
+    public class RapidTower : TowerBase
     {
-        protected override void InitUpgrades()
+        public bool useTriple = false;
+
+        protected override void Start()
         {
-            UpgradeGroup level1 = new UpgradeGroup();
-            level1.upgradeProperties.Add(new UpgradeProperty(reloadTime: -0.05f));
-            level1.upgradeProperties.Add(new UpgradeProperty(damage: 2));
-            level1.upgradeProperties.Add(new UpgradeProperty(range: 5));
-            upgradeGroups.Add(level1);
+            base.Start();
+        }
 
-            UpgradeGroup level2 = new UpgradeGroup();
-            level2.upgradeProperties.Add(new UpgradeProperty(reloadTime: -0.025f));
-            level2.upgradeProperties.Add(new UpgradeProperty(damage: 5));
-            level2.upgradeProperties.Add(new UpgradeProperty(damage: 5));
-            upgradeGroups.Add(level2);
+        protected override void FireProjectile()
+        {
+            if (useTriple)
+            {
+                CreateBullet(out ProjectileBase projectileBase0, projectilePrefabs[0], shootAnchors[0]);
+                CreateBullet(out ProjectileBase projectileBase1, projectilePrefabs[0], shootAnchors[1]);
+                CreateBullet(out ProjectileBase projectileBase2, projectilePrefabs[0], shootAnchors[2]);
 
-            UpgradeGroup level3 = new UpgradeGroup();
-            level3.upgradeProperties.Add(new UpgradeProperty(projLifetime: 2f));
-            level3.upgradeProperties.Add(new UpgradeProperty(projSpeed: 10));
-            level3.upgradeProperties.Add(new UpgradeProperty(damage: 5));
-            upgradeGroups.Add(level3);
+                SubscribeProjectileEvents(projectileBase0);
+                SubscribeProjectileEvents(projectileBase1);
+                SubscribeProjectileEvents(projectileBase2);
+                return;
+            }
 
-            //UpgradeGroup level4 = new UpgradeGroup();
-            //level4.upgradeProperties.Add(new UpgradeProperty(projLifetime: 2f));
-            //level4.upgradeProperties.Add(new UpgradeProperty(projSpeed: 10));
-            //level4.upgradeProperties.Add(new UpgradeProperty(damage: 5));
-            //upgradeGroups.Add(level4);
+            base.FireProjectile();
         }
     }
 }

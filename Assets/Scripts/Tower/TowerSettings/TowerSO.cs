@@ -20,6 +20,7 @@ namespace TowerManagement
             public Sprite nextUpgradeIcon;
             public float nextUpgradeCost;
             [TextArea(2, 5)] public string nextUpgradeDesc;
+            public GameObject overrideObject;
         }
 
         [Serializable]

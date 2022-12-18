@@ -130,8 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ccfdcd78883ded4789fedc57accef69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  speed: 2
+  health: 1000
+  speed: 1.5
   baseOffset: 1
   faceDir: 0
 --- !u!135 &3262615078223763226

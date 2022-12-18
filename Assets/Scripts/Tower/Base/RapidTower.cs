@@ -1,17 +1,35 @@
+using ProjectileManagement;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnitManagement;
 using UnityEngine;
 
 namespace TowerManagement
 {
     public class RapidTower : TowerBase
     {
-        protected override void Update()
+        public bool useTriple = false;
+
+        protected override void Start()
         {
-            base.Update();
-            CommonTowerLogic();
-            RotateToTarget(rotationHeads[1], levelled: false);
+            base.Start();
+        }
+
+        protected override void FireProjectile()
+        {
+            if (useTriple)
+            {
+                CreateBullet(out ProjectileBase projectileBase0, projectilePrefabs[0], shootAnchors[0]);
+                CreateBullet(out ProjectileBase projectileBase1, projectilePrefabs[0], shootAnchors[1]);
+                CreateBullet(out ProjectileBase projectileBase2, projectilePrefabs[0], shootAnchors[2]);
+
+                SubscribeProjectileEvents(projectileBase0);
+                SubscribeProjectileEvents(projectileBase1);
+                SubscribeProjectileEvents(projectileBase2);
+                return;
+            }
+
+            base.FireProjectile();
         }
     }
 }

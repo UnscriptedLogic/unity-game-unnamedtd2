@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace Core
@@ -13,8 +15,8 @@ namespace Core
         private DefaultControls.DesktopControlsActions controls;
 
         public event Action<Vector2, Vector2> OnMouseMoving;
-        public event Action<Vector2> OnMouseDown;
-        public event Action<Vector2> OnMouseUp;
+        public event Action<Vector2, bool> OnMouseDown;
+        public event Action<Vector2, bool> OnMouseUp;
         public event Action<Vector2> OnDirectionalMovement;
         public event Action<float> OnMouseScroll;
         public event Action<float> OnRotateCamera;
@@ -52,8 +54,8 @@ namespace Core
         private void DirectionalMovement_started(InputAction.CallbackContext obj) => OnDirectionalMovement?.Invoke(obj.ReadValue<Vector2>());
         private void DirectionalMovement_canceled(InputAction.CallbackContext obj) => OnDirectionalMovement?.Invoke(obj.ReadValue<Vector2>());
 
-        private void Interact_canceled(InputAction.CallbackContext obj) => OnMouseUp?.Invoke(controls.CurrentMousePosition.ReadValue<Vector2>());
-        private void Interact_started(InputAction.CallbackContext obj) => OnMouseDown?.Invoke(controls.CurrentMousePosition.ReadValue<Vector2>());
+        private void Interact_canceled(InputAction.CallbackContext obj) => OnMouseUp?.Invoke(controls.CurrentMousePosition.ReadValue<Vector2>(), IsTapOverUI(controls.CurrentMousePosition.ReadValue<Vector2>()));
+        private void Interact_started(InputAction.CallbackContext obj) => OnMouseDown?.Invoke(controls.CurrentMousePosition.ReadValue<Vector2>(), IsTapOverUI(controls.CurrentMousePosition.ReadValue<Vector2>()));
 
         private void OnDisable()
         {
@@ -68,6 +70,25 @@ namespace Core
             {
                 OnMouseMoving?.Invoke(controls.CurrentMousePosition.ReadValue<Vector2>(), delta);
             }
+        }
+
+        //summary: Checks if the given screenpoint is over an UI element
+        public bool IsTapOverUI(Vector2 tapPos)
+        {
+            PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+            pointerEventData.position = tapPos;
+            List<RaycastResult> raycastResults = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointerEventData, raycastResults);
+
+            for (int i = 0; i < raycastResults.Count; i++)
+            {
+                if (raycastResults[i].gameObject.layer == LayerMask.NameToLayer("UI"))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

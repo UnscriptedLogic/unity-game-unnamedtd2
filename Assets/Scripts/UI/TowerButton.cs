@@ -15,11 +15,14 @@ namespace UserInterfaceManagement
         [SerializeField] private Image borderSprite;
         [SerializeField] private TextMeshProUGUI costText;
         [SerializeField] private Button button;
+        private TowerSO towerSO;
 
+        public TowerSO TowerSO => towerSO;
         public Button BuyButton => button;
 
         public void Initialize(TowerSO towerSO, Action OnButtonPressed)
         {
+            this.towerSO = towerSO;
             towerIcon.sprite = towerSO.Icon;
             bgSprite.color = towerSO.BGColor;
             borderSprite.color = towerSO.BRColor;

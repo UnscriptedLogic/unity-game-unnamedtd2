@@ -14,3 +14,7 @@ PresetManager:
         type: 2}
       m_Filter: glob:"TowerSprites/*png"
       m_Disabled: 0
+    - m_Preset: {fileID: 2655988077585873504, guid: 31ac24c70cab93549986d5c6188306b4,
+        type: 2}
+      m_Filter: glob:"UpgradeSprites/*png"
+      m_Disabled: 0

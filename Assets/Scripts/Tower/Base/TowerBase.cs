@@ -1,5 +1,6 @@
 using Core;
 using ProjectileManagement;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,20 +21,27 @@ namespace TowerManagement
             Weakest
         }
 
+        [Serializable]
+        public class RotationHeads
+        {
+            public Transform rotationHead;
+            public bool levelled;
+        }
+
         [Header("Base Tower Settings")]
-        [SerializeField] protected float damage = 1f;
-        [SerializeField] protected float range = 1f;
-        [SerializeField] protected float reloadTime = 1f;
+        public float damage = 1f;
+        public float range = 1f;
+        public float reloadTime = 1f;
 
         [Header("Base Projectile Settings")]
-        [SerializeField] protected float projectileSpeed = 10f;
-        [SerializeField] protected float projectileLifetime = 3f;
+        public float projectileSpeed = 10f;
+        public float projectileLifetime = 3f;
+        public int pierce = 1;
 
         [Header("Base Components")]
         [SerializeField] protected Animator animator;
-        [SerializeField] protected SphereCollider rangeCollider;
         [SerializeField] protected GameObject[] projectilePrefabs;
-        [SerializeField] protected Transform[] rotationHeads;
+        [SerializeField] protected RotationHeads[] rotationHeads;
         [SerializeField] protected Transform[] shootAnchors;
 
         [Space(10)]
@@ -53,7 +61,7 @@ namespace TowerManagement
 
         protected virtual void Start()
         {
-            rangeCollider.radius = range;
+            //rangeCollider.radius = range;
             _reloadTime = reloadTime;
         }
 
@@ -180,9 +188,9 @@ namespace TowerManagement
             return false;
         }
 
-        protected GameObject CreateBullet(out ProjectileBase projectileBase)
+        protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Transform anchor)
         {
-            GameObject bullet = PoolManager.poolManagerInstance.PullFromPool(projectilePrefabs[0], shootAnchors[0].position, shootAnchors[0].rotation, false);
+            GameObject bullet = PoolManager.poolManagerInstance.PullFromPool(prefab, anchor.position, anchor.rotation, false);
             ProjectileSettings projectileSettings = new ProjectileSettings(projectileSpeed, projectileLifetime);
             projectileBase = bullet.GetComponent<ProjectileBase>();
             projectileBase.InitializeAndSetActive(projectileSettings);
@@ -207,7 +215,12 @@ namespace TowerManagement
             {
                 if (currentTarget != null)
                 {
-                    RotateToTarget(rotationHeads[0], levelled: true);
+                    Debug.Log(rotationHeads.Length);
+                    for (int i = 0; i < rotationHeads.Length; i++)
+                    {
+                        RotateToTarget(rotationHeads[i].rotationHead, levelled: rotationHeads[i].levelled);
+                    }
+
                     FireProjectile();
                     _reloadTime = reloadTime;
                 }
@@ -220,7 +233,7 @@ namespace TowerManagement
 
         protected virtual void OnValidate()
         {
-            rangeCollider.radius = range;
+            //rangeCollider.radius = range;
         }
 
         protected virtual void OnDrawGizmos()
@@ -238,37 +251,38 @@ namespace TowerManagement
 
         protected virtual void OnTargetFound()
         {
-            Debug.Log("TargetFound()");
+            //Debug.Log("TargetFound()");
             animator.SetBool("Attacking", true);
         }
 
         protected virtual void WhileTargetFound()
         {
-            Debug.Log("WhileTargetFound()");
+            //Debug.Log("WhileTargetFound()");
+            CommonTowerLogic();
         }
 
         protected virtual void OnTargetLost()
         {
-            Debug.Log("TargetLost()");
+            //Debug.Log("TargetLost()");
             animator.SetBool("Attacking", false);
         }
 
         protected virtual void FireProjectile()
         {
-            Debug.Log("FireProjectile()");
+            //Debug.Log("FireProjectile()");
 
-            CreateBullet(out ProjectileBase projectileBase);
+            CreateBullet(out ProjectileBase projectileBase, projectilePrefabs[0], shootAnchors[0]);
             SubscribeProjectileEvents(projectileBase);
         }
 
         protected virtual void OnProjectileFired()
         {
-            Debug.Log("OnProjectileFired()");
+            //Debug.Log("OnProjectileFired()");
         }
 
         protected virtual void OnProjectileHit(UnitBase unit)
         {
-            Debug.Log("OnProjectileHit()");
+            //Debug.Log("OnProjectileHit()");
             unit.TakeDamage(damage);
         }
 

@@ -19,16 +19,17 @@ public class UINavigator : MonoBehaviour
         instance = this;
     }
 
-    public static void Push(string pageName)
+    public static GameObject Push(string pageName)
     {
         if (PageExists(pageName, out int i))
         {
             instance.pages[i].SetActive(true);
             instance.navigator.Push(instance.pages[i]);
-            return;
+            return instance.pages[i];
         }
 
         Debug.Log($"The page with name {pageName} is not found");
+        return null;
     }
 
     public static void PushPageWithIndex(int index)

@@ -19,7 +19,7 @@ namespace TowerManagement
             [Header("Next Upgrade Settings")]
             public Sprite nextUpgradeIcon;
             public float nextUpgradeCost;
-            [TextArea(2, 5)] public string nextUpgradeDesc;
+            [TextArea(3, 6)] public string nextUpgradeDesc;
             public GameObject overrideObject;
         }
 

@@ -12,11 +12,98 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c185db0dda78c4aba54a768996b5e8, type: 3}
   m_Name: Scout
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  bgColor: {r: 0, g: 0, b: 0, a: 0}
-  brColor: {r: 0, g: 0, b: 0, a: 0}
-  towerName: 
-  cost: 0
+  icon: {fileID: 21300000, guid: e3068a26f7081204790fda33a19fd48f, type: 3}
+  bgColor: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 1}
+  brColor: {r: 0.7294118, g: 0.7294118, b: 0.7294118, a: 1}
+  towerName: Scout
+  cost: 100
   towerPlacement: 0
   towerDescription: 
-  towerLevels: []
+  towerLevels:
+  - overrideName: Scout
+    sellCost: 0
+    towerIcon: {fileID: 21300000, guid: e3068a26f7081204790fda33a19fd48f, type: 3}
+    towerPrefab: {fileID: 2790286240098376, guid: 4827ee443b4c91847a68e61aa4590da8,
+      type: 3}
+    upgradeOptions:
+    - nextUpgradeIcon: {fileID: 21300000, guid: c14e4bdae0c876549aa87ae77768ecfd,
+        type: 3}
+      nextUpgradeCost: 100
+      nextUpgradeDesc: Increases damage by 1
+      overrideObject: {fileID: 0}
+    - nextUpgradeIcon: {fileID: 21300000, guid: d188163f5df6d4e43996570a04d8f72c,
+        type: 3}
+      nextUpgradeCost: 100
+      nextUpgradeDesc: Decreases attack interval from by 0.5s
+      overrideObject: {fileID: 0}
+    - nextUpgradeIcon: {fileID: 21300000, guid: 4b04c9e5a91a9024fa4967ee466261c9,
+        type: 3}
+      nextUpgradeCost: 100
+      nextUpgradeDesc: Increases piercing power by 1
+      overrideObject: {fileID: 0}
+  - overrideName: Scout
+    sellCost: 0
+    towerIcon: {fileID: 21300000, guid: e3068a26f7081204790fda33a19fd48f, type: 3}
+    towerPrefab: {fileID: 2790286240098376, guid: 4827ee443b4c91847a68e61aa4590da8,
+      type: 3}
+    upgradeOptions:
+    - nextUpgradeIcon: {fileID: 21300000, guid: 4b04c9e5a91a9024fa4967ee466261c9,
+        type: 3}
+      nextUpgradeCost: 100
+      nextUpgradeDesc: Increases damage by 1
+      overrideObject: {fileID: 0}
+    - nextUpgradeIcon: {fileID: 21300000, guid: 849b7a75ceaff4f4487985defe009ede,
+        type: 3}
+      nextUpgradeCost: 100
+      nextUpgradeDesc: Increases range by 2
+      overrideObject: {fileID: 0}
+    - nextUpgradeIcon: {fileID: 21300000, guid: 1fac1a4f68032954fb48842dd3b341fd,
+        type: 3}
+      nextUpgradeCost: 100
+      nextUpgradeDesc: Decreases attack interval by 0.5s
+      overrideObject: {fileID: 0}
+  - overrideName: Scout
+    sellCost: 0
+    towerIcon: {fileID: 21300000, guid: e3068a26f7081204790fda33a19fd48f, type: 3}
+    towerPrefab: {fileID: 2790286240098376, guid: 4827ee443b4c91847a68e61aa4590da8,
+      type: 3}
+    upgradeOptions:
+    - nextUpgradeIcon: {fileID: 21300000, guid: bebf9688b9b717b48a826919a77ee68e,
+        type: 3}
+      nextUpgradeCost: 100
+      nextUpgradeDesc: Increases damage by 1. Bullets create shrapnel on impact,
+        dealing half of the total damage to nearby enemies
+      overrideObject: {fileID: 0}
+    - nextUpgradeIcon: {fileID: 21300000, guid: 0fd5146a303ee1941935960d2543fefe,
+        type: 3}
+      nextUpgradeCost: 100
+      nextUpgradeDesc: 'Increases decreases attack interval by 0.5s. Shoots out 2
+        more bullets in a cone '
+      overrideObject: {fileID: 0}
+    - nextUpgradeIcon: {fileID: 21300000, guid: 9da341a1dd644864899938442604e89a,
+        type: 3}
+      nextUpgradeCost: 100
+      nextUpgradeDesc: Bullets create knockback on hit, pushing units back up the
+        track.
+      overrideObject: {fileID: 0}
+  - overrideName: Scout
+    sellCost: 0
+    towerIcon: {fileID: 21300000, guid: e3068a26f7081204790fda33a19fd48f, type: 3}
+    towerPrefab: {fileID: 2790286240098376, guid: 4827ee443b4c91847a68e61aa4590da8,
+      type: 3}
+    upgradeOptions:
+    - nextUpgradeIcon: {fileID: 21300000, guid: fd7dd996ca3b90a4dab6c5c175bd16aa,
+        type: 3}
+      nextUpgradeCost: 100
+      nextUpgradeDesc: Increases pierce by 5. Bullets riccochet off other enemies.
+      overrideObject: {fileID: 0}
+    - nextUpgradeIcon: {fileID: 21300000, guid: 0fd5146a303ee1941935960d2543fefe,
+        type: 3}
+      nextUpgradeCost: 100
+      nextUpgradeDesc: Shoots out 2 more bullets in a cone
+      overrideObject: {fileID: 0}
+    - nextUpgradeIcon: {fileID: 21300000, guid: dd0b691b16f58d6479d9d12e3497cef6,
+        type: 3}
+      nextUpgradeCost: 100
+      nextUpgradeDesc: Decreases attack interval by 0.25s
+      overrideObject: {fileID: 0}

@@ -116,6 +116,7 @@ namespace TowerManagement
                     towerBase.reloadTime = persistantProperty.reloadTime;
 
                     //Projectile settings
+                    towerBase.pierce = persistantProperty.projPierce;
                     towerBase.projectileSpeed = persistantProperty.projSpeed;
                     towerBase.projectileLifetime = persistantProperty.projLifetime;
 

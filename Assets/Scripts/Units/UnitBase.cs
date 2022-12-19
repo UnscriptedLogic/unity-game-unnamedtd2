@@ -1,4 +1,5 @@
 using Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace UnitManagement
         protected int waypointCounter;
         protected bool isAlive;
 
+        public Action<float> OnUnitTookDamage                           ;
         public float MaxHealth => health;
         public float Speed => speed;
         public float CurrentHealth => currentHealth;
@@ -42,7 +44,6 @@ namespace UnitManagement
             this.nodes = nodes;
             isAlive = true;
             transform.position = nodes[0] + Vector3.up * baseOffset;
-            Debug.Log("Unit Initialized");
         }
 
         protected void ApplyMovement()
@@ -101,6 +102,7 @@ namespace UnitManagement
         protected virtual void OnUnitDamaged(float damage)
         {
             //Damage flashing or something
+            OnUnitTookDamage?.Invoke(damage);
         }
 
         protected virtual void OnUnitDeath()

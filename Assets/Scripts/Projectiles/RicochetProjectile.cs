@@ -10,8 +10,9 @@ namespace ProjectileManagement
     public class RicochetProjectile : ProjectileBehaviour
     {
         private float checkRadius;
-        private float minimumDist = 0.05f;
         private List<GameObject> taggedEnemies;
+
+        private ProjectileBase projectileBase;
 
         public RicochetProjectile(float checkRadius) : base()
         {
@@ -21,7 +22,11 @@ namespace ProjectileManagement
 
         public override void OnHit(Collider other, ProjectileBase projBase, Action<UnitBase> OnEnemyHit)
         {
-            Debug.Log("Ricochet");
+            if (projectileBase == null)
+            {
+                projectileBase = projBase;
+                projectileBase.OnProjectileDestroyed += ProjectileBase_OnProjectileDestroyed;
+            }
 
             taggedEnemies.Add(other.gameObject);
             
@@ -48,6 +53,11 @@ namespace ProjectileManagement
                     taggedEnemies = new List<GameObject>();
                 }
             }
+        }
+
+        private void ProjectileBase_OnProjectileDestroyed(ProjectileBase obj)
+        {
+            taggedEnemies = new List<GameObject>();
         }
     }
 }

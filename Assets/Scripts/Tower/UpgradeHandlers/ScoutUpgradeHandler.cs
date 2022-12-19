@@ -42,7 +42,7 @@ namespace TowerManagement
                 scout.projectileBehaviour = new RicochetProjectile(3f);
             }));
             
-            level4.upgradeProperties.Add(new UpgradeProperty(method: towerBase =>
+            level4.upgradeProperties.Add(new UpgradeProperty(damage: 5, projSpeed: 5, method: towerBase =>
             {
                 ScoutTower scout = (ScoutTower)towerBase;
 

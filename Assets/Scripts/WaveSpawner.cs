@@ -57,7 +57,6 @@ namespace Game.Spawning
             waveCount = 0;
 
             SwitchState(SpawnerStates.Preparation);
-            Debug.Log("Spawner Started");
         }
 
         private void Update()

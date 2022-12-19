@@ -7,27 +7,39 @@ namespace ProjectileManagement
 {
     public struct ProjectileSettings
     {
+        public int pierce;
         public float speed;
         public float lifetime;
+        public ProjectileBehaviour projectileBehaviour;
 
-        public ProjectileSettings(float speed, float lifetime)
+        public ProjectileSettings(float speed, float lifetime, int pierce,ProjectileBehaviour projectileBehaviour = null)
         {
+            this.pierce = pierce;
             this.speed = speed;
             this.lifetime = lifetime;
+            this.projectileBehaviour = projectileBehaviour;
         }
     }
 
     public class ProjectileBase : MonoBehaviour
     {
-        [SerializeField] protected float speed = 1f;
-        [SerializeField] protected float lifeTime = 1f;
+        protected int pierce;
+        protected float speed = 1f;
+        protected float lifeTime = 1f;
         [SerializeField] protected TrailRenderer[] trailRenderers;
-
+        
         public event Action<UnitBase> OnEnemyHit;
         public event Action<ProjectileBase> OnProjectileDestroyed;
 
+        public ProjectileBehaviour projectileBehaviour;
+
         protected float _lifetime;
         protected bool initialized;
+        protected int _pierce;
+
+        public float Speed => speed;
+        public int Pierce => pierce;
+        public int CurrentPierce => _pierce;
 
         private void Update()
         {
@@ -42,31 +54,34 @@ namespace ProjectileManagement
                 _lifetime -= Time.deltaTime;
             }
 
-            Move();
+            projectileBehaviour.Move(this);
         }
 
-        public void InitializeAndSetActive(ProjectileSettings projectileSettings)
+        public void InitializeAndSetActive(ProjectileSettings projectileSettings, ProjectileBehaviour projectileBehaviour = null)
         {
+            _pierce = 0;
+            pierce = projectileSettings.pierce;
             speed = projectileSettings.speed;
             lifeTime = projectileSettings.lifetime;
             _lifetime = lifeTime;
             initialized = true;
 
+            if (projectileBehaviour == null)
+            {
+                this.projectileBehaviour = new ProjectileBehaviour();
+            } else
+            {
+                this.projectileBehaviour = projectileBehaviour;
+            }
+
             gameObject.SetActive(true);
         }
 
-        protected void Move()
-        {
-            transform.position += transform.forward * speed * Time.deltaTime;
-        }
-
+        public void IncreasePierce() => _pierce++;
+        
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Enemy"))
-            {
-                OnEnemyHit?.Invoke(other.GetComponent<UnitBase>());
-                PoolManager.poolManagerInstance.PushToPool(gameObject);
-            }
+            projectileBehaviour.OnHit(other, this, OnEnemyHit);
         }
 
         private void OnEnable()

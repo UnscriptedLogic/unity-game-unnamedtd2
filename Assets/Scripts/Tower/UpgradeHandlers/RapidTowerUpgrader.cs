@@ -18,13 +18,13 @@ namespace TowerManagement
             UpgradeGroup level2 = new UpgradeGroup();
             level2.upgradeProperties.Add(new UpgradeProperty(reloadTime: -0.025f));
             level2.upgradeProperties.Add(new UpgradeProperty(damage: 5));
-            level2.upgradeProperties.Add(new UpgradeProperty(damage: 5));
+            level2.upgradeProperties.Add(new UpgradeProperty(projPierce: 2));
             upgradeGroups.Add(level2);
 
             UpgradeGroup level3 = new UpgradeGroup();
             level3.upgradeProperties.Add(new UpgradeProperty(projLifetime: 2f));
             level3.upgradeProperties.Add(new UpgradeProperty(projSpeed: 10));
-            level3.upgradeProperties.Add(new UpgradeProperty(damage: 5));
+            level3.upgradeProperties.Add(new UpgradeProperty(damage: 2, projPierce: 2));
             upgradeGroups.Add(level3);
 
             UpgradeGroup level4 = new UpgradeGroup();

@@ -57,16 +57,17 @@ namespace BuildManagement
             inputManager.OnMouseMoving += InputManager_OnMouseMoving;
             inputManager.OnMouseDown += InputManager_OnMouseDown;
 
-            int towerIndex;
             for (int i = 0; i < availableTowers.TowerList.Count; i++)
             {
                 GameObject towerButton = Instantiate(towerButtonPrefab, towerListParent);
-                towerIndex = i;
-                towerButton.GetComponent<TowerButton>().Initialize(availableTowers.TowerList[towerIndex], () =>
+                
+                TowerSO towerSO;
+                towerSO = availableTowers.TowerList[i];
+                towerButton.GetComponent<TowerButton>().Initialize(availableTowers.TowerList[i], () =>
                 {
                     isBuilding = true;
-                    towerHoldSO = availableTowers.TowerList[towerIndex];
-                    towerHold = Instantiate(availableTowers.TowerList[towerIndex].TowerLevels[0].towerPrefab);
+                    towerHoldSO = towerSO;
+                    towerHold = Instantiate(towerSO.TowerLevels[0].towerPrefab);
                     EnableTowerHoldComponents(false);
                 });
             }

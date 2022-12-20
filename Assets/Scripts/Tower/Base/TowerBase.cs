@@ -188,12 +188,13 @@ namespace TowerManagement
             return false;
         }
 
-        protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Transform anchor)
+        protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Transform anchor, ProjectileBehaviour projectileBehaviour = null)
         {
             GameObject bullet = PoolManager.poolManagerInstance.PullFromPool(prefab, anchor.position, anchor.rotation, false);
-            ProjectileSettings projectileSettings = new ProjectileSettings(projectileSpeed, projectileLifetime);
+            ProjectileSettings projectileSettings = new ProjectileSettings(projectileSpeed, projectileLifetime, pierce);
             projectileBase = bullet.GetComponent<ProjectileBase>();
-            projectileBase.InitializeAndSetActive(projectileSettings);
+
+            projectileBase.InitializeAndSetActive(projectileSettings, projectileBehaviour);
             return bullet;
         }
 

@@ -1,3 +1,4 @@
+using GameManagement;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -42,9 +43,10 @@ namespace UserInterfaceManagement
             fullyUpgraded.SetActive(false);
 
             // Clear all the upgrade buttons
-            foreach (Transform child in upgradeSection.transform)
+            for (int i = upgradeSection.transform.childCount - 1; i > -1; i--)
             {
-                Destroy(child.gameObject);
+                LevelManagement.PushObject(upgradeSection.transform.GetChild(i).gameObject);
+                //Destroy(upgradeSection.transform.GetChild(i).gameObject);
             }
 
             //Clear all segments
@@ -78,9 +80,11 @@ namespace UserInterfaceManagement
             for (int i = 0; i < towerSO.TowerLevels[levelIndex].upgradeOptions.Length; i++)
             {
                 upgradeOptions = towerSO.TowerLevels[levelIndex].upgradeOptions;
-                GameObject upgradeButton = Instantiate(upgradeButtonPrefab, upgradeSection.transform);
+                GameObject upgradeButton = LevelManagement.PullObject(upgradeButtonPrefab, Vector3.zero, Quaternion.identity, true, upgradeSection.transform);
+                upgradeButton.transform.localScale = Vector3.one;
+                
                 UpgradeButton upgradeButtonScript = upgradeButton.GetComponent<UpgradeButton>();
-                upgradeButtonScript.InitButton(upgradeOptions[i].nextUpgradeIcon, upgradeOptions[i].nextUpgradeDesc, upgradeOptions[i].nextUpgradeCost);
+                upgradeButtonScript.InitButton(upgradeOptions[i]);
                 upgradeButtons[i] = upgradeButtonScript.UpgradeBtn;
             }
 
@@ -141,6 +145,11 @@ namespace UserInterfaceManagement
             }
             
             StartCoroutine(Routine());
+        }
+
+        private void OnDisable()
+        {
+            Clear();
         }
     }
 }

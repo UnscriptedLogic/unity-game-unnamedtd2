@@ -704,7 +704,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   range: 5
-  reloadTime: 2
+  reloadTime: 1.5
   projectileSpeed: 20
   projectileLifetime: 1.5
   pierce: 1

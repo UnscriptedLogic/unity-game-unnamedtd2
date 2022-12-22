@@ -25,7 +25,7 @@ namespace TowerManagement
 
             UpgradeGroup level3 = new UpgradeGroup();
             level3.upgradeProperties.Add(new UpgradeProperty(damage: 1));
-            level3.upgradeProperties.Add(new UpgradeProperty(reloadTime: -0.5f, method: towerBase =>
+            level3.upgradeProperties.Add(new UpgradeProperty(reloadTime: -0.2f, method: towerBase =>
             {
                 useDouble = true;
                 ScoutTower scout = (ScoutTower)towerBase;
@@ -55,7 +55,7 @@ namespace TowerManagement
                 scout.useDoubleShells = true;
             }));
             
-            level4.upgradeProperties.Add(new UpgradeProperty(reloadTime: -0.25f));
+            level4.upgradeProperties.Add(new UpgradeProperty(reloadTime: -0.1f));
             upgradeGroups.Add(level4);
         }
     }

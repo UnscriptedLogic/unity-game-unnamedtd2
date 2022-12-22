@@ -16,7 +16,7 @@ MonoBehaviour:
   bgColor: {r: 0.39607847, g: 0.39607847, b: 0.39607847, a: 1}
   brColor: {r: 0.7294118, g: 0.7294118, b: 0.7294118, a: 1}
   towerName: Rapid Tower
-  cost: 1000
+  cost: 200
   towerPlacement: 0
   towerDescription: 
   towerLevels:

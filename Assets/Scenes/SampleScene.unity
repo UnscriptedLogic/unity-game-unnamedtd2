@@ -1388,6 +1388,7 @@ GameObject:
   - component: {fileID: 575072432}
   - component: {fileID: 575072433}
   - component: {fileID: 575072434}
+  - component: {fileID: 575072435}
   m_Layer: 0
   m_Name: LevelManagement
   m_TagString: Untagged
@@ -1422,9 +1423,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9244dc5e86531e4fb748ff70e4e1608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildManager: {fileID: 1644936364}
   gridManager: {fileID: 1989388935}
   pathManager: {fileID: 1989388936}
   waveSpawner: {fileID: 575072434}
+  currencyManager: {fileID: 575072435}
+  poolManager: {fileID: 1905853527}
+  unitEventHandler: {fileID: 1905853528}
 --- !u!114 &575072434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1438,16 +1443,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wavesSO: {fileID: 11400000, guid: fe29ba72a0968804b9ccf05c402fb842, type: 2}
+  baseHealth: 150
   startDelay: 5
   waveIndex: 0
   spawnLocation: {fileID: 575072432}
   cam: {fileID: 0}
+  healthTMP: {fileID: 1509890860}
+  waveCounterTMP: {fileID: 1519634675}
   OnCompleted:
     m_PersistentCalls:
       m_Calls: []
   OnUnitHealthDeducted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 575072435}
+        m_TargetAssemblyTypeName: GameManagement.CurrencyManager, Assembly-CSharp
+        m_MethodName: AddCash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &575072435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575072431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc038f7a932a9204a9ea748610443f1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitEventHandler: {fileID: 1905853528}
+  startCash: 500
+  cashText: {fileID: 634732521}
 --- !u!1 &634732518
 GameObject:
   m_ObjectHideFlags: 0
@@ -3552,6 +3587,7 @@ MonoBehaviour:
   towerButtonPrefab: {fileID: 7601562104459301587, guid: 3077a34ac9c7f1445a1b416754cf75ff,
     type: 3}
   towerListParent: {fileID: 2035665610}
+  currencyManager: {fileID: 575072435}
 --- !u!1 &1650214415
 GameObject:
   m_ObjectHideFlags: 0
@@ -4544,6 +4580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1905853526}
   - component: {fileID: 1905853527}
+  - component: {fileID: 1905853528}
   m_Layer: 0
   m_Name: PoolManager
   m_TagString: Untagged
@@ -4580,6 +4617,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolContainer: {fileID: 1905853526}
   prePools: []
+--- !u!114 &1905853528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905853525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e90afc111d2374ea72b81d51b0ee51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1976752004
 GameObject:
   m_ObjectHideFlags: 0

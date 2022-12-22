@@ -4,10 +4,11 @@ using UnityEngine.Events;
 using GridManagement;
 using GameManagement;
 using UnitManagement;
+using TMPro;
 
 namespace Game.Spawning
 {
-    public class WaveSpawner : MonoBehaviour
+    public class WaveSpawner : MonoBehaviour, IModifiesCurrency
     {
         private enum SpawnerStates
         {
@@ -20,6 +21,7 @@ namespace Game.Spawning
         }
 
         [SerializeField] private WavesSO wavesSO;
+        [SerializeField] private float baseHealth = 150f;
         [SerializeField] private float startDelay = 5f;
         [SerializeField] private int waveIndex;
         [SerializeField] private Transform spawnLocation;
@@ -36,6 +38,10 @@ namespace Game.Spawning
         private int segmentIndex;
         private int waveCount;
         private bool stopSpawning = true;
+
+        private CurrencyManager currencyManager;
+        [SerializeField] private TextMeshProUGUI healthTMP;
+        [SerializeField] private TextMeshProUGUI waveCounterTMP;
 
         public int WaveCount => waveCount + 1;
         public WavesSO WavesSO => wavesSO;
@@ -57,6 +63,9 @@ namespace Game.Spawning
             waveCount = 0;
 
             SwitchState(SpawnerStates.Preparation);
+            OnWaveStarted += (current, total) => UpdateWaveUI();
+            UpdateWaveUI();
+            healthTMP.text = baseHealth.ToString();
         }
 
         private void Update()
@@ -234,7 +243,14 @@ namespace Game.Spawning
 
         private void SpawnEnemy()
         {
-            LevelManagement.PullObject(currSegment.enemyToSpawn, transform.position, Quaternion.identity, true).transform.SetParent(transform);
+            GameObject unit = LevelManagement.PullObject(currSegment.enemyToSpawn, transform.position, Quaternion.identity, true);
+            unit.transform.SetParent(transform);
+            UnitBase unitScript = unit.GetComponent<UnitBase>();
+            unitScript.OnUnitCompletedPath += unit =>
+            {
+                baseHealth -= unit.CurrentHealth;
+                healthTMP.text = baseHealth.ToString();
+            };
         }
 
         public void ClearEntities()
@@ -244,6 +260,16 @@ namespace Game.Spawning
             {
                 transform.GetChild(0).GetComponent<UnitBase>().DestroyUnit();
             }
+        }
+
+        public void ModifyCash(CurrencyManager currencyManager)
+        {
+            this.currencyManager = currencyManager;
+        }
+
+        public void UpdateWaveUI()
+        {
+            waveCounterTMP.text = $"Wave: {WaveCount}/{wavesSO.Waves.Length}";
         }
     }
 

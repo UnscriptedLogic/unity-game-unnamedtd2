@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 44cb0324aeb3cc64481e08092475c699, type: 2}
+  - {fileID: 2100000, guid: c8ed1e236345f9349adf0aa81a8b0459, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3262615078223763226}
   - component: {fileID: 3191240919974649137}
   m_Layer: 7
-  m_Name: NormalEnemy
+  m_Name: YellowEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,8 +131,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: enemy
-  health: 4
-  speed: 1
+  health: 16
+  speed: 3
   baseOffset: 1
   faceDir: 0
 --- !u!135 &3262615078223763226

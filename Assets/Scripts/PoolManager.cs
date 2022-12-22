@@ -23,17 +23,15 @@ namespace Core
         }
 
         public static PoolManager poolManagerInstance;
-        protected virtual void Awake()
-        {
-            poolManagerInstance = this;
-        }
 
         public Transform poolContainer;
         public List<Pool> prePools;
         public Dictionary<string, Transform> pools { get; protected set; }
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
+            poolManagerInstance = this;
+
             prePools = new List<Pool>();
             pools = new Dictionary<string, Transform>();
             for (int i = 0; i < prePools.Count; i++)
@@ -113,7 +111,6 @@ namespace Core
                 CreatePool(poolName, poolItem);
             }
 
-            poolItem.SetActive(false);
             for (int i = 0; i < prePools.Count; i++)
             {
                 if (prePools[i].poolItem.name == poolItem.name)
@@ -122,6 +119,7 @@ namespace Core
                 }
             }
 
+            poolItem.SetActive(false);
             poolItem.transform.SetParent(pools[poolName]);
         }
 

@@ -4,6 +4,8 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TowerManagement;
 using UserInterfaceManagement;
+using UnityEditor.Experimental.GraphView;
+using GameManagement;
 
 namespace BuildManagement
 {
@@ -47,30 +49,10 @@ namespace BuildManagement
         [SerializeField] private GameObject towerButtonPrefab;
         [SerializeField] private Transform towerListParent;
 
+        [Header("Components")]
+        [SerializeField] private CurrencyManager currencyManager;
+
         private List<Button> buildButtons;
-
-        private GameObject nodeDebug;
-
-        private void Awake()
-        {
-            inputManager = InputManager.instance;
-            inputManager.OnMouseMoving += InputManager_OnMouseMoving;
-            inputManager.OnMouseDown += InputManager_OnMouseDown;
-
-            int towerIndex;
-            for (int i = 0; i < availableTowers.TowerList.Count; i++)
-            {
-                GameObject towerButton = Instantiate(towerButtonPrefab, towerListParent);
-                towerIndex = i;
-                towerButton.GetComponent<TowerButton>().Initialize(availableTowers.TowerList[towerIndex], () =>
-                {
-                    isBuilding = true;
-                    towerHoldSO = availableTowers.TowerList[towerIndex];
-                    towerHold = Instantiate(availableTowers.TowerList[towerIndex].TowerLevels[0].towerPrefab);
-                    EnableTowerHoldComponents(false);
-                });
-            }
-        }
 
         private void EnableTowerHoldComponents(bool enabled)
         {
@@ -78,8 +60,31 @@ namespace BuildManagement
             towerHold.GetComponentInChildren<Collider>().enabled = enabled;
         }
 
-        private void Start()
+        public void InitBuildManager()
         {
+            inputManager = InputManager.instance;
+            inputManager.OnMouseMoving += InputManager_OnMouseMoving;
+            inputManager.OnMouseDown += InputManager_OnMouseDown;
+
+            for (int i = 0; i < availableTowers.TowerList.Count; i++)
+            {
+                //GameObject towerButton = Instantiate(towerButtonPrefab, towerListParent);
+                GameObject towerButton = LevelManagement.PullObject(towerButtonPrefab, Vector3.zero, Quaternion.identity, true, towerListParent);
+                towerButton.transform.localScale = Vector3.one;
+
+                TowerSO towerSO;
+                towerSO = availableTowers.TowerList[i];
+                towerButton.GetComponent<TowerButton>().Initialize(availableTowers.TowerList[i], () =>
+                {
+                    
+
+                    isBuilding = true;
+                    towerHoldSO = towerSO;
+                    towerHold = Instantiate(towerSO.TowerLevels[0].towerPrefab);
+                    EnableTowerHoldComponents(false);
+                });
+            }
+
             nodeHighlighter = Instantiate(nodeHighlighterPrefab);
             nodeHighlighter.SetActive(false);
 
@@ -89,7 +94,6 @@ namespace BuildManagement
 
         private bool CanBePlaced(TowerSO towerSO, GameObject node)
         {
-            nodeDebug = node;
             if (Physics.CheckBox(node.transform.position + Vector3.up, Vector3.one * 0.4f))
             {
                 return false;
@@ -104,7 +108,6 @@ namespace BuildManagement
             {
                 if (!placementConditions[i].ConditionMet)
                 {
-                    Debug.Log(placementConditions[i].FailReason);
                     return false;
                 }
             }
@@ -133,10 +136,11 @@ namespace BuildManagement
 
                 EnableTowerHoldComponents(true);
 
+                currencyManager.ModifyCurrency(ModificationType.Subtract, towerHoldSO.Cost);
+
                 isBuilding = false;
                 towerHold = null;
                 nodeHighlighterRenderer.material = currentPlacementMaterial;
-
                 return;
             }
 

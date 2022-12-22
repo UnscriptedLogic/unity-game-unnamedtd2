@@ -115,7 +115,7 @@ namespace GridManagement
         private void PathwayGen()
         {
             float elevation = pathManager.Path[0].Elevation;
-            GameObject homeNode = Instantiate(homePrefab, transform);
+            GameObject homeNode = Instantiate(spawnPrefab, transform);
             homeNode.transform.position = pathManager.Path[0].transform.position + Vector3.up;
 
             for (int i = 0; i < pathManager.Path.Length; i++)
@@ -145,7 +145,7 @@ namespace GridManagement
                 }
             }
 
-            GameObject spawnNode = Instantiate(spawnPrefab, transform);
+            GameObject spawnNode = Instantiate(homePrefab, transform);
             Vector3 endNode = pathManager.Path[pathManager.Path.Length - 1].transform.position;
             spawnNode.transform.position = new Vector3(endNode.x, elevation + 1, endNode.z);
 

@@ -1,10 +1,15 @@
+using BuildManagement;
 using Core;
 using Core.Pathing;
 using Game.Spawning;
 using GridManagement;
+using Mono.Cecil.Cil;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TowerManagement;
+using UnitManagement;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 namespace GameManagement
@@ -13,11 +18,13 @@ namespace GameManagement
     {
         public static LevelManagement baseInstance;
 
+        [SerializeField] protected BuildManager buildManager;
         [SerializeField] protected GridManager gridManager;
         [SerializeField] protected PathManager pathManager;
         [SerializeField] protected WaveSpawner waveSpawner;
-
-        protected PoolManager poolManager;
+        [SerializeField] protected CurrencyManager currencyManager;
+        [SerializeField] protected PoolManager poolManager;
+        [SerializeField] protected UnitEventHandler unitEventHandler;
 
         protected void Awake()
         {
@@ -26,26 +33,48 @@ namespace GameManagement
 
         protected async void Start()
         {
-            poolManager = PoolManager.poolManagerInstance;
             await gridManager.GenerateNodes();
+            buildManager.InitBuildManager();
+            currencyManager.InitCash();
             waveSpawner.StartSpawner();
         }
 
-        public static GameObject PullObject(GameObject prefab, Vector3 position, Quaternion rotation, bool setActive)
+        public static GameObject PullObject(GameObject prefab, Vector3 position, Quaternion rotation, bool setActive, Transform parent = null)
         {
             GameObject newObject = baseInstance.poolManager.PullFromPool(prefab, position, rotation, setActive);
-            
+
+            CheckForInterface<IUsesUnitEvent>(newObject, obj =>
+            {
+                obj.InitWithUnitEventHandler(baseInstance.unitEventHandler);
+            });
+
             CheckForInterface<IRequiresPath>(newObject, obj =>
             {
                 obj.InitWithPath(baseInstance.pathManager.PathPoints);
             });
 
+            CheckForInterface<IListensToCurrency>(newObject, obj =>
+            {
+                baseInstance.currencyManager.OnCashModified += obj.OnCurrencyChanged;
+            });
+
+            CheckForInterface<IModifiesCurrency>(newObject, obj =>
+            {
+                obj.ModifyCash(baseInstance.currencyManager);
+            });
+
+            newObject.transform.SetParent(parent);
             return newObject;
         }
 
-        public static void PushObject(GameObject obj)
+        public static void PushObject(GameObject newObject)
         {
-            baseInstance.poolManager.PushToPool(obj);
+            CheckForInterface<IListensToCurrency>(newObject, obj =>
+            {
+                baseInstance.currencyManager.OnCashModified -= obj.OnCurrencyChanged;
+            });
+            
+            baseInstance.poolManager.PushToPool(newObject);
         }
 
         public static void CheckForInterface<T>(GameObject objToCheck, Action<T> method)

@@ -36,7 +36,11 @@ namespace TowerManagement
             }));
             
             level4.upgradeProperties.Add(new UpgradeProperty(projPierce: 6));
-            level4.upgradeProperties.Add(new UpgradeProperty());
+            level4.upgradeProperties.Add(new UpgradeProperty(damage: 3, method: towerBase =>
+            {
+                RapidTower rapidTower = (RapidTower)towerBase;
+                rapidTower.useExplosive = true;
+            }));
             upgradeGroups.Add(level4);
         }
     }

@@ -107,7 +107,7 @@ namespace GridManagement
                 if (!Physics.CheckSphere(position, 0.25f))
                 {
                     GameObject waterNode = Instantiate(waterPrefab, position - Vector3.up * 0.5f, Quaternion.identity, transform);
-                    Destroy(waterNode.transform.GetChild(0).gameObject);
+                    //Destroy(waterNode.transform.GetChild(0).gameObject);
                 }
             });
         }

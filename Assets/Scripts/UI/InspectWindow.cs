@@ -1,4 +1,5 @@
 using GameManagement;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -32,7 +33,9 @@ namespace UserInterfaceManagement
         [SerializeField] private TextMeshProUGUI sellCost;
         [SerializeField] private Button sellButton;
 
-        public void ShowModal(TowerSO towerSO, List<int> upgradeHistory)
+        //Parts of the modal are initialized seperately to allow for the modal to be used for multiple purposes
+        //i.e. Upgrade/History/Sell section only initialized for towers, header only for units
+        public void ShowModal(TowerSO towerSO)
         {
             Clear();
             InitHeader(towerSO);
@@ -42,14 +45,11 @@ namespace UserInterfaceManagement
         {
             fullyUpgraded.SetActive(false);
 
-            // Clear all the upgrade buttons
             for (int i = upgradeSection.transform.childCount - 1; i > -1; i--)
             {
                 LevelManagement.PushObject(upgradeSection.transform.GetChild(i).gameObject);
-                //Destroy(upgradeSection.transform.GetChild(i).gameObject);
             }
 
-            //Clear all segments
             for (int i = 0; i < pathView.childCount; i++)
             {
                 Destroy(pathView.GetChild(i).gameObject);
@@ -62,13 +62,13 @@ namespace UserInterfaceManagement
             title.text = towerSO.TowerName;
         }
 
-        public Button[] InitUpgradeButtons(TowerSO towerSO, int[] upgradeHistory)
+        public Button[] InitUpgradeButtons(TowerSO towerSO, int[] upgradeHistory, GameObject inspectedTower)
         {
             // Create the upgrade buttons
             int levelIndex = upgradeHistory.Length;
             TowerSO.UpgradeOption[] upgradeOptions;
 
-            if (upgradeHistory.Length == towerSO.TowerLevels.Length)
+            if (towerSO.TowerLevels[levelIndex].upgradeOptions.Length == 0)
             {
                 //All upgrades completed
                 fullyUpgraded.SetActive(true);
@@ -98,7 +98,7 @@ namespace UserInterfaceManagement
             List<GameObject[]> knobs = new List<GameObject[]>();
 
             //Create Segments
-            for (int i = 0; i < towerSO.TowerLevels.Length; i++)
+            for (int i = 0; i < towerSO.TowerLevels.Length - 1; i++)
             {
                 GameObject segment = Instantiate(segmentPrefab, pathView);
                 if (i == levelIndex)
@@ -129,10 +129,16 @@ namespace UserInterfaceManagement
 
             RefreshContentSize();
         }
-
-        public void InitSellButton(TowerSO towerSO, int level)
+        
+        public void InitSellButton(TowerSO towerSO, int level, Action method)
         {
             sellCost.text = $"${towerSO.TowerLevels[level].sellCost}";
+
+            sellButton.onClick.RemoveAllListeners();
+            sellButton.onClick.AddListener(() =>
+            {
+                method();
+            });
         }
 
         private void RefreshContentSize()

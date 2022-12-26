@@ -734,6 +734,9 @@ MonoBehaviour:
   targetSortMode: 2
   useDoubleShells: 0
   useQuadShells: 0
+  useKnockback: 0
+  useShrapnel: 0
+  shrapnelCount: 5
 --- !u!95 &5670489963808993461
 Animator:
   serializedVersion: 4

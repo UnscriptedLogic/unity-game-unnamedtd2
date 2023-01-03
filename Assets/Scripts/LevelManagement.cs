@@ -18,6 +18,7 @@ namespace GameManagement
     {
         public static LevelManagement baseInstance;
 
+        [SerializeField] protected CameraControls cameraControls;
         [SerializeField] protected BuildManager buildManager;
         [SerializeField] protected GridManager gridManager;
         [SerializeField] protected PathManager pathManager;
@@ -37,6 +38,29 @@ namespace GameManagement
             buildManager.InitBuildManager();
             currencyManager.InitCash();
             waveSpawner.StartSpawner();
+
+            waveSpawner.OnBaseHealthDepleted += OnBaseHealthDepleted;
+            waveSpawner.OnCompleted += OnCompleted;
+        }
+
+        private void OnCompleted()
+        {
+            UINavigator.PopAll();
+            UINavigator.Push("GameWon");
+
+            cameraControls.InputManager_OnResetCamera();
+            cameraControls.DisableAllInput();
+        }
+
+        private void OnBaseHealthDepleted()
+        {
+            waveSpawner.ClearEntities();
+            waveSpawner.StopSpawner();
+            UINavigator.PopAll();
+            UINavigator.Push("GameOver");
+
+            cameraControls.InputManager_OnResetCamera();
+            cameraControls.DisableAllInput();
         }
 
         public static GameObject PullObject(GameObject prefab, Vector3 position, Quaternion rotation, bool setActive, Transform parent = null)
@@ -74,6 +98,18 @@ namespace GameManagement
                 baseInstance.currencyManager.OnCashModified -= obj.OnCurrencyChanged;
             });
             
+            baseInstance.poolManager.PushToPool(newObject);
+        }
+
+        public static IEnumerator PushObjectAfter(GameObject newObject, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+
+            CheckForInterface<IListensToCurrency>(newObject, obj =>
+            {
+                baseInstance.currencyManager.OnCashModified -= obj.OnCurrencyChanged;
+            });
+
             baseInstance.poolManager.PushToPool(newObject);
         }
 

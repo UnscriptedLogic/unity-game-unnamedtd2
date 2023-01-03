@@ -20,7 +20,7 @@ namespace ProjectileManagement
             taggedEnemies = new List<GameObject>();
         }
 
-        public override void OnHit(Collider other, ProjectileBase projBase, Action<UnitBase> OnEnemyHit)
+        public override void OnHit(Collider other, ProjectileBase projBase, Action<UnitBase, ProjectileBase> OnEnemyHit)
         {
             if (projectileBase == null)
             {
@@ -45,7 +45,7 @@ namespace ProjectileManagement
             if (other.CompareTag("Enemy"))
             {
                 projBase.IncreasePierce();
-                OnEnemyHit?.Invoke(other.GetComponent<UnitBase>());
+                OnEnemyHit?.Invoke(other.GetComponent<UnitBase>(), projBase);
 
                 if (projBase.CurrentPierce >= projBase.Pierce)
                 {

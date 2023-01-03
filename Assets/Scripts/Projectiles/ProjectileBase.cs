@@ -1,5 +1,6 @@
 using Core;
 using System;
+using System.Collections.Generic;
 using UnitManagement;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace ProjectileManagement
         public float lifetime;
         public ProjectileBehaviour projectileBehaviour;
 
-        public ProjectileSettings(float speed, float lifetime, int pierce,ProjectileBehaviour projectileBehaviour = null)
+        public ProjectileSettings(float speed, float lifetime, int pierce, ProjectileBehaviour projectileBehaviour = null)
         {
             this.pierce = pierce;
             this.speed = speed;
@@ -20,18 +21,21 @@ namespace ProjectileManagement
             this.projectileBehaviour = projectileBehaviour;
         }
     }
-
+    
     public class ProjectileBase : MonoBehaviour
     {
+        public const string SHRAPNEL_TAG = "Shrapnel";
+
         protected int pierce;
         protected float speed = 1f;
         protected float lifeTime = 1f;
         [SerializeField] protected TrailRenderer[] trailRenderers;
         
-        public event Action<UnitBase> OnEnemyHit;
+        public event Action<UnitBase, ProjectileBase> OnEnemyHit;
         public event Action<ProjectileBase> OnProjectileDestroyed;
 
         public ProjectileBehaviour projectileBehaviour;
+        public Dictionary<string, int> tags;
 
         protected float _lifetime;
         protected bool initialized;
@@ -59,6 +63,8 @@ namespace ProjectileManagement
 
         public void InitializeAndSetActive(ProjectileSettings projectileSettings, ProjectileBehaviour projectileBehaviour = null)
         {
+            tags = new Dictionary<string, int>();
+
             _pierce = 0;
             pierce = projectileSettings.pierce;
             speed = projectileSettings.speed;
@@ -95,6 +101,7 @@ namespace ProjectileManagement
         private void OnDisable()
         {
             OnProjectileDestroyed?.Invoke(this);
+            tags = new Dictionary<string, int>();
         }
     }
 }

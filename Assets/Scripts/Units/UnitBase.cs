@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace UnitManagement
 {
-    public class UnitBase : MonoBehaviour, IRequiresPath, IUsesUnitEvent
+    public class UnitBase : MonoBehaviour, IRequiresPath, IUsesUnitEvent, IUsesHealthBar, IUsesDamageFlash
     {
         [Header("Base Stats")]
         [SerializeField] protected string id;
@@ -33,6 +33,8 @@ namespace UnitManagement
         public float MaxHealth => health;
         public float Speed => speed;
         public float CurrentHealth => currentHealth;
+
+        public void SetSpeed(float speed) => this.speed = speed;
 
         protected virtual void OnEnable()
         {
@@ -134,6 +136,24 @@ namespace UnitManagement
         public void InitWithUnitEventHandler(UnitEventHandler unitEventHandler)
         {
             this.unitEventHandler = unitEventHandler;
+        }
+
+        public void InitHealthBar(out float current, out float max, Action<float> update)
+        {
+            current = currentHealth;
+            max = health;
+            OnUnitTookDamage += val =>
+            {
+                update(currentHealth);
+            };
+        }
+
+        public void InitFlash(Action method)
+        {
+            OnUnitTookDamage += val =>
+            {
+                method();
+            };
         }
     }
 }

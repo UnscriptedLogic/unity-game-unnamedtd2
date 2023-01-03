@@ -89,6 +89,15 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CancelOperation"",
+                    ""type"": ""Button"",
+                    ""id"": ""ca37f6a8-3413-44a7-9351-42ae5147285f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -245,6 +254,17 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""action"": ""ResetCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""63de1161-6629-417c-8f70-05b967fac6a0"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CancelOperation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -260,6 +280,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         m_DesktopControls_Zoom = m_DesktopControls.FindAction("Zoom", throwIfNotFound: true);
         m_DesktopControls_CameraRotation = m_DesktopControls.FindAction("CameraRotation", throwIfNotFound: true);
         m_DesktopControls_ResetCamera = m_DesktopControls.FindAction("ResetCamera", throwIfNotFound: true);
+        m_DesktopControls_CancelOperation = m_DesktopControls.FindAction("CancelOperation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -326,6 +347,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_DesktopControls_Zoom;
     private readonly InputAction m_DesktopControls_CameraRotation;
     private readonly InputAction m_DesktopControls_ResetCamera;
+    private readonly InputAction m_DesktopControls_CancelOperation;
     public struct DesktopControlsActions
     {
         private @DefaultControls m_Wrapper;
@@ -337,6 +359,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         public InputAction @Zoom => m_Wrapper.m_DesktopControls_Zoom;
         public InputAction @CameraRotation => m_Wrapper.m_DesktopControls_CameraRotation;
         public InputAction @ResetCamera => m_Wrapper.m_DesktopControls_ResetCamera;
+        public InputAction @CancelOperation => m_Wrapper.m_DesktopControls_CancelOperation;
         public InputActionMap Get() { return m_Wrapper.m_DesktopControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -367,6 +390,9 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 @ResetCamera.started -= m_Wrapper.m_DesktopControlsActionsCallbackInterface.OnResetCamera;
                 @ResetCamera.performed -= m_Wrapper.m_DesktopControlsActionsCallbackInterface.OnResetCamera;
                 @ResetCamera.canceled -= m_Wrapper.m_DesktopControlsActionsCallbackInterface.OnResetCamera;
+                @CancelOperation.started -= m_Wrapper.m_DesktopControlsActionsCallbackInterface.OnCancelOperation;
+                @CancelOperation.performed -= m_Wrapper.m_DesktopControlsActionsCallbackInterface.OnCancelOperation;
+                @CancelOperation.canceled -= m_Wrapper.m_DesktopControlsActionsCallbackInterface.OnCancelOperation;
             }
             m_Wrapper.m_DesktopControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -392,6 +418,9 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 @ResetCamera.started += instance.OnResetCamera;
                 @ResetCamera.performed += instance.OnResetCamera;
                 @ResetCamera.canceled += instance.OnResetCamera;
+                @CancelOperation.started += instance.OnCancelOperation;
+                @CancelOperation.performed += instance.OnCancelOperation;
+                @CancelOperation.canceled += instance.OnCancelOperation;
             }
         }
     }
@@ -405,5 +434,6 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         void OnZoom(InputAction.CallbackContext context);
         void OnCameraRotation(InputAction.CallbackContext context);
         void OnResetCamera(InputAction.CallbackContext context);
+        void OnCancelOperation(InputAction.CallbackContext context);
     }
 }

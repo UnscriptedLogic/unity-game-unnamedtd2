@@ -31,7 +31,7 @@ public class CameraControls : MonoBehaviour
         startCameraPos = transform.localPosition;
     }
 
-    private void InputManager_OnResetCamera()
+    public void InputManager_OnResetCamera()
     {
         rotationAngle = 0;
         rotationToLerp = Quaternion.Euler(0, 0, 0);

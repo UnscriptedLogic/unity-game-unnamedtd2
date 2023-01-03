@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TowerManagement;
 using UserInterfaceManagement;
-using UnityEditor.Experimental.GraphView;
 using GameManagement;
 
 namespace BuildManagement
@@ -66,10 +65,10 @@ namespace BuildManagement
             inputManager = InputManager.instance;
             inputManager.OnMouseMoving += InputManager_OnMouseMoving;
             inputManager.OnMouseDown += InputManager_OnMouseDown;
+            inputManager.CancelOperation += InputManager_CancelOperation;
 
             for (int i = 0; i < availableTowers.TowerList.Count; i++)
             {
-                //GameObject towerButton = Instantiate(towerButtonPrefab, towerListParent);
                 GameObject towerButton = LevelManagement.PullObject(towerButtonPrefab, Vector3.zero, Quaternion.identity, true, towerListParent);
                 towerButton.transform.localScale = Vector3.one;
 
@@ -89,6 +88,18 @@ namespace BuildManagement
 
             nodeHighlighterRenderer = nodeHighlighter.GetComponentInChildren<Renderer>();
             currentPlacementMaterial = nodeHighlighterRenderer.material;
+        }
+
+        private void InputManager_CancelOperation()
+        {
+            if (isBuilding)
+            {
+                towerRange.SetActive(false);
+                isBuilding = false;
+                Destroy(towerHold);
+
+                nodeHighlighterRenderer.material = currentPlacementMaterial;
+            }
         }
 
         private bool CanBePlaced(TowerSO towerSO, GameObject node)
@@ -140,6 +151,7 @@ namespace BuildManagement
                 isBuilding = false;
                 towerHold = null;
                 nodeHighlighterRenderer.material = currentPlacementMaterial;
+                towerRange.SetActive(false);
                 return;
             }
 
@@ -157,8 +169,6 @@ namespace BuildManagement
                             InspectWindow inspectWindow = UINavigator.Push("InspectWindow").GetComponent<InspectWindow>();
                             TowerUpgradeHandler upgradeHandler = tower.GetComponentInParent<TowerUpgradeHandler>();
                             LinkButtons(upgradeHandler, inspectWindow, colliders[i].gameObject);
-                            
-
                             return;
                         }
                     }

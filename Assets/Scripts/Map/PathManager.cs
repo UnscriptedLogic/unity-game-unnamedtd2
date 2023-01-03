@@ -57,8 +57,6 @@ namespace Core.Pathing
                     Reseed(nodes);
                 }
             }
-
-            Debug.Log("Path Completed");
         }
 
         private bool IsPathValid()
@@ -134,7 +132,6 @@ namespace Core.Pathing
             }
 
             weightPoints = newWeights.ToArray();
-            Debug.Log($"Weight Points: {weightPoints.Length}");
         }
 
         private async Task CreatePath(CancellationTokenSource tokenSource, Dictionary<Tuple<int, int>, GridNode> nodeDict, Vector2 gridSize)

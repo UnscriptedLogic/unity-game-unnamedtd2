@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CancelOperation",
+                    "type": "Button",
+                    "id": "ca37f6a8-3413-44a7-9351-42ae5147285f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -221,6 +230,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "ResetCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "63de1161-6629-417c-8f70-05b967fac6a0",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CancelOperation",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

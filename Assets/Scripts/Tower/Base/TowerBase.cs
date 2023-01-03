@@ -235,7 +235,6 @@ namespace TowerManagement
             {
                 if (currentTarget != null)
                 {
-                    Debug.Log(rotationHeads.Length);
                     for (int i = 0; i < rotationHeads.Length; i++)
                     {
                         RotateToTarget(rotationHeads[i].rotationHead, levelled: rotationHeads[i].levelled);

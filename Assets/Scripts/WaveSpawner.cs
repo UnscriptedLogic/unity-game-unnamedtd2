@@ -38,7 +38,7 @@ namespace Game.Spawning
         private int segmentIndex;
         private int waveCount;
         private bool stopSpawning = true;
-
+        
         private CurrencyManager currencyManager;
         [SerializeField] private TextMeshProUGUI healthTMP;
         [SerializeField] private TextMeshProUGUI waveCounterTMP;
@@ -47,8 +47,9 @@ namespace Game.Spawning
         public WavesSO WavesSO => wavesSO;
         public Action<int, int> OnWaveCompleted;
         public Action<int, int> OnWaveStarted;
-        public UnityEvent OnCompleted;
+        public Action OnCompleted;
         public UnityEvent<float> OnUnitHealthDeducted;
+        public Action OnBaseHealthDepleted;
 
         public void Initialize(GridNode[] path)
         {
@@ -250,6 +251,12 @@ namespace Game.Spawning
             {
                 baseHealth -= unit.CurrentHealth;
                 healthTMP.text = baseHealth.ToString();
+
+                if (baseHealth <= 0f)
+                {
+                    OnBaseHealthDepleted?.Invoke();
+                    ClearEntities();
+                }
             };
         }
 

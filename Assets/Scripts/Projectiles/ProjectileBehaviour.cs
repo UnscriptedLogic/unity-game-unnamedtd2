@@ -14,12 +14,12 @@ namespace ProjectileManagement
             projBase.transform.position += projBase.transform.forward * projBase.Speed * Time.deltaTime;
         }
 
-        public virtual void OnHit(Collider other, ProjectileBase projBase, Action<UnitBase> OnEnemyHit)
+        public virtual void OnHit(Collider other, ProjectileBase projBase, Action<UnitBase, ProjectileBase> OnEnemyHit)
         {
             if (other.CompareTag("Enemy"))
             {
                 projBase.IncreasePierce();
-                OnEnemyHit?.Invoke(other.GetComponent<UnitBase>());
+                OnEnemyHit?.Invoke(other.GetComponent<UnitBase>(), projBase);
 
                 if (projBase.CurrentPierce >= projBase.Pierce)
                 {

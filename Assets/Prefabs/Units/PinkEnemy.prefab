@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 3262615078223763205}
   - component: {fileID: 3262615078223763226}
   - component: {fileID: 3191240919974649137}
+  - component: {fileID: -197640731269406408}
   m_Layer: 7
   m_Name: PinkEnemy
   m_TagString: Enemy
@@ -164,3 +165,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-197640731269406408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3262615078223763207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 121a7540bbc56244d9f0f7aad1ee2cba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resistances: []

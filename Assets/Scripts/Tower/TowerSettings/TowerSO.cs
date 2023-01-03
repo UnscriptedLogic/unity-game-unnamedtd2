@@ -67,6 +67,23 @@ namespace TowerManagement
                 {
                     towerLevels[i].towerIcon = icon;
                 }
+
+                if (i == 0)
+                {
+                    towerLevels[i].sellCost = cost * 0.5f;
+                } else
+                {
+                    if (towerLevels[i].upgradeOptions.Length <= 0) return;
+
+                    float average = 0;
+                    for (int j = 0; j < towerLevels[j].upgradeOptions.Length; j++)
+                    {
+                        average += towerLevels[i].upgradeOptions[j].nextUpgradeCost;
+                    }
+
+                    average /= towerLevels[i].upgradeOptions.Length;
+                    towerLevels[i].sellCost = Mathf.RoundToInt(towerLevels[i - 1].sellCost + average);
+                }
             }
         }
     }

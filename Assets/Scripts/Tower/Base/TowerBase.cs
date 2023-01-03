@@ -198,6 +198,25 @@ namespace TowerManagement
             return bullet;
         }
 
+        protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Vector3 position, Quaternion rotation, ProjectileBehaviour projectileBehaviour = null)
+        {
+            GameObject bullet = PoolManager.poolManagerInstance.PullFromPool(prefab, position, rotation, false);
+            ProjectileSettings projectileSettings = new ProjectileSettings(projectileSpeed, projectileLifetime, pierce);
+            projectileBase = bullet.GetComponent<ProjectileBase>();
+
+            projectileBase.InitializeAndSetActive(projectileSettings, projectileBehaviour);
+            return bullet;
+        }
+
+        protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Vector3 position, Quaternion rotation, ProjectileSettings projectileSettings, ProjectileBehaviour projectileBehaviour = null)
+        {
+            GameObject bullet = PoolManager.poolManagerInstance.PullFromPool(prefab, position, rotation, false);
+            projectileBase = bullet.GetComponent<ProjectileBase>();
+
+            projectileBase.InitializeAndSetActive(projectileSettings, projectileBehaviour);
+            return bullet;
+        }
+
         protected virtual void SubscribeProjectileEvents(ProjectileBase projectileBase)
         {
             projectileBase.OnEnemyHit += OnProjectileHit;
@@ -281,7 +300,7 @@ namespace TowerManagement
             //Debug.Log("OnProjectileFired()");
         }
 
-        protected virtual void OnProjectileHit(UnitBase unit)
+        protected virtual void OnProjectileHit(UnitBase unit, ProjectileBase projectileBase)
         {
             //Debug.Log("OnProjectileHit()");
             unit.TakeDamage(damage);

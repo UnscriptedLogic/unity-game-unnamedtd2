@@ -28,6 +28,7 @@ namespace BuildManagement
 
         [Header("Build Settings")]
         private InputManager inputManager;
+        [SerializeField] private GameObject towerRange;
         [SerializeField] private Camera cam;
         [SerializeField] private LayerMask buildLayer;
         [SerializeField] private float verticalOffset;
@@ -76,8 +77,6 @@ namespace BuildManagement
                 towerSO = availableTowers.TowerList[i];
                 towerButton.GetComponent<TowerButton>().Initialize(availableTowers.TowerList[i], () =>
                 {
-                    
-
                     isBuilding = true;
                     towerHoldSO = towerSO;
                     towerHold = Instantiate(towerSO.TowerLevels[0].towerPrefab);
@@ -157,12 +156,18 @@ namespace BuildManagement
                         {
                             InspectWindow inspectWindow = UINavigator.Push("InspectWindow").GetComponent<InspectWindow>();
                             TowerUpgradeHandler upgradeHandler = tower.GetComponentInParent<TowerUpgradeHandler>();
-                            LinkButtons(upgradeHandler, inspectWindow);
+                            LinkButtons(upgradeHandler, inspectWindow, colliders[i].gameObject);
+                            
 
                             return;
                         }
                     }
                 }
+            }
+
+            if (towerRange.activeInHierarchy)
+            {
+                towerRange.SetActive(false);
             }
 
             if (UINavigator.GetTopPageName() == "InspectWindow")
@@ -171,10 +176,31 @@ namespace BuildManagement
             }
         }
 
-        private static void LinkButtons(TowerUpgradeHandler upgradeHandler, InspectWindow inspectWindow)
+        private void LinkButtons(TowerUpgradeHandler upgradeHandler, InspectWindow inspectWindow, GameObject inspectedTower)
         {
-            inspectWindow.ShowModal(upgradeHandler.TowerSO, upgradeHandler.UpgradesChosen);
-            Button[] buttons = inspectWindow.InitUpgradeButtons(upgradeHandler.TowerSO, upgradeHandler.UpgradesChosen.ToArray());
+            inspectWindow.ShowModal(upgradeHandler.TowerSO);
+
+            int upgradeLevel;
+            if (upgradeHandler.UpgradesChosen != null)
+            {
+                upgradeLevel = upgradeHandler.UpgradesChosen.Count;
+            } else
+            {
+                upgradeLevel = 0;
+            }
+
+            inspectWindow.InitSellButton(upgradeHandler.TowerSO, upgradeLevel, () =>
+            {
+                LevelManagement.PushObject(inspectedTower);
+                currencyManager.AddCash(upgradeHandler.TowerSO.TowerLevels[upgradeLevel].sellCost);
+                
+                if (UINavigator.GetTopPageName() == "InspectWindow")
+                {
+                    UINavigator.Pop();
+                }
+            });
+
+            Button[] buttons = inspectWindow.InitUpgradeButtons(upgradeHandler.TowerSO, upgradeHandler.UpgradesChosen.ToArray(), inspectedTower);
             if (buttons != null)
             {
                 for (int j = 0; j < buttons.Length; j++)
@@ -183,10 +209,15 @@ namespace BuildManagement
                     buttons[j].onClick.AddListener(() =>
                     {
                         upgradeHandler.UpgradeTower(upgradeIndex);
-                        LinkButtons(upgradeHandler, inspectWindow);
+                        LinkButtons(upgradeHandler, inspectWindow, inspectedTower);
                     });
                 } 
             }
+
+            TowerBase towerBase = inspectedTower.GetComponentInChildren<TowerBase>();
+            towerRange.SetActive(true);
+            towerRange.transform.localScale = Vector3.one * (towerBase.range * 2);
+            towerRange.transform.position = towerBase.transform.position;
         }
 
         private void InputManager_OnMouseMoving(Vector2 mouseScreenPos, Vector2 delta)
@@ -204,7 +235,13 @@ namespace BuildManagement
                     towerHold.transform.position = hitinfo.collider.transform.position + Vector3.up * 0.5f;
                     canBePlaced = CanBePlaced(towerHoldSO, hitinfo.collider.gameObject);
 
-                    nodeHighlighterRenderer.material = canBePlaced ? validPlacementMat : invalidPlacementMat; 
+                    nodeHighlighterRenderer.material = canBePlaced ? validPlacementMat : invalidPlacementMat;
+
+                    towerRange.SetActive(true);
+                    
+                    TowerBase towerBase = towerHold.GetComponentInChildren<TowerBase>();
+                    towerRange.transform.localScale = Vector3.one * towerBase.range * 2;
+                    towerRange.transform.position = towerHold.transform.position;
                 }
 
                 nodeHighlighter.transform.position = hitinfo.collider.transform.position + new Vector3(0f, verticalOffset, 0f);

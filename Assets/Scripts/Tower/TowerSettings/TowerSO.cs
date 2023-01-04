@@ -74,15 +74,14 @@ namespace TowerManagement
                 } else
                 {
                     if (towerLevels[i].upgradeOptions.Length <= 0) return;
-
-                    float average = 0;
-                    for (int j = 0; j < towerLevels[j].upgradeOptions.Length; j++)
+                    
+                    float lowest = 9999999f;
+                    for (int j = 0; j < towerLevels[i - 1].upgradeOptions.Length; j++)
                     {
-                        average += towerLevels[i].upgradeOptions[j].nextUpgradeCost;
+                        lowest = Mathf.Min(lowest, towerLevels[i - 1].upgradeOptions[j].nextUpgradeCost);
                     }
 
-                    average /= towerLevels[i].upgradeOptions.Length;
-                    towerLevels[i].sellCost = Mathf.RoundToInt(towerLevels[i - 1].sellCost + average);
+                    towerLevels[i].sellCost = Mathf.RoundToInt(towerLevels[i - 1].sellCost + (lowest * 0.5f));
                 }
             }
         }

@@ -21,6 +21,7 @@ namespace Core
         public event Action<float> OnMouseScroll;
         public event Action<float> OnRotateCamera;
         public event Action OnResetCamera;
+        public event Action CancelOperation;
 
         private void Awake()
         {
@@ -43,7 +44,11 @@ namespace Core
 
             controls.CameraRotation.started += CameraRotation_started;
             controls.ResetCamera.started += ResetCamera_started;
+            
+            controls.CancelOperation.started += CancelOperation_started;
         }
+
+        private void CancelOperation_started(InputAction.CallbackContext obj) => CancelOperation?.Invoke();
 
         private void ResetCamera_started(InputAction.CallbackContext obj) => OnResetCamera?.Invoke();
         private void CameraRotation_started(InputAction.CallbackContext obj) => OnRotateCamera?.Invoke(obj.ReadValue<float>());

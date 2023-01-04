@@ -10,11 +10,19 @@ namespace GridManagement
 {
     public class MapManager : GridManager
     {
+        [Serializable]
+        public class TerrainLayer
+        {
+            public float height;
+            public Color blockColor;
+        }
+
         [Header("Terrain Settings")]
         [Range(0, 1)][SerializeField] protected float terrainPerlinscale = 1f;
         [Range(0, 1)][SerializeField] protected float terrainTrimThreshold = 1f;
         [SerializeField] protected float terrainLower = 1f;
         [SerializeField] protected float elevationClamp;
+        [SerializeField] protected TerrainLayer[] terrainLayer;
 
         protected Vector2 cliffOrigin;
 

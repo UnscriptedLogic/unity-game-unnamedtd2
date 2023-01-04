@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0068713985, g: 0.042858474, b: 0.38062662, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6765,6 +6765,7 @@ MonoBehaviour:
   terrainTrimThreshold: 0.5
   terrainLower: 4
   elevationClamp: 6
+  terrainLayer: []
   generateCliffs: 1
   cliffPerlinScale: 0.1
   cliffThreshold: 0.7

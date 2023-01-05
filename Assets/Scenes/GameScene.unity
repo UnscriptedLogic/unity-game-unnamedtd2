@@ -1090,7 +1090,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 0}
+  m_BackGroundColor: {r: 0.11899254, g: 0.12023688, b: 0.13207549, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -6765,7 +6765,37 @@ MonoBehaviour:
   terrainTrimThreshold: 0.5
   terrainLower: 4
   elevationClamp: 6
-  terrainLayer: []
+  terrainLayer:
+  - height: 8
+    ditheringRange: 0
+    blockColor: {r: 0.4627451, g: 0.28627452, b: 0.20784314, a: 1}
+  - height: 7
+    ditheringRange: 0
+    blockColor: {r: 0.48235294, g: 0.40784314, b: 0.37254903, a: 1}
+  - height: 6
+    ditheringRange: 0
+    blockColor: {r: 0.17254902, g: 0.11372549, b: 0.078431375, a: 1}
+  - height: 5
+    ditheringRange: 0.5
+    blockColor: {r: 0.4392157, g: 0.1882353, b: 0.14509805, a: 1}
+  - height: 4
+    ditheringRange: 0.5
+    blockColor: {r: 0.57254905, g: 0.40392157, b: 0.10980392, a: 1}
+  - height: 3
+    ditheringRange: 0.5
+    blockColor: {r: 0.17254902, g: 0.11372549, b: 0.078431375, a: 1}
+  - height: 2
+    ditheringRange: 0
+    blockColor: {r: 0.3529412, g: 0.22352941, b: 0.16078432, a: 1}
+  - height: 1
+    ditheringRange: 0
+    blockColor: {r: 0.4627451, g: 0.28627452, b: 0.20784314, a: 1}
+  - height: 0
+    ditheringRange: 0.5
+    blockColor: {r: 0.17254902, g: 0.11372549, b: 0.078431375, a: 1}
+  - height: -1
+    ditheringRange: 0.5
+    blockColor: {r: 0.16037738, g: 0.09475948, b: 0.059763268, a: 1}
   generateCliffs: 1
   cliffPerlinScale: 0.1
   cliffThreshold: 0.7

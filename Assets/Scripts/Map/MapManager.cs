@@ -14,6 +14,7 @@ namespace GridManagement
         public class TerrainLayer
         {
             public float height;
+            public float ditheringRange;
             public Color blockColor;
         }
 
@@ -71,8 +72,6 @@ namespace GridManagement
                 await pathManager.GeneratePath(gridNodes, gridSize, seed);
             }
 
-
-
             TerrainGeneration();
             CliffGeneration();
             LandFill();
@@ -83,6 +82,8 @@ namespace GridManagement
             GenerateWater();
 
             await Task.Yield();
+
+            LayerColouring();
         }
 
         protected void GenerateWater()
@@ -221,6 +222,42 @@ namespace GridManagement
                     node.position = new Vector3(node.position.x, elevation - cliffLower, node.position.z);
                 }
             });
+        }
+
+        private void LayerColouring()
+        {
+            for (int i = 0; i < fill.Count; i++)
+            {
+                if (fill[i] == null) continue;
+
+                for (int j = 0; j < terrainLayer.Length; j++)
+                {
+                    float ditherRandom = UnityEngine.Random.Range(-terrainLayer[j].ditheringRange, terrainLayer[j].ditheringRange);
+                    if (fill[i].transform.position.y > terrainLayer[j].height + ditherRandom)
+                    {
+                        fill[i].GetComponentInChildren<Renderer>().material.color = terrainLayer[j].blockColor;   
+                        break;
+                    }
+                }
+            }
+
+            for (int i = 0; i < gridNodes.Count; i++)
+            {
+                Debug.Log(gridNodes.ElementAt(i).Value);
+                if (gridNodes.ElementAt(i).Value != null)
+                {
+                    GameObject node = gridNodes.ElementAt(i).Value.gameObject;
+                    for (int j = 0; j < terrainLayer.Length; j++)
+                    {
+                        float ditherRandom = UnityEngine.Random.Range(-terrainLayer[j].ditheringRange, terrainLayer[j].ditheringRange);
+                        if (node.transform.position.y > terrainLayer[j].height + ditherRandom)
+                        {
+                            node.GetComponentInChildren<Renderer>().material.color = terrainLayer[j].blockColor;
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         protected override void ResetMap()

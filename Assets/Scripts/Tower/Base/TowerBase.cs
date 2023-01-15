@@ -188,6 +188,16 @@ namespace TowerManagement
             return false;
         }
 
+        public void RotateTargettingForward()
+        {
+
+        }
+
+        public void RotateTargettingBackward()
+        {
+
+        }
+
         protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Transform anchor, ProjectileBehaviour projectileBehaviour = null)
         {
             GameObject bullet = PoolManager.poolManagerInstance.PullFromPool(prefab, anchor.position, anchor.rotation, false);

@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: enemy
-  health: 5
+  health: 4
   speed: 1
   baseOffset: 1
   faceDir: 0

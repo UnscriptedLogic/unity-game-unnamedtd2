@@ -96,9 +96,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f628bf9a641060c4db05a36d5c9d0eff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashRoot: {fileID: 0}
+  flashRoot: {fileID: 3262615078223763204}
   flashMat: {fileID: 2100000, guid: 0b4b05fcd79a58043a9a23bac1cb49d0, type: 2}
-  meshRenderer: {fileID: 0}
+  meshRenderer: {fileID: 3262615078051293255}
   blinkDuration: 0.075
 --- !u!1 &3262615078223763207
 GameObject:
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: enemy
-  health: 4
+  health: 3
   speed: 1.5
   baseOffset: 1
   faceDir: 0

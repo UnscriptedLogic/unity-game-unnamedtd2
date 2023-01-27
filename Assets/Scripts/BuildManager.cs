@@ -188,6 +188,11 @@ namespace BuildManagement
 
         private void LinkButtons(TowerUpgradeHandler upgradeHandler, InspectWindow inspectWindow, GameObject inspectedTower)
         {
+            TowerBase towerBase = inspectedTower.GetComponentInChildren<TowerBase>();
+            towerRange.SetActive(true);
+            towerRange.transform.localScale = Vector3.one * (towerBase.range * 2);
+            towerRange.transform.position = towerBase.transform.position;
+
             inspectWindow.ShowModal(upgradeHandler.TowerSO);
 
             int upgradeLevel;
@@ -210,7 +215,7 @@ namespace BuildManagement
                 }
             });
 
-            Button[] buttons = inspectWindow.InitUpgradeButtons(upgradeHandler.TowerSO, upgradeHandler.UpgradesChosen.ToArray(), inspectedTower);
+            Button[] buttons = inspectWindow.InitUpgradeButtons(upgradeHandler.TowerSO, upgradeHandler.UpgradesChosen.ToArray(), towerBase);
             if (buttons != null)
             {
                 for (int j = 0; j < buttons.Length; j++)
@@ -223,11 +228,6 @@ namespace BuildManagement
                     });
                 } 
             }
-
-            TowerBase towerBase = inspectedTower.GetComponentInChildren<TowerBase>();
-            towerRange.SetActive(true);
-            towerRange.transform.localScale = Vector3.one * (towerBase.range * 2);
-            towerRange.transform.position = towerBase.transform.position;
         }
 
         private void InputManager_OnMouseMoving(Vector2 mouseScreenPos, Vector2 delta)

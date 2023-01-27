@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.006923845, g: 0.04284833, b: 0.3808029, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4174,6 +4174,9 @@ MonoBehaviour:
   contentSizeFitter: {fileID: 1369389443}
   headerIcon: {fileID: 682366802}
   title: {fileID: 271991581}
+  targetModeTMP: {fileID: 1976752006}
+  previousTargetMode: {fileID: 1762623243}
+  nextTargetMode: {fileID: 2044697215}
   pathView: {fileID: 1795495826}
   segmentPrefab: {fileID: 4271913368830346223, guid: 6c0a18a2946662c4dae7a3e962df4cf8,
     type: 3}

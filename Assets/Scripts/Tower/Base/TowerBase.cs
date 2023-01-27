@@ -59,6 +59,8 @@ namespace TowerManagement
         protected Transform currentTarget;
         protected List<Transform> targetsInRange = new List<Transform>();
 
+        public TargetSortMode TargetMode => targetSortMode;
+
         protected virtual void Start()
         {
             //rangeCollider.radius = range;
@@ -93,7 +95,7 @@ namespace TowerManagement
             Collider[] colliders = Physics.OverlapSphere(transform.position, range, unitLayer);
             for (int i = 0; i < colliders.Length; i++)
             {
-                if (HasLOSToTarget(colliders[i].transform))
+                if (HasLOSToTarget(colliders[i].transform, out RaycastHit losObstruct))
                 {
                     targetsInRange.Add(colliders[i].transform);
                 }
@@ -113,9 +115,11 @@ namespace TowerManagement
             {
                 case TargetSortMode.First:
                     //Node closest to the end point
+                    target = targetsInRange.OrderByDescending(t => t.GetComponent<UnitBase>().CurrentWaypoint).FirstOrDefault();
                     break;
                 case TargetSortMode.Last:
                     //Node furthest from the end point
+                    target = targetsInRange.OrderBy(t => t.GetComponent<UnitBase>().CurrentWaypoint).FirstOrDefault();
                     break;
                 case TargetSortMode.Closest:
                     //Closest distance to tower
@@ -127,9 +131,11 @@ namespace TowerManagement
                     break;
                 case TargetSortMode.Strongest:
                     //Highest health point in range
+                    target = targetsInRange.OrderByDescending(t => t.GetComponent<UnitBase>().CurrentHealth).FirstOrDefault();
                     break;
                 case TargetSortMode.Weakest:
                     //Lowest health point in range
+                    target = targetsInRange.OrderBy(t => t.GetComponent<UnitBase>().CurrentHealth).FirstOrDefault();
                     break;
                 default:
                     break;
@@ -142,9 +148,10 @@ namespace TowerManagement
             }
         }
 
-        protected bool HasLOSToTarget(Transform target)
+        protected bool HasLOSToTarget(Transform target, out RaycastHit hit)
         {
-            return !Physics.Raycast(transform.position + Vector3.up * losBaseOffset, target.position - transform.position, out RaycastHit hit, range, losObstructionLayer);
+            Vector3 origin = transform.position + Vector3.up * losBaseOffset;
+            return !Physics.Raycast(origin, (target.position - origin).normalized, out hit, Vector3.Distance(target.position, origin), losObstructionLayer);
         }
 
         protected void RotateToTarget(Transform rotationHead, Transform target = null, bool levelled = false)
@@ -175,7 +182,7 @@ namespace TowerManagement
                 return true;
             }
 
-            if (!HasLOSToTarget(currentTarget))
+            if (!HasLOSToTarget(currentTarget, out RaycastHit losObstruction))
             {
                 return true;
             }
@@ -190,12 +197,12 @@ namespace TowerManagement
 
         public void RotateTargettingForward()
         {
-
+            targetSortMode++;
         }
 
         public void RotateTargettingBackward()
         {
-
+            targetSortMode--;
         }
 
         protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Transform anchor, ProjectileBehaviour projectileBehaviour = null)
@@ -273,8 +280,19 @@ namespace TowerManagement
 
             for (int i = 0; i < targetsInRange.Count; i++)
             {
-                Gizmos.color = HasLOSToTarget(targetsInRange[i].transform) ? Color.green : Color.red;
-                Gizmos.DrawLine(transform.position + Vector3.up * losBaseOffset, targetsInRange[i].position);
+                if (HasLOSToTarget(targetsInRange[i].transform, out RaycastHit losObstruction))
+                {
+                    Gizmos.color = Color.green;
+                } else
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawWireCube(losObstruction.transform.position, Vector3.one);
+                    Debug.Log(losObstruction.collider.transform.name);
+                    Debug.Log(losObstruction.collider.transform.parent.name);
+                }
+
+                Vector3 origin = transform.position + Vector3.up * losBaseOffset;
+                Gizmos.DrawRay(origin, (targetsInRange[i].position - origin).normalized * range);
             }
         }
 

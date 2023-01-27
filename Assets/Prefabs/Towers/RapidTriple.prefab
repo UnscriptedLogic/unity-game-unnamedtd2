@@ -508,7 +508,11 @@ MonoBehaviour:
   unitLayer:
     serializedVersion: 2
     m_Bits: 128
-  targetSortMode: 2
+  targetSortMode: 0
+  useTriple: 0
+  useExplosive: 0
+  explosionRange: 3
+  explosionPrefab: {fileID: 0}
 --- !u!65 &4549318443689546667
 BoxCollider:
   m_ObjectHideFlags: 0

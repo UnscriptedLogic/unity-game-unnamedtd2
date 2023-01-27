@@ -723,7 +723,7 @@ MonoBehaviour:
   - {fileID: 8949180457144766020}
   - {fileID: 1200537303637441166}
   audioClips: []
-  drawGizmos: 0
+  drawGizmos: 1
   losBaseOffset: 0.5
   losObstructionLayer:
     serializedVersion: 2
@@ -731,7 +731,7 @@ MonoBehaviour:
   unitLayer:
     serializedVersion: 2
     m_Bits: 128
-  targetSortMode: 2
+  targetSortMode: 0
   useDoubleShells: 0
   useQuadShells: 0
   useKnockback: 0

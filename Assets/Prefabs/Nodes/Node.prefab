@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 6962205807776904616}
   - component: {fileID: 9065258979641481993}
   m_Layer: 3
-  m_Name: Cube
+  m_Name: NodeGFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

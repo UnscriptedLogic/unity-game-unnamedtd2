@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using TowerManagement;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,11 @@ namespace UserInterfaceManagement
         [Header("Inspect Window")]
         [SerializeField] private Image headerIcon;
         [SerializeField] private TextMeshProUGUI title;
+
+        [Header("Targeting Mode")]
+        [SerializeField] private TextMeshProUGUI targetModeTMP;
+        [SerializeField] private Button previousTargetMode;
+        [SerializeField] private Button nextTargetMode;
 
         [Header("Path View")]
         [SerializeField] private Transform pathView;
@@ -62,7 +68,7 @@ namespace UserInterfaceManagement
             title.text = towerSO.TowerName;
         }
 
-        public Button[] InitUpgradeButtons(TowerSO towerSO, int[] upgradeHistory, GameObject inspectedTower)
+        public Button[] InitUpgradeButtons(TowerSO towerSO, int[] upgradeHistory, TowerBase towerBase)
         {
             // Create the upgrade buttons
             int levelIndex = upgradeHistory.Length;
@@ -89,6 +95,8 @@ namespace UserInterfaceManagement
             }
 
             InitPathView(towerSO, levelIndex, upgradeHistory);
+
+            InitTargettingMode(towerBase);
 
             return upgradeButtons;
         }
@@ -128,6 +136,26 @@ namespace UserInterfaceManagement
             }
 
             RefreshContentSize();
+        }
+
+        public void InitTargettingMode(TowerBase towerbase)
+        {
+            targetModeTMP.text = towerbase.TargetMode.ToString();
+
+            previousTargetMode.onClick.RemoveAllListeners();
+            nextTargetMode.onClick.RemoveAllListeners();
+
+            previousTargetMode.onClick.AddListener(() =>
+            {
+                towerbase.RotateTargettingBackward();
+                targetModeTMP.text = towerbase.TargetMode.ToString();
+            });
+
+            nextTargetMode.onClick.AddListener(() =>
+            {
+                towerbase.RotateTargettingForward();
+                targetModeTMP.text = towerbase.TargetMode.ToString();
+            });
         }
         
         public void InitSellButton(TowerSO towerSO, int level, Action method)

@@ -34,6 +34,8 @@ namespace UnitManagement
         public float Speed => speed;
         public float CurrentHealth => currentHealth;
 
+        public int CurrentWaypoint => waypointCounter;
+
         public void SetSpeed(float speed) => this.speed = speed;
 
         protected virtual void OnEnable()

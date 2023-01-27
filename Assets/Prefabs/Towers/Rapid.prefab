@@ -411,7 +411,7 @@ MonoBehaviour:
   unitLayer:
     serializedVersion: 2
     m_Bits: 128
-  targetSortMode: 2
+  targetSortMode: 0
   useTriple: 0
   useExplosive: 0
   explosionRange: 3

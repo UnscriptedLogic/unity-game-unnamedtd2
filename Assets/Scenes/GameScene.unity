@@ -276,6 +276,7 @@ Transform:
   - {fileID: 1644936363}
   - {fileID: 386758321}
   - {fileID: 1905853526}
+  - {fileID: 294739547}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -987,6 +988,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f1d3cce469e12143a7c05cab448d5f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &294739546
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 294739547}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &294739547
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294739546}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 127156851}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &296985882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,7 +1217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panSpeed: 20
   panBorderThickness: 10
-  scrollSpeed: 5
+  scrollSpeed: 1
   minY: 1
   maxY: 30
   lerpSpeed: 10
@@ -1879,6 +1911,7 @@ MonoBehaviour:
   currencyManager: {fileID: 575072435}
   poolManager: {fileID: 1905853527}
   unitEventHandler: {fileID: 1905853528}
+  soundManager: {fileID: 0}
 --- !u!114 &575072434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5170,6 +5203,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   verticalOffset: 0.5
+  buildingMaterial: {fileID: 2100000, guid: 990a06ffeda43734e864d545330e132e, type: 2}
   nodeHighlighterPrefab: {fileID: 6465252190825764111, guid: 7f3e263f7f5ad7e428ae40d05239e0fa,
     type: 3}
   validPlacementMat: {fileID: 2100000, guid: 7744e95083b7bf44dafef8cf56cb3cde, type: 2}

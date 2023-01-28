@@ -31,10 +31,11 @@ namespace BuildManagement
         [SerializeField] private Camera cam;
         [SerializeField] private LayerMask buildLayer;
         [SerializeField] private float verticalOffset;
+        [SerializeField] private Material buildingMaterial;
 
         private bool canBePlaced;
         private bool isBuilding;
-        private GameObject towerHold;
+        private GameObject towerHold, towerPrefabToPlace;
         private TowerSO towerHoldSO;
 
         [Header("Node Highlighter")]
@@ -53,12 +54,6 @@ namespace BuildManagement
         [SerializeField] private CurrencyManager currencyManager;
 
         private List<Button> buildButtons;
-
-        private void EnableTowerHoldComponents(bool enabled)
-        {
-            towerHold.GetComponentInChildren<TowerBase>().enabled = enabled;
-            towerHold.GetComponentInChildren<Collider>().enabled = enabled;
-        }
 
         public void InitBuildManager()
         {
@@ -79,7 +74,13 @@ namespace BuildManagement
                     isBuilding = true;
                     towerHoldSO = towerSO;
                     towerHold = Instantiate(towerSO.TowerLevels[0].towerPrefab);
-                    EnableTowerHoldComponents(false);
+
+                    RecursiveApplyBuildingMat(towerHold.transform);
+
+                    towerPrefabToPlace = towerSO.TowerLevels[0].towerPrefab;
+
+                    towerHold.GetComponentInChildren<TowerBase>().enabled = false;
+                    Destroy(towerHold.GetComponentInChildren<Collider>());
                 });
             }
 
@@ -132,60 +133,6 @@ namespace BuildManagement
             return isTypeValid;
         }
 
-        private void InputManager_OnMouseDown(Vector2 mouseScreenPos, bool isOverUI)
-        {
-            if (isOverUI) return;
-
-            if (isBuilding)
-            {
-                if (!canBePlaced)
-                {
-                    //Show warning
-                    return;
-                }
-
-                EnableTowerHoldComponents(true);
-
-                currencyManager.ModifyCurrency(ModificationType.Subtract, towerHoldSO.Cost);
-
-                isBuilding = false;
-                towerHold = null;
-                nodeHighlighterRenderer.material = currentPlacementMaterial;
-                towerRange.SetActive(false);
-                return;
-            }
-
-            Ray ray = cam.ScreenPointToRay(mouseScreenPos);
-            if (Physics.Raycast(ray, out RaycastHit hitinfo, 1000f, buildLayer))
-            {
-                Collider[] colliders = Physics.OverlapBox(hitinfo.collider.gameObject.transform.position + Vector3.up, Vector3.one * 0.4f);
-                for (int i = 0; i < colliders.Length; i++)
-                {
-                    if (colliders[i].CompareTag("Tower"))
-                    {
-                        TowerBase tower = colliders[i].GetComponent<TowerBase>();
-                        if (tower != null)
-                        {
-                            InspectWindow inspectWindow = UINavigator.Push("InspectWindow").GetComponent<InspectWindow>();
-                            TowerUpgradeHandler upgradeHandler = tower.GetComponentInParent<TowerUpgradeHandler>();
-                            LinkButtons(upgradeHandler, inspectWindow, colliders[i].gameObject);
-                            return;
-                        }
-                    }
-                }
-            }
-
-            if (towerRange.activeInHierarchy)
-            {
-                towerRange.SetActive(false);
-            }
-
-            if (UINavigator.GetTopPageName() == "InspectWindow")
-            {
-                UINavigator.Pop();
-            }
-        }
-
         private void LinkButtons(TowerUpgradeHandler upgradeHandler, InspectWindow inspectWindow, GameObject inspectedTower)
         {
             TowerBase towerBase = inspectedTower.GetComponentInChildren<TowerBase>();
@@ -230,6 +177,62 @@ namespace BuildManagement
             }
         }
 
+        private void InputManager_OnMouseDown(Vector2 mouseScreenPos, bool isOverUI)
+        {
+            if (isOverUI) return;
+
+            if (isBuilding)
+            {
+                if (!canBePlaced)
+                {
+                    //Show warning
+                    return;
+                }
+
+                currencyManager.ModifyCurrency(ModificationType.Subtract, towerHoldSO.Cost);
+
+                
+                Instantiate(towerPrefabToPlace, towerHold.transform.position, towerHold.transform.rotation);
+                Destroy(towerHold);
+
+                nodeHighlighterRenderer.material = currentPlacementMaterial;
+                towerRange.SetActive(false);
+                
+                isBuilding = false;
+                return;
+            }
+
+            Ray ray = cam.ScreenPointToRay(mouseScreenPos);
+            if (Physics.Raycast(ray, out RaycastHit hitinfo, 1000f, buildLayer))
+            {
+                Collider[] colliders = Physics.OverlapBox(hitinfo.collider.gameObject.transform.position + Vector3.up, Vector3.one * 0.4f);
+                for (int i = 0; i < colliders.Length; i++)
+                {
+                    if (colliders[i].CompareTag("Tower"))
+                    {
+                        TowerBase tower = colliders[i].GetComponent<TowerBase>();
+                        if (tower != null)
+                        {
+                            InspectWindow inspectWindow = UINavigator.Push("InspectWindow").GetComponent<InspectWindow>();
+                            TowerUpgradeHandler upgradeHandler = tower.GetComponentInParent<TowerUpgradeHandler>();
+                            LinkButtons(upgradeHandler, inspectWindow, colliders[i].gameObject);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            if (towerRange.activeInHierarchy)
+            {
+                towerRange.SetActive(false);
+            }
+
+            if (UINavigator.GetTopPageName() == "InspectWindow")
+            {
+                UINavigator.Pop();
+            }
+        }
+
         private void InputManager_OnMouseMoving(Vector2 mouseScreenPos, Vector2 delta)
         {
             Ray ray = cam.ScreenPointToRay(mouseScreenPos);
@@ -250,11 +253,33 @@ namespace BuildManagement
                     towerRange.SetActive(true);
                     
                     TowerBase towerBase = towerHold.GetComponentInChildren<TowerBase>();
+                    Debug.Log(towerHold);
+                    Debug.Log(towerBase);
                     towerRange.transform.localScale = Vector3.one * towerBase.range * 2;
                     towerRange.transform.position = towerHold.transform.position;
                 }
 
                 nodeHighlighter.transform.position = hitinfo.collider.transform.position + new Vector3(0f, verticalOffset, 0f);
+            }
+        }
+
+        private void RecursiveApplyBuildingMat(Transform parent)
+        {
+            for (int i = 0; i < parent.childCount; i++)
+            {
+                if (parent.GetChild(i).TryGetComponent(out MeshRenderer renderer))
+                {
+                    Material[] materials = renderer.materials;
+                    for (int j = 0; j < materials.Length; j++)
+                    {
+                        materials[j] = buildingMaterial;
+                    }
+                }
+
+                if (parent.GetChild(i).childCount > 0)
+                {
+                    RecursiveApplyBuildingMat(parent.GetChild(i));
+                }
             }
         }
     }

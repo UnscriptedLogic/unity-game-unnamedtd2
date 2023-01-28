@@ -26,6 +26,7 @@ namespace GameManagement
         [SerializeField] protected CurrencyManager currencyManager;
         [SerializeField] protected PoolManager poolManager;
         [SerializeField] protected UnitEventHandler unitEventHandler;
+        [SerializeField] protected SoundManager soundManager; 
 
         protected void Awake()
         {

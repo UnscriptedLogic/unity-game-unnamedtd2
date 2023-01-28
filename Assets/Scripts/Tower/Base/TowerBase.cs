@@ -59,6 +59,8 @@ namespace TowerManagement
         protected Transform currentTarget;
         protected List<Transform> targetsInRange = new List<Transform>();
 
+        public Action OnTowerShot;
+
         public TargetSortMode TargetMode => targetSortMode;
 
         protected virtual void Start()
@@ -320,6 +322,8 @@ namespace TowerManagement
 
             CreateBullet(out ProjectileBase projectileBase, projectilePrefabs[0], shootAnchors[0]);
             SubscribeProjectileEvents(projectileBase);
+
+            OnTowerShot?.Invoke();
         }
 
         protected virtual void OnProjectileFired()

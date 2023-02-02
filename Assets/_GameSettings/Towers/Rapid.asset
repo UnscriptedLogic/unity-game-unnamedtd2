@@ -25,6 +25,8 @@ MonoBehaviour:
     towerIcon: {fileID: 21300000, guid: 8e544f3e10c77914aaea36914fdb5e9f, type: 3}
     towerPrefab: {fileID: 5041612393443500118, guid: d14c5e65077c3bd4ab41c08498066f8f,
       type: 3}
+    towerConstruct: {fileID: 3529113357830665203, guid: e361ac315edf60447a2a6b4725e611ef,
+      type: 3}
     upgradeOptions:
     - nextUpgradeIcon: {fileID: 21300000, guid: 9d832cd53ef18f54ea55aed29ea06ccd,
         type: 3}
@@ -42,9 +44,10 @@ MonoBehaviour:
       nextUpgradeDesc: '- Increases range by 2'
       overrideObject: {fileID: 0}
   - overrideName: Rapid Tower
-    sellCost: 400
+    sellCost: 325
     towerIcon: {fileID: 21300000, guid: 8e544f3e10c77914aaea36914fdb5e9f, type: 3}
     towerPrefab: {fileID: 0}
+    towerConstruct: {fileID: 0}
     upgradeOptions:
     - nextUpgradeIcon: {fileID: 21300000, guid: d188163f5df6d4e43996570a04d8f72c,
         type: 3}
@@ -62,9 +65,10 @@ MonoBehaviour:
       nextUpgradeDesc: '- Increases piercing power by 2'
       overrideObject: {fileID: 0}
   - overrideName: Rapid Tower
-    sellCost: 550
+    sellCost: 450
     towerIcon: {fileID: 21300000, guid: 8e544f3e10c77914aaea36914fdb5e9f, type: 3}
     towerPrefab: {fileID: 0}
+    towerConstruct: {fileID: 0}
     upgradeOptions:
     - nextUpgradeIcon: {fileID: 21300000, guid: 887f33d6bf83c174e8e7fd1d52f499bb,
         type: 3}
@@ -82,9 +86,10 @@ MonoBehaviour:
       nextUpgradeDesc: Increases damage and piercing power by 2
       overrideObject: {fileID: 0}
   - overrideName: Rapid Tower
-    sellCost: 1050
+    sellCost: 600
     towerIcon: {fileID: 21300000, guid: 8e544f3e10c77914aaea36914fdb5e9f, type: 3}
     towerPrefab: {fileID: 0}
+    towerConstruct: {fileID: 0}
     upgradeOptions:
     - nextUpgradeIcon: {fileID: 21300000, guid: 1fac1a4f68032954fb48842dd3b341fd,
         type: 3}
@@ -107,4 +112,5 @@ MonoBehaviour:
     sellCost: 3000
     towerIcon: {fileID: 21300000, guid: 8e544f3e10c77914aaea36914fdb5e9f, type: 3}
     towerPrefab: {fileID: 0}
+    towerConstruct: {fileID: 0}
     upgradeOptions: []

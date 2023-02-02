@@ -1960,7 +1960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitEventHandler: {fileID: 1905853528}
-  startCash: 500
+  startCash: 100000000
   cashText: {fileID: 634732521}
 --- !u!1 &596571273
 GameObject:

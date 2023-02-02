@@ -31,6 +31,7 @@ namespace TowerManagement
             public float sellCost;
             public Sprite towerIcon;
             public GameObject towerPrefab;
+            public GameObject towerConstruct;
 
             public UpgradeOption[] upgradeOptions;
         }

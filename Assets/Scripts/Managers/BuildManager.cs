@@ -77,7 +77,7 @@ namespace BuildManagement
 
                     RecursiveApplyBuildingMat(towerHold.transform);
 
-                    towerPrefabToPlace = towerSO.TowerLevels[0].towerPrefab;
+                    towerPrefabToPlace = towerSO.TowerLevels[0].towerConstruct;
 
                     towerHold.GetComponentInChildren<TowerBase>().enabled = false;
                     Destroy(towerHold.GetComponentInChildren<Collider>());
@@ -265,21 +265,20 @@ namespace BuildManagement
 
         private void RecursiveApplyBuildingMat(Transform parent)
         {
-            for (int i = 0; i < parent.childCount; i++)
+            if (parent.TryGetComponent(out MeshRenderer meshRenderer))
             {
-                if (parent.GetChild(i).TryGetComponent(out MeshRenderer renderer))
+                Material[] buildingMat = new Material[meshRenderer.materials.Length];
+                for (int i = 0; i < buildingMat.Length; i++)
                 {
-                    Material[] materials = renderer.materials;
-                    for (int j = 0; j < materials.Length; j++)
-                    {
-                        materials[j] = buildingMaterial;
-                    }
+                    buildingMat[i] = buildingMaterial;
                 }
 
-                if (parent.GetChild(i).childCount > 0)
-                {
-                    RecursiveApplyBuildingMat(parent.GetChild(i));
-                }
+                meshRenderer.materials = buildingMat;
+            }
+
+            for (int i = 0; i < parent.childCount; i++)
+            {
+                RecursiveApplyBuildingMat(parent.GetChild(i));
             }
         }
     }

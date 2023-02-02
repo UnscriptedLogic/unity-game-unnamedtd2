@@ -243,7 +243,6 @@ namespace GridManagement
 
             for (int i = 0; i < gridNodes.Count; i++)
             {
-                Debug.Log(gridNodes.ElementAt(i).Value);
                 if (gridNodes.ElementAt(i).Value != null)
                 {
                     GameObject node = gridNodes.ElementAt(i).Value.gameObject;

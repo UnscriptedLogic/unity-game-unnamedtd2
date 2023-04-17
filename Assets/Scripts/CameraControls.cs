@@ -1,20 +1,24 @@
-using Core;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraControls : MonoBehaviour
 {
+    [Header("Pan Settings")]
     [SerializeField] private float panSpeed = 20f;
-    [SerializeField] private float panBorderThickness = 10f;
-    [SerializeField] private float scrollSpeed = 20f;
-    [SerializeField] private float minY = 10f;
-    [SerializeField] private float maxY = 80f;
-    [SerializeField] private float lerpSpeed = 10f;
+
+    [Tooltip("The thickness in pixels where the mouse is detected at the sides of the screen to start panning")]
+    [SerializeField] private float panScreenDetectionThickness = 10f;
+
+    [Tooltip("The bounds of of where the camera can go in world space")]
     [SerializeField] private Vector2 bounds;
     [SerializeField] private Transform anchor;
     [SerializeField] private Transform panParent;
+
+    [Header("Scroll Settings")]
+    [SerializeField] private float scrollSpeed = 20f;
+    [SerializeField] private Vector2 scrollRange = new Vector2(10f, 80f);
+
+    [Header("Rotate Settings")]
+    [SerializeField] private float lerpSpeed = 10f;
 
     private InputManager inputManager;
     private Vector2 axis;
@@ -49,19 +53,20 @@ public class CameraControls : MonoBehaviour
     {
         Vector3 pos = transform.position + transform.forward * scroll * scrollSpeed * Time.deltaTime;
 
-        if (pos.y >= maxY)
+        if (pos.y >= scrollRange.y)
         {
             pos.x = transform.position.x;
-            pos.y = maxY;
+            pos.y = scrollRange.y;
             pos.z = transform.position.z;
-        } else if (pos.y <= minY)
+        }
+        else if (pos.y <= scrollRange.x)
         {
             pos.x = transform.position.x;
-            pos.y = minY;
+            pos.y = scrollRange.x;
             pos.z = transform.position.z;
         }
 
-        pos.y = Mathf.Clamp(pos.y, minY, maxY);
+        pos.y = Mathf.Clamp(pos.y, scrollRange.x, scrollRange.y);
         transform.position = pos;
     }
 
@@ -92,22 +97,22 @@ public class CameraControls : MonoBehaviour
             return;
         }
 
-        if (axis.y > 0 || currentMousePos.y >= Screen.height - panBorderThickness)
+        if (axis.y > 0 || currentMousePos.y >= Screen.height - panScreenDetectionThickness)
         {
             anchor.Translate(anchor.forward * panSpeed * Time.deltaTime, Space.World);
         }
 
-        if (axis.y < 0 || currentMousePos.y <= panBorderThickness)
+        if (axis.y < 0 || currentMousePos.y <= panScreenDetectionThickness)
         {
             anchor.Translate(-anchor.forward * panSpeed * Time.deltaTime, Space.World);
         }
 
-        if (axis.x > 0 || currentMousePos.x >= Screen.width - panBorderThickness)
+        if (axis.x > 0 || currentMousePos.x >= Screen.width - panScreenDetectionThickness)
         {
             anchor.Translate(anchor.right * panSpeed * Time.deltaTime, Space.World);
         }
 
-        if (axis.x < 0 || currentMousePos.x <= panBorderThickness)
+        if (axis.x < 0 || currentMousePos.x <= panScreenDetectionThickness)
         {
             anchor.Translate(-anchor.right * panSpeed * Time.deltaTime, Space.World);
         }

@@ -5,20 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - Pathway
-  - Ground
-  - Water
-  - PathwayNode
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - LOSobstruction
+  - Node
   - Water
   - UI
-  - Buildable
   - Unit
   - Tower
+  - 
   - 
   - 
   - 

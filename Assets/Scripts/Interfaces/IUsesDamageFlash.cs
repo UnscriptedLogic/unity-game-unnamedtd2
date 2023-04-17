@@ -1,9 +1,0 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IUsesDamageFlash
-{
-    void InitFlash(Action method);
-}

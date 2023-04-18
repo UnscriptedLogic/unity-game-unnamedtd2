@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3164633559894020286}
+  - component: {fileID: 1980012444950660233}
   - component: {fileID: 7850114091747465119}
   - component: {fileID: 6214354015832020360}
-  - component: {fileID: 1980012444950660233}
   m_Layer: 6
   m_Name: Unit
   m_TagString: Enemy
@@ -35,6 +35,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1980012444950660233
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8747836210194945649}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.6214489, y: 1.3618535, z: 0.31316286}
+  m_Center: {x: 0, y: 0.68136245, z: 0}
 --- !u!114 &7850114091747465119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,27 +95,6 @@ MonoBehaviour:
   precomputeOutline: 1
   bakeKeys: []
   bakeValues: []
---- !u!65 &1980012444950660233
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8747836210194945649}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.6214489, y: 1.3618535, z: 0.31316286}
-  m_Center: {x: 0, y: 0.68136245, z: 0}
 --- !u!1001 &6267688635697098408
 PrefabInstance:
   m_ObjectHideFlags: 0

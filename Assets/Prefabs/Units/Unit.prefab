@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1980012444950660233}
   - component: {fileID: 7850114091747465119}
   - component: {fileID: 6214354015832020360}
+  - component: {fileID: 2851142742430535772}
   m_Layer: 6
   m_Name: Unit
   m_TagString: Enemy
@@ -74,9 +75,11 @@ MonoBehaviour:
   turnSpeed: 0.1
   offsetHeight: 0
   stoppingDistance: 0.1
+  deathDelay: 5
+  walkAnimMulti: 1
   boxCollider: {fileID: 1980012444950660233}
   animator: {fileID: 545454742348419897}
-  deathDelay: 5
+  damageFlash: {fileID: 2851142742430535772}
 --- !u!114 &6214354015832020360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,11 +93,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 3
-  outlineColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
   outlineWidth: 2.5
   precomputeOutline: 1
   bakeKeys: []
   bakeValues: []
+--- !u!114 &2851142742430535772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8747836210194945649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a8ea7310bb05f468608c3525eff097, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMat: {fileID: 2100000, guid: 0b4b05fcd79a58043a9a23bac1cb49d0, type: 2}
+  skinnedMeshRenderer: {fileID: 6212652899278694768}
+  blinkDuration: 0.075
 --- !u!1001 &6267688635697098408
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -202,6 +220,12 @@ Animator:
 --- !u!4 &5868741059123022147 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1ccbd13cf25aeb8488958ba14e7dfee5,
+    type: 3}
+  m_PrefabInstance: {fileID: 6267688635697098408}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &6212652899278694768 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -9165797768001435688, guid: 1ccbd13cf25aeb8488958ba14e7dfee5,
     type: 3}
   m_PrefabInstance: {fileID: 6267688635697098408}
   m_PrefabAsset: {fileID: 0}

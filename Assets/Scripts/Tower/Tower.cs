@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnscriptedLogic.Builders;
 
-public class Tower : MonoBehaviour, IBuildable
+public class Tower : MonoBehaviour, IBuildable, IInspectable
 {
     public enum TargetSortMode
     {
@@ -49,12 +49,14 @@ public class Tower : MonoBehaviour, IBuildable
     [SerializeField] protected LayerMask losObstructionLayer;
     [SerializeField] protected LayerMask unitLayer;
     [SerializeField] protected TargetSortMode targetSortMode = TargetSortMode.First;
+    [SerializeField] protected SkinnedMeshRenderer towerMeshRenderer;
 
     protected float _reloadTime;
     protected Transform currentTarget;
     protected List<Transform> targetsInRange = new List<Transform>();
     public Action OnTowerShot;
     public TargetSortMode TargetMode => targetSortMode;
+    public SkinnedMeshRenderer TowerMeshRenderer => towerMeshRenderer;
 
     public virtual void LocalPassBuildConditions<T>(T builder, out List<LocalBuildCondition> localBuildConditions)
     {

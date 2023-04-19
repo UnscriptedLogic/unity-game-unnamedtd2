@@ -7,7 +7,7 @@ public class RiflerTower : Tower
     [HideInInspector] public bool useKnockback = false;
     [HideInInspector] public bool useShrapnel = false;
 
-    [SerializeField] private int shrapnelCount = 6;
+    //[SerializeField] private int shrapnelCount = 6;
 
     public ProjectileBehaviour projectileBehaviour;
 

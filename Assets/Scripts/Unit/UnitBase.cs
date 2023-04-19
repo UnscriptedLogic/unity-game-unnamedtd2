@@ -17,9 +17,13 @@ public class UnitBase : MonoBehaviour
     [SerializeField] private float stoppingDistance = 0.1f;
 
     [Header("Misc Settings")]
+    [SerializeField] private float deathDelay = 5f;
+
+    [Tooltip("The multiplication from the walking speed to the animation's walking speed")]
+    [SerializeField] private float walkAnimMulti = 2f;
     [SerializeField] private BoxCollider boxCollider;
     [SerializeField] private Animator animator;
-    [SerializeField] private float deathDelay = 5f;
+    [SerializeField] private DamageFlashSkinned damageFlash;
 
     private Vector3[] points;
     private int currentPoint = 0;
@@ -50,6 +54,8 @@ public class UnitBase : MonoBehaviour
         speedHandler = new CurrencyHandler(speed);
 
         healthHandler.OnEmpty += OnDeath;
+        speedHandler.OnModified += (type, amount, current) => animator.speed /= Mathf.Sqrt(walkAnimMulti);
+        animator.speed /= Mathf.Sqrt(walkAnimMulti);
     }
 
     private void Update()
@@ -74,6 +80,8 @@ public class UnitBase : MonoBehaviour
     public void TakeDamage(float damage)
     {
         healthHandler.Modify(ModifyType.Subtract, damage);
+
+        damageFlash.Flash();
     }
 
     public virtual void OnDeath()

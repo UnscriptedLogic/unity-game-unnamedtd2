@@ -182,8 +182,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  range: 10
-  reloadTime: 1
+  range: 7
+  reloadTime: 2
   projectileSpeed: 40
   projectileLifetime: 2
   pierce: 1
@@ -205,11 +205,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   targetSortMode: 0
+  towerMeshRenderer: {fileID: 6419205505243604171}
   useDoubleShells: 0
   useQuadShells: 0
   useKnockback: 0
   useShrapnel: 0
-  shrapnelCount: 6
 --- !u!1001 &1456081136
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -812,6 +812,12 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!137 &6419205505243604171 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -9165797768001435688, guid: 1ccbd13cf25aeb8488958ba14e7dfee5,
+    type: 3}
+  m_PrefabInstance: {fileID: 6474225849103164179}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6796964721062790392 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1ccbd13cf25aeb8488958ba14e7dfee5,

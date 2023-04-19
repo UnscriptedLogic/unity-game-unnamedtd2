@@ -40,6 +40,7 @@ public class InspectWindow : MonoBehaviour
     //Others
     private InputManager inputManager;
     private bool isOpen = true;
+    private GameObject inspectedObject;
 
     private void Start()
     {
@@ -56,11 +57,17 @@ public class InspectWindow : MonoBehaviour
 
         if (RaycastLogic.FromMousePos3D(Camera.main, out RaycastHit unitHit, towerLayer))
         {
-
             IInspectable inspectable = unitHit.collider.gameObject.GetComponent<IInspectable>();
             if (inspectable != null)
             {
                 Tower tower = inspectable as Tower;
+                TowerSO towerSO = TowerDefenseManager.instance.AllTowerList.GetSOFromTower(tower);
+
+                DisplayTowerAvatar(towerSO);
+
+                DisplayTowerStat(tower);
+
+                inspectedObject = unitHit.collider.gameObject;
 
                 Show();
                 return;
@@ -68,6 +75,38 @@ public class InspectWindow : MonoBehaviour
         }
 
         Hide();
+    }
+
+    private void DisplayTowerAvatar(TowerSO towerSO)
+    {
+        icon.sprite = towerSO.IconSpr;
+        nameTMP.text = towerSO.TowerName;
+    }
+
+    private void DisplayTowerStat(Tower tower)
+    {
+        float damage = tower.Damage;
+        float range = tower.Range;
+        float rate = 60f / tower.ReloadTime / 60f;
+
+        Clear(statParent);
+
+        GameObject attStat = Instantiate(statPrefab, statParent);
+        attStat.GetComponent<StatView>().Initialized("DMG", damage.ToString());
+
+        GameObject rangeStat = Instantiate(statPrefab, statParent);
+        rangeStat.GetComponent<StatView>().Initialized("RNG", range.ToString());
+
+        GameObject rateStat = Instantiate(statPrefab, statParent);
+        rateStat.GetComponent<StatView>().Initialized("RATE", $"{rate}/s");
+    }
+
+    private void Clear(Transform parent)
+    {
+        for (int i = parent.childCount - 1; i >= 0; i--)
+        {
+            Destroy(parent.GetChild(i).gameObject);
+        }
     }
 
     private void Show() 
@@ -82,7 +121,11 @@ public class InspectWindow : MonoBehaviour
     {
         if (!isOpen) return;
 
-        LeanTween.move(gameObject, closePos.position, tweenTime).setOnComplete(() => transform.position = closePos.position);
+        LeanTween.move(gameObject, closePos.position, tweenTime).setOnComplete(() =>
+        {
+            Clear(statParent);
+        });
+
         isOpen = false;
     }
 }

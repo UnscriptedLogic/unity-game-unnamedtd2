@@ -8,4 +8,9 @@ public class TowerListSO : ScriptableObject
 {
     [SerializeField] private List<TowerSO> towerList;
     public List<TowerSO> TowerList => towerList;
+
+    public TowerSO GetSOFromTower(Tower tower)
+    {
+        return towerList[towerList.FindIndex(x => x.Prefab.GetComponent<Tower>().ID == tower.ID)];
+    }
 }

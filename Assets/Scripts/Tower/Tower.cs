@@ -25,6 +25,7 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
     }
 
     [Header("Base Tower Settings")]
+    [SerializeField] private string id = "towerRifler";
     [SerializeField] private float damage = 1f;
     [SerializeField] private float range = 1f;
     [SerializeField] private float reloadTime = 1f;
@@ -54,6 +55,12 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
     protected float _reloadTime;
     protected Transform currentTarget;
     protected List<Transform> targetsInRange = new List<Transform>();
+
+    public string ID => id;
+    public float Damage => damage;
+    public float Range => range;
+    public float ReloadTime => reloadTime;
+
     public Action OnTowerShot;
     public TargetSortMode TargetMode => targetSortMode;
     public SkinnedMeshRenderer TowerMeshRenderer => towerMeshRenderer;
@@ -70,7 +77,7 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
     protected virtual void Start()
     {
         //rangeCollider.radius = range;
-        _reloadTime = reloadTime;
+        _reloadTime = 0.5f;
     }
 
     protected virtual void Update()

@@ -10,4 +10,10 @@ public class StatView : MonoBehaviour
 
     public TextMeshProUGUI NameTMP => nameTMP;
     public TextMeshProUGUI ValueTMP => valueTMP;
+
+    public void Initialized(string statName, string value)
+    {
+        nameTMP.text = statName;
+        valueTMP.text = value;
+    }
 }

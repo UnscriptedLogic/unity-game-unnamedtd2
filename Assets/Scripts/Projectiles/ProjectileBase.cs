@@ -61,7 +61,6 @@ public class ProjectileBase : MonoBehaviour
 
     public void InitializeAndSetActive(ProjectileSettings projectileSettings, ProjectileBehaviour projectileBehaviour = null)
     {
-        Debug.Log("Initialized");
         tags = new Dictionary<string, int>();
 
         _pierce = 0;

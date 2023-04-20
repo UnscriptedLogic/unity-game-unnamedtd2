@@ -35,7 +35,7 @@ public class InspectWindow : MonoBehaviour
     [SerializeField] private GameObject upgradeButtonPrefab;
     [SerializeField] private Transform upgradeParent;
 
-    private List<UpgradeButton> upgradeButtons;
+    private List<Button> upgradeButtons;
 
     //Others
     private InputManager inputManager;
@@ -47,7 +47,6 @@ public class InspectWindow : MonoBehaviour
         Hide();
 
         inputManager = InputManager.instance;
-
         inputManager.OnMouseDown += OnMouseDown;
     }
 
@@ -62,10 +61,11 @@ public class InspectWindow : MonoBehaviour
             {
                 Tower tower = inspectable as Tower;
                 TowerSO towerSO = TowerDefenseManager.instance.AllTowerList.GetSOFromTower(tower);
+                TowerUpgradeHandler upgradeHandler = tower.GetComponent<TowerUpgradeHandler>();
 
                 DisplayTowerAvatar(towerSO);
-
                 DisplayTowerStat(tower);
+                DisplayUpgradeButtons(towerSO, upgradeHandler.UpgradesChosen.ToArray());
 
                 inspectedObject = unitHit.collider.gameObject;
 
@@ -75,6 +75,35 @@ public class InspectWindow : MonoBehaviour
         }
 
         Hide();
+    }
+
+    public void DisplayUpgradeButtons(TowerSO towerSO, int[] upgradeHistory)
+    {
+        Clear(upgradeParent);
+
+        // Create the upgrade buttons
+        int levelIndex = upgradeHistory.Length;
+        UpgradeOption[] towerUpgrades = towerSO.GetUpgradesAtIndex(levelIndex);
+
+        if (towerUpgrades.Length == 0)
+        {
+            //All upgrades completed
+            //fullyUpgraded.SetActive(true);
+            //InitPathView(towerSO, levelIndex, upgradeHistory);
+            return;
+        }
+
+        upgradeButtons = new List<Button>();
+        for (int i = 0; i < towerUpgrades.Length; i++)
+        {
+            //GameObject upgradeButton = LevelManagement.PullObject(upgradeButtonPrefab, Vector3.zero, Quaternion.identity, true, upgradeSection.transform);
+            GameObject upgradeButton = Instantiate(upgradeButtonPrefab, upgradeParent);
+            upgradeButton.transform.localScale = Vector3.one;
+
+            UpgradeButton upgradeButtonScript = upgradeButton.GetComponent<UpgradeButton>();
+            upgradeButtonScript.Initalize(towerUpgrades[i]);
+            upgradeButtons.Add(upgradeButtonScript.UpgradeBtn);
+        }
     }
 
     private void DisplayTowerAvatar(TowerSO towerSO)

@@ -57,9 +57,13 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
     protected List<Transform> targetsInRange = new List<Transform>();
 
     public string ID => id;
-    public float Damage => damage;
-    public float Range => range;
-    public float ReloadTime => reloadTime;
+    public float Damage { get => damage; set { damage = value; } }
+    public float Range { get => range; set { range = value; } }
+    public float ReloadTime { get => reloadTime; set { reloadTime = value; } }
+
+    public float ProjectileSpeed { get => projectileSpeed; set { projectileSpeed = value; } }
+    public float ProjectileLifetime { get => projectileLifetime; set { projectileLifetime = value; } }
+    public int ProjectilePierce { get => pierce; set { pierce = value; } }
 
     public Action OnTowerShot;
     public TargetSortMode TargetMode => targetSortMode;

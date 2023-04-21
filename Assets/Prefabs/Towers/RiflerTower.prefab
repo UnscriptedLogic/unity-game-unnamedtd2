@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 616f3abdd8768a64fb6c91eb37c7edba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: tower
+  id: towerRifler
   damage: 1
   range: 7
   reloadTime: 2

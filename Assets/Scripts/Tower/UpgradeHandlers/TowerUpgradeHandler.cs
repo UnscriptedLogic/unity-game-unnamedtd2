@@ -75,7 +75,7 @@ public class TowerUpgradeHandler : MonoBehaviour
 
     protected virtual void Start()
     {
-        towerBase = GetComponentInChildren<Tower>();
+        towerBase = GetComponent<Tower>();
         InitUpgrades(towerBase);
         persistantProperty = new UpgradeProperty(towerBase);
     }
@@ -110,7 +110,7 @@ public class TowerUpgradeHandler : MonoBehaviour
                 //Core settings
                 towerBase.Damage = persistantProperty.damage;
                 towerBase.Range = persistantProperty.range;
-                towerBase.Range = persistantProperty.reloadTime;
+                towerBase.ReloadTime = persistantProperty.reloadTime;
 
                 //Projectile settings
                 towerBase.ProjectilePierce = persistantProperty.projPierce;

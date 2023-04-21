@@ -23,6 +23,23 @@ MonoBehaviour:
     towerIcon: {fileID: 0}
     towerPrefab: {fileID: 0}
     upgradeOptions:
+    - name: Quick Shots
+      description: 'Reduces attack interval '
+      loreDescription: Simply not fast enough
+      iconSpr: {fileID: 21300000, guid: ba05c1c5c42e60a4eb042e071629bd2a, type: 3}
+      cost: 750
+      overrideObject: {fileID: 0}
+    - name: Headshots
+      description: Increases damage by 2
+      loreDescription: Hit them hard
+      iconSpr: {fileID: 21300000, guid: 06e69497efb250b42b993c9e4d3d1ba8, type: 3}
+      cost: 650
+      overrideObject: {fileID: 0}
+  - overrideName: 
+    sellCost: 50
+    towerIcon: {fileID: 0}
+    towerPrefab: {fileID: 0}
+    upgradeOptions:
     - name: Relentless Stacks [ABILITY]
       description: Adds a new passive ability that increases attack speed for every
         attack on the same enemy.

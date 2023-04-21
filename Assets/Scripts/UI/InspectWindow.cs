@@ -65,7 +65,7 @@ public class InspectWindow : MonoBehaviour
 
                 DisplayTowerAvatar(towerSO);
                 DisplayTowerStat(tower);
-                DisplayUpgradeButtons(towerSO, upgradeHandler.UpgradesChosen.ToArray());
+                DisplayUpgradeButtons(towerSO, upgradeHandler.UpgradesChosen.ToArray(), upgradeHandler);
 
                 inspectedObject = unitHit.collider.gameObject;
 
@@ -77,9 +77,15 @@ public class InspectWindow : MonoBehaviour
         Hide();
     }
 
-    public void DisplayUpgradeButtons(TowerSO towerSO, int[] upgradeHistory)
+    public void DisplayUpgradeButtons(TowerSO towerSO, int[] upgradeHistory, TowerUpgradeHandler upgradeHandler)
     {
         Clear(upgradeParent);
+
+        if (upgradeHistory.Length == towerSO.TowerLevels.Length)
+        {
+            //All levels completed
+            return;
+        }
 
         // Create the upgrade buttons
         int levelIndex = upgradeHistory.Length;
@@ -103,6 +109,13 @@ public class InspectWindow : MonoBehaviour
             UpgradeButton upgradeButtonScript = upgradeButton.GetComponent<UpgradeButton>();
             upgradeButtonScript.Initalize(towerUpgrades[i]);
             upgradeButtons.Add(upgradeButtonScript.UpgradeBtn);
+
+            int index = i;
+            upgradeButtonScript.UpgradeBtn.onClick.AddListener(() =>
+            {
+                upgradeHandler.UpgradeTower(index);
+                DisplayUpgradeButtons(towerSO, upgradeHandler.UpgradesChosen.ToArray(), upgradeHandler);
+            });
         }
     }
 

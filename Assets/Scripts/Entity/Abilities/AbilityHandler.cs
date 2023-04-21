@@ -11,6 +11,7 @@ public enum AbilityType
 public class Ability
 {
     public AbilityHandler abilityHandler;
+    public Tower tower;
     
     protected string name;
     protected string description;
@@ -60,7 +61,7 @@ public class AbilityHandler : MonoBehaviour
         }
     }
 
-    public void AddAbility(Ability ability)
+    public void AddAbility(Ability ability, Tower tower)
     {
         abilities.Add(ability);
         ability.abilityHandler = this;

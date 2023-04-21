@@ -40,18 +40,12 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         descriptionTMP.text = upgradeOption.Description;
         loreDescriptionTMP.text = upgradeOption.LoreDescription;
 
-        StartCoroutine(ShowWithDelay());
+        Show();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         Hide();
-    }
-
-    private IEnumerator ShowWithDelay()
-    {
-        yield return new WaitForSeconds(0.5f);
-        Show();
     }
 
     private void Show()
@@ -61,7 +55,6 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     private void Hide()
     {
-        StopAllCoroutines();
         tooltipObj.SetActive(false);
     }
 

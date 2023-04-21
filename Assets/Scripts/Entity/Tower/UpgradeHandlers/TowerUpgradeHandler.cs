@@ -117,7 +117,9 @@ public class TowerUpgradeHandler : MonoBehaviour
                 towerBase.ProjectileSpeed = persistantProperty.projSpeed;
                 towerBase.ProjectileLifetime = persistantProperty.projLifetime;
 
-                persistantProperty.method?.Invoke(towerBase);
+                upgradeGroups[upgradesChosen.Count].upgradeProperties[upgradePropertyIndex].method?.Invoke(towerBase);
+
+                //persistantProperty.method?.Invoke(towerBase);
 
                 upgradesChosen.Add(upgradePropertyIndex);
             }

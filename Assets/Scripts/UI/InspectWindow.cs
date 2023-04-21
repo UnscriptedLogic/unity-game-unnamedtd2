@@ -39,19 +39,33 @@ public class InspectWindow : MonoBehaviour
 
     //Others
     private InputManager inputManager;
+    private AbilityManager abilityManager;
     private bool isOpen = true;
+    private Vector2 mousePos;
+    private bool isOverUI;
+
+    //Inspected components
     private GameObject inspectedObject;
+    private Tower inspectedTower;
+    private TowerSO inspectedTowerSO;
+    private TowerUpgradeHandler inspectedTUH;
+    private AbilityHandler inspectedAbilityHandler;
 
     private void Start()
     {
         Hide();
 
+        abilityManager = AbilityManager.instance;
+
         inputManager = InputManager.instance;
-        inputManager.OnMouseDown += OnMouseDown;
+        inputManager.OnMouseDown += Inspect;
     }
 
-    private void OnMouseDown(Vector2 mousePos, bool isOverUI)
+    private void Inspect(Vector2 mousePos, bool isOverUI)
     {
+        this.mousePos = mousePos;
+        this.isOverUI = isOverUI;
+
         if (isOverUI) return;
 
         if (RaycastLogic.FromMousePos3D(Camera.main, out RaycastHit unitHit, towerLayer))
@@ -59,13 +73,12 @@ public class InspectWindow : MonoBehaviour
             IInspectable inspectable = unitHit.collider.gameObject.GetComponent<IInspectable>();
             if (inspectable != null)
             {
-                Tower tower = inspectable as Tower;
-                TowerSO towerSO = TowerDefenseManager.instance.AllTowerList.GetSOFromTower(tower);
-                TowerUpgradeHandler upgradeHandler = tower.GetComponent<TowerUpgradeHandler>();
+                inspectedTower = inspectable as Tower;
+                inspectedTowerSO = TowerDefenseManager.instance.AllTowerList.GetSOFromTower(inspectedTower);
+                inspectedTUH = inspectedTower.GetComponent<TowerUpgradeHandler>();
+                inspectedAbilityHandler = inspectedTower.GetComponent<AbilityHandler>();
 
-                DisplayTowerAvatar(towerSO);
-                DisplayTowerStat(tower);
-                DisplayUpgradeButtons(towerSO, upgradeHandler.UpgradesChosen.ToArray(), upgradeHandler);
+                RefreshTowerWindow();
 
                 inspectedObject = unitHit.collider.gameObject;
 
@@ -77,6 +90,52 @@ public class InspectWindow : MonoBehaviour
         Hide();
     }
 
+    private void DisplayTowerAvatar(TowerSO towerSO)
+    {
+        icon.sprite = towerSO.IconSpr;
+        nameTMP.text = towerSO.TowerName;
+    }
+
+    private void DisplayTowerStat(Tower tower)
+    {
+        float damage = tower.Damage;
+        float range = tower.Range;
+        float rate = 60f / tower.ReloadTime / 60f;
+
+        Clear(statParent);
+
+        GameObject attStat = Instantiate(statPrefab, statParent);
+        attStat.GetComponent<StatView>().Initialized("DMG", damage.ToString());
+
+        GameObject rangeStat = Instantiate(statPrefab, statParent);
+        rangeStat.GetComponent<StatView>().Initialized("RNG", range.ToString());
+
+        GameObject rateStat = Instantiate(statPrefab, statParent);
+        rateStat.GetComponent<StatView>().Initialized("RATE", $"{rate}/s");
+    }
+
+    private void DisplayTowerAbilities()
+    {
+        Clear(abilityParent);
+
+        List<Ability> abilities = new List<Ability>(inspectedAbilityHandler.Abilities);
+
+        for (int i = 0; i < abilities.Count; i++)
+        {
+            GameObject abilityButton = Instantiate(abilityButtonPrefab, abilityParent);
+            AbilityButton buttonScript = abilityButton.GetComponent<AbilityButton>();
+
+            buttonScript.Initialize(abilityManager.GetAbilityInfoByAbility(abilities[i]), abilities[i]);
+
+            int index = i;
+            buttonScript.LevelUpButton.onClick.AddListener(() =>
+            {
+                abilities[index].LevelUp();
+                RefreshTowerWindow();
+            });
+        }
+    }
+    
     public void DisplayUpgradeButtons(TowerSO towerSO, int[] upgradeHistory, TowerUpgradeHandler upgradeHandler)
     {
         Clear(upgradeParent);
@@ -114,33 +173,17 @@ public class InspectWindow : MonoBehaviour
             upgradeButtonScript.UpgradeBtn.onClick.AddListener(() =>
             {
                 upgradeHandler.UpgradeTower(index);
-                DisplayUpgradeButtons(towerSO, upgradeHandler.UpgradesChosen.ToArray(), upgradeHandler);
+                RefreshTowerWindow();
             });
         }
     }
 
-    private void DisplayTowerAvatar(TowerSO towerSO)
+    private void RefreshTowerWindow()
     {
-        icon.sprite = towerSO.IconSpr;
-        nameTMP.text = towerSO.TowerName;
-    }
-
-    private void DisplayTowerStat(Tower tower)
-    {
-        float damage = tower.Damage;
-        float range = tower.Range;
-        float rate = 60f / tower.ReloadTime / 60f;
-
-        Clear(statParent);
-
-        GameObject attStat = Instantiate(statPrefab, statParent);
-        attStat.GetComponent<StatView>().Initialized("DMG", damage.ToString());
-
-        GameObject rangeStat = Instantiate(statPrefab, statParent);
-        rangeStat.GetComponent<StatView>().Initialized("RNG", range.ToString());
-
-        GameObject rateStat = Instantiate(statPrefab, statParent);
-        rateStat.GetComponent<StatView>().Initialized("RATE", $"{rate}/s");
+        DisplayTowerAvatar(inspectedTowerSO);
+        DisplayTowerStat(inspectedTower);
+        DisplayUpgradeButtons(inspectedTowerSO, inspectedTUH.UpgradesChosen.ToArray(), inspectedTUH);
+        DisplayTowerAbilities();
     }
 
     private void Clear(Transform parent)

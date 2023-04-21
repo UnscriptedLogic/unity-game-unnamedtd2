@@ -65,7 +65,15 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
     public float ProjectileLifetime { get => projectileLifetime; set { projectileLifetime = value; } }
     public int ProjectilePierce { get => pierce; set { pierce = value; } }
 
-    public Action OnTowerShot;
+    public Action<UnitBase, float> ApplyDamage;
+    public Action<Transform> OnTowerTargetFound;
+    public Action<Transform> WhileTowerTargetFound;
+    public Action OnTowerTargetLost;
+    public Action<GameObject, ProjectileBase> OnTowerProjectileCreated;
+    public Action OnTowerProjectileFired;
+    public Action<UnitBase, ProjectileBase, Action<UnitBase, float>> OnTowerProjectileHit;
+    public Action<ProjectileBase> OnTowerProjectileDestroyed;
+
     public TargetSortMode TargetMode => targetSortMode;
     public SkinnedMeshRenderer TowerMeshRenderer => towerMeshRenderer;
 
@@ -123,6 +131,8 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
             SortTargets();
         }
     }
+
+    #region Tower Logic
 
     protected void SortTargets()
     {
@@ -201,18 +211,6 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
         targetSortMode--;
     }
 
-    protected virtual void SubscribeProjectileEvents(ProjectileBase projectileBase)
-    {
-        projectileBase.OnEnemyHit += OnProjectileHit;
-        projectileBase.OnProjectileDestroyed += OnProjectileDestroyed;
-    }
-
-    protected virtual void UnsubscribeProjectileEvents(ProjectileBase projectileBase)
-    {
-        projectileBase.OnEnemyHit -= OnProjectileHit;
-        projectileBase.OnProjectileDestroyed -= OnProjectileDestroyed;
-    }
-
     protected virtual void CommonTowerLogic()
     {
         if (_reloadTime <= 0f)
@@ -255,6 +253,10 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
         rotationHead.LookAt(targetPos);
     }
 
+    #endregion
+
+    #region Projectile Handling
+
     protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Transform anchor, ProjectileBehaviour projectileBehaviour = null)
     {
         return CreateBullet(out projectileBase, prefab, anchor.position, anchor.rotation, new ProjectileSettings(projectileSpeed, projectileLifetime, pierce), projectileBehaviour);
@@ -275,46 +277,74 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
         return bullet;
     }
 
+    protected virtual void SubscribeProjectileEvents(ProjectileBase projectileBase)
+    {
+        projectileBase.OnEnemyHit += OnProjectileHit;
+        projectileBase.OnProjectileDestroyed += OnProjectileDestroyed;
+    }
+
+    protected virtual void UnsubscribeProjectileEvents(ProjectileBase projectileBase)
+    {
+        projectileBase.OnEnemyHit -= OnProjectileHit;
+        projectileBase.OnProjectileDestroyed -= OnProjectileDestroyed;
+    }
+
+    #endregion
+
+    #region Override Functions
+
     protected virtual void OnTargetFound()
     {
-        //Debug.Log("TargetFound()");
-        animator.SetTrigger("Attack");
+        OnTowerTargetFound?.Invoke(currentTarget);
     }
 
     protected virtual void WhileTargetFound()
     {
-        //Debug.Log("WhileTargetFound()");
         CommonTowerLogic();
+
+        WhileTowerTargetFound?.Invoke(currentTarget);
     }
 
     protected virtual void OnTargetLost()
     {
-        //Debug.Log("TargetLost()");
+        OnTowerTargetLost?.Invoke();
     }
 
     protected virtual void FireProjectile()
     {
-        //Debug.Log("FireProjectile()");
-
-        CreateBullet(out ProjectileBase projectileBase, projectilePrefabs[0], shootAnchors[0]);
+        GameObject bullet = CreateBullet(out ProjectileBase projectileBase, projectilePrefabs[0], shootAnchors[0]);
         SubscribeProjectileEvents(projectileBase);
 
-        OnTowerShot?.Invoke();
+        OnTowerProjectileCreated?.Invoke(bullet, projectileBase);
     }
 
     protected virtual void OnProjectileFired()
     {
-        //Debug.Log("OnProjectileFired()");
+        OnTowerProjectileFired?.Invoke();
     }
 
     protected virtual void OnProjectileHit(UnitBase unit, ProjectileBase projectileBase)
     {
-        //Debug.Log("OnProjectileHit()");
-        unit.TakeDamage(damage);
+        float incomingDamage = damage;
+
+        if (ApplyDamage == null)
+        {
+            ApplyDamage = DamageUnit;
+        }
+
+        ApplyDamage(unit, incomingDamage);
+
+        OnTowerProjectileHit?.Invoke(unit, projectileBase, ApplyDamage);
     }
+
+    public void DamageUnit(UnitBase unit, float damage) => unit.TakeDamage(damage);
 
     protected virtual void OnProjectileDestroyed(ProjectileBase projectile)
     {
         UnsubscribeProjectileEvents(projectile);
+
+        OnTowerProjectileDestroyed?.Invoke(projectile);
     }
+
+    #endregion
 }

@@ -34,6 +34,8 @@ public class ProjectileBase : MonoBehaviour
     public ProjectileBehaviour projectileBehaviour;
     public Dictionary<string, int> tags;
 
+    protected Collider other;
+    protected bool collided;
     protected float _lifetime;
     protected bool initialized;
     protected int _pierce;
@@ -54,6 +56,12 @@ public class ProjectileBase : MonoBehaviour
         else
         {
             _lifetime -= Time.deltaTime;
+        }
+
+        if (collided)
+        {
+            projectileBehaviour.OnHit(other, this, OnEnemyHit);
+            collided = false;
         }
 
         projectileBehaviour.Move(this);
@@ -86,7 +94,8 @@ public class ProjectileBase : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        projectileBehaviour.OnHit(other, this, OnEnemyHit);
+        collided = true;
+        this.other = other;
     }
 
     private void OnEnable()

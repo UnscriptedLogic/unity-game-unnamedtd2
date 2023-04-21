@@ -1,42 +1,57 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public enum AbilityType
-{
-    Passive,
-    Active
-}
+using UnscriptedLogic.Currency;
+using UnscriptedLogic.MathUtils;
 
 public class Ability
 {
-    public AbilityHandler abilityHandler;
-    public Tower tower;
-    
-    protected string name;
-    protected string description;
-    protected string loreDescription;
-    protected AbilityType type = AbilityType.Passive;
-    
-    public string Name => name;
-    public string Description => description;
-    public string LoreDescription => loreDescription;
-    public AbilityType Type => type;
+    protected AbilityHandler abilityHandler;
+    protected Tower tower;
+    protected CurrencyHandler levelHandler;
 
-    public virtual void OnAdded()
+    protected int maxLevel;
+    protected int[] levelRequirements;
+
+    public CurrencyHandler LevelHandler => levelHandler;
+    public int CurrentLevel => (int)levelHandler.Current;
+    public int MaxLevel => maxLevel;
+    public int[] LevelRequirements => levelRequirements;
+
+    public void Initialize(AbilityHandler abilityHandler, Tower tower)
     {
-        //Code triggers when the ability is first added to the entity
+        this.abilityHandler = abilityHandler;
+        this.tower = tower;
+
+        tower.OnTowerProjectileCreated += OnProjectileCreated;
+        tower.OnTowerProjectileFired += OnProjectileFired;
+        tower.OnTowerProjectileHit += OnProjectileHit;
+        tower.OnTowerProjectileDestroyed += OnProjectileDestroyed;
+        tower.OnTowerTargetFound += OnTargetFound;
+        tower.WhileTowerTargetFound += WhileTargetFound;
+        tower.OnTowerTargetLost += OnTargetLost;
+
+        OnAdded();
     }
 
-    public virtual void Update()
+    public void LevelUp()
     {
-        //Code triggers on Update() from the handler
+        levelHandler.Modify(ModifyType.Add, 1);
+        OnLevelUp();
     }
 
-    public virtual void FixedUpdate()
-    {
-        //Code triggers on FixedUpdate from the handler
-    }
+    public virtual void OnAdded() { }
+    public virtual void Update() { }
+    public virtual void FixedUpdate() { }
+    protected virtual void OnTargetFound(Transform target) { }
+    protected virtual void WhileTargetFound(Transform target) { }
+    protected virtual void OnTargetLost() { }
+    protected virtual void OnProjectileCreated(GameObject bulletObject, ProjectileBase projectileScript) { }
+    protected virtual void OnProjectileFired() { }
+    protected virtual void OnProjectileHit(UnitBase unitScript, ProjectileBase projectileScript, Action<UnitBase, float> damageMethod) { }
+    protected virtual void OnProjectileDestroyed(ProjectileBase projectileScript) { }
+    protected virtual void OnLevelUp() { }
 }
 
 public class AbilityHandler : MonoBehaviour
@@ -44,6 +59,17 @@ public class AbilityHandler : MonoBehaviour
     [SerializeField] private List<Ability> abilities;
 
     public List<Ability> Abilities => abilities;
+
+    private void Start()
+    {
+        abilities = new List<Ability>();
+    }
+
+    public void AddAbility(Ability ability, Tower tower)
+    {
+        ability.Initialize(this, tower);
+        abilities.Add(ability);
+    }
 
     private void Update()
     {
@@ -59,12 +85,5 @@ public class AbilityHandler : MonoBehaviour
         {
             abilities[i].FixedUpdate();
         }
-    }
-
-    public void AddAbility(Ability ability, Tower tower)
-    {
-        abilities.Add(ability);
-        ability.abilityHandler = this;
-        ability.OnAdded();
     }
 }

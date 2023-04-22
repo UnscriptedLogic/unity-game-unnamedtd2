@@ -186,7 +186,7 @@ MonoBehaviour:
   id: towerRifler
   damage: 1
   range: 7
-  reloadTime: 2
+  reloadTime: 3
   projectileSpeed: 30
   projectileLifetime: 2
   pierce: 0
@@ -209,10 +209,6 @@ MonoBehaviour:
     m_Bits: 64
   targetSortMode: 0
   towerMeshRenderer: {fileID: 6419205505243604171}
-  useDoubleShells: 0
-  useQuadShells: 0
-  useKnockback: 0
-  useShrapnel: 0
 --- !u!114 &1942740841
 MonoBehaviour:
   m_ObjectHideFlags: 0

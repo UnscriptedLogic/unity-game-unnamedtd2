@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnscriptedLogic.MathUtils;
 using UnscriptedLogic.Raycast;
 
 public class InspectWindow : MonoBehaviour
@@ -111,7 +113,11 @@ public class InspectWindow : MonoBehaviour
         rangeStat.GetComponent<StatView>().Initialized("RNG", range.ToString());
 
         GameObject rateStat = Instantiate(statPrefab, statParent);
-        rateStat.GetComponent<StatView>().Initialized("RATE", $"{rate}/s");
+        rateStat.GetComponent<StatView>().Initialized("RATE", $"{Math.Round(rate, 2)}/s");
+
+        tower.DamageHandler.OnModified += StatRefreshWindow;
+        tower.RangeHandler.OnModified += StatRefreshWindow;
+        tower.ReloadTimeHandler.OnModified += StatRefreshWindow;
     }
 
     private void DisplayTowerAbilities()
@@ -192,6 +198,19 @@ public class InspectWindow : MonoBehaviour
         {
             Destroy(parent.GetChild(i).gameObject);
         }
+    }
+
+    private void StatRefreshWindow(ModifyType type, float current, float amount)
+    {
+        DisplayTowerStat(inspectedTower);
+        UnsubscribeTowerStatEvents(inspectedTower);
+    }
+
+    private void UnsubscribeTowerStatEvents(Tower tower)
+    {
+        tower.DamageHandler.OnModified -= StatRefreshWindow;
+        tower.RangeHandler.OnModified -= StatRefreshWindow;
+        tower.ReloadTimeHandler.OnModified -= StatRefreshWindow;
     }
 
     private void Show() 

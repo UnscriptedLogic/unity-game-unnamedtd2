@@ -6,7 +6,7 @@ using UnscriptedLogic.Currency;
 
 public class RelentlessStacks : Ability
 {
-    private float intervalDecrease = 0.05f;
+    private float intervalDecrease = 0.1f;
     private float maxStack = 5;
     private float currentStack = 0;
 
@@ -32,11 +32,10 @@ public class RelentlessStacks : Ability
         if (unit == null)
         {
             unit = unitScript.gameObject;
-            tower.ReloadTime += currentStack * intervalDecrease;
-            currentStack= 0;
+            return;
         }
 
-        if (unit == unitScript.gameObject)
+        if (unit.GetInstanceID() == unitScript.gameObject.GetInstanceID())
         {
             if (currentStack < maxStack)
             {
@@ -45,10 +44,12 @@ public class RelentlessStacks : Ability
             }
             
             return;
-        } 
+        }
 
+        unit = null;
         tower.ReloadTime += currentStack * intervalDecrease;
         currentStack = 0;
+
     }
 
     protected override void OnLevelUp()

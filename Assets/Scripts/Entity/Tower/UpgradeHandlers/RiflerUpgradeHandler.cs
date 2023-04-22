@@ -10,6 +10,8 @@ public class RiflerUpgradeHandler : TowerUpgradeHandler
 
     protected override void InitUpgrades(Tower towerBase)
     {
+        base.InitUpgrades(towerBase);
+
         abilityHandler = towerBase.GetComponent<AbilityHandler>();
         abilityManager = AbilityManager.instance;
 
@@ -23,8 +25,7 @@ public class RiflerUpgradeHandler : TowerUpgradeHandler
         UpgradeGroup level2 = new UpgradeGroup();
         level2.upgradeProperties.Add(new UpgradeProperty(method: (tower) =>
         {
-            abilityHandler.AddAbility(abilityManager.GetAbilityByName("Marksmanship"), towerBase);
-            Debug.Log("Marksman Added");
+            abilityHandler.AddAbility(new CriticalHits(), tower);
         }));
 
         level2.upgradeProperties.Add(new UpgradeProperty(reloadTime: -0.25f));
@@ -34,8 +35,7 @@ public class RiflerUpgradeHandler : TowerUpgradeHandler
         UpgradeGroup level3 = new UpgradeGroup();
         level3.upgradeProperties.Add(new UpgradeProperty(method: (tower) =>
         {
-            abilityHandler.AddAbility(abilityManager.GetAbilityByName("Relentless Stacks"), towerBase);
-            Debug.Log("Relentless Stacks Added");
+            abilityHandler.AddAbility(new RelentlessStacks(), tower);
         }));
 
         level3.upgradeProperties.Add(new UpgradeProperty(projPierce: 5));

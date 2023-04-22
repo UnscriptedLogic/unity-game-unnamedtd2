@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(1)]
 public class AbilityManager : MonoBehaviour
 {
     [SerializeField] private AbilitiesSO abilities;
@@ -16,10 +17,13 @@ public class AbilityManager : MonoBehaviour
 
         allUsableAbilities = new Dictionary<AbilityInfo, Ability>()
         {
-            { abilities.AbilityInfos[0], new CriticalHits() },
-            { abilities.AbilityInfos[1], new RelentlessStacks() },
+            { abilities.AbilityInfos[0], GetCriticalHits() },
+            { abilities.AbilityInfos[1], GetRelentlessStacks() },
         };
     }
+
+    public Ability GetCriticalHits() => new CriticalHits();
+    public Ability GetRelentlessStacks() => new RelentlessStacks();
 
     public Ability GetAbilityByName(string abilityName)
     {

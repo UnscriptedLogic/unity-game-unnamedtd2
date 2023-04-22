@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnscriptedLogic.Builders;
+using UnscriptedLogic.Currency;
+using UnscriptedLogic.MathUtils;
 
+[DefaultExecutionOrder(0)]
 public class Tower : MonoBehaviour, IBuildable, IInspectable
 {
     public enum TargetSortMode
@@ -30,10 +33,18 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
     [SerializeField] private float range = 1f;
     [SerializeField] private float reloadTime = 1f;
 
+    private CurrencyHandler damageHandler;
+    private CurrencyHandler rangeHandler;
+    private CurrencyHandler reloadTimeHandler;
+
     [Header("Base Projectile Settings")]
     [SerializeField] private float projectileSpeed = 10f;
     [SerializeField] private float projectileLifetime = 3f;
     [SerializeField] private int pierce = 1;
+    [SerializeField] private int penetratePercent = 0;
+
+    private CurrencyHandler pierceHandler;
+    private CurrencyHandler penetrateHandler;
 
     [Header("Base Components")]
     [SerializeField] protected Animator animator;
@@ -57,13 +68,20 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
     protected List<Transform> targetsInRange = new List<Transform>();
 
     public string ID => id;
-    public float Damage { get => damage; set { damage = value; } }
-    public float Range { get => range; set { range = value; } }
-    public float ReloadTime { get => reloadTime; set { reloadTime = value; } }
+    public float Damage { get => damageHandler.Current; set { damageHandler.Modify(ModifyType.Set, value); } }
+    public float Range { get => rangeHandler.Current; set { rangeHandler.Modify(ModifyType.Set, value); } }
+    public float ReloadTime { get => reloadTimeHandler.Current; set { reloadTimeHandler.Modify(ModifyType.Set, value); } }
 
     public float ProjectileSpeed { get => projectileSpeed; set { projectileSpeed = value; } }
     public float ProjectileLifetime { get => projectileLifetime; set { projectileLifetime = value; } }
-    public int ProjectilePierce { get => pierce; set { pierce = value; } }
+    public int ProjectilePierce { get => (int)pierceHandler.Current; set { pierceHandler.Modify(ModifyType.Set, value); } }
+    public int ProjectilePenetrate { get => (int)penetrateHandler.Current; set { penetrateHandler.Modify(ModifyType.Set, value); } }
+
+    public CurrencyHandler DamageHandler => damageHandler;
+    public CurrencyHandler RangeHandler => rangeHandler;
+    public CurrencyHandler ReloadTimeHandler => reloadTimeHandler;
+    public CurrencyHandler PierceHandler => pierceHandler;
+    public CurrencyHandler PenetrateHandler => penetrateHandler;
 
     public Action<UnitBase, float> ApplyDamage;
     public Action<Transform> OnTowerTargetFound;
@@ -86,9 +104,16 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
         };
     }
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         //rangeCollider.radius = range;
+        damageHandler = new CurrencyHandler(damage);
+        rangeHandler = new CurrencyHandler(range);
+        reloadTimeHandler = new CurrencyHandler(reloadTime, min: 0.05f);
+
+        pierceHandler = new CurrencyHandler(pierce);
+        penetrateHandler = new CurrencyHandler(penetratePercent);
+
         _reloadTime = 0.5f;
     }
 
@@ -117,7 +142,7 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
             targetsInRange.Clear();
         }
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, range, unitLayer);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, rangeHandler.Current, unitLayer);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (HasLOSToTarget(colliders[i].transform, out RaycastHit losObstruct))
@@ -193,7 +218,7 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
             return true;
         }
 
-        if (Vector3.Distance(currentTarget.position, transform.position) >= range + 1f)
+        if (Vector3.Distance(currentTarget.position, transform.position) >= rangeHandler.Current + 1f)
         {
             return true;
         }
@@ -223,7 +248,7 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
                 }
 
                 FireProjectile();
-                _reloadTime = reloadTime;
+                _reloadTime = reloadTimeHandler.Current;
             }
         }
         else

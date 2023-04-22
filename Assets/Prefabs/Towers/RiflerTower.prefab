@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 9117990547789470477}
   - component: {fileID: 7917842442235615465}
   - component: {fileID: 1942740841}
+  - component: {fileID: 4746682690665710602}
   m_Layer: 7
   m_Name: RiflerTower
   m_TagString: Untagged
@@ -129,7 +130,7 @@ Transform:
   - {fileID: 6796964721062790392}
   - {fileID: 1796027251}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &4844540477257376327
 BoxCollider:
@@ -185,10 +186,10 @@ MonoBehaviour:
   id: towerRifler
   damage: 1
   range: 7
-  reloadTime: 2
-  projectileSpeed: 40
+  reloadTime: 3
+  projectileSpeed: 30
   projectileLifetime: 2
-  pierce: 1
+  pierce: 0
   animator: {fileID: 2005009624228618231}
   projectilePrefabs:
   - {fileID: 6119345793376831157, guid: 7069f100b21b7c241b939f411a6d2445, type: 3}
@@ -208,10 +209,6 @@ MonoBehaviour:
     m_Bits: 64
   targetSortMode: 0
   towerMeshRenderer: {fileID: 6419205505243604171}
-  useDoubleShells: 0
-  useQuadShells: 0
-  useKnockback: 0
-  useShrapnel: 0
 --- !u!114 &1942740841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +222,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerSO: {fileID: 11400000, guid: cc45baddc085b7742af7707ac6146d6f, type: 2}
+--- !u!114 &4746682690665710602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391050392790055348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c3eff0f740ff343bc086e7cf66c50e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1456081136
 PrefabInstance:
   m_ObjectHideFlags: 0

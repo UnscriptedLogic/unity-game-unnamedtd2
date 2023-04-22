@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9724e1b49729fd74db989076c11716aa, type: 3}
+  m_Name: AllAbilities
+  m_EditorClassIdentifier: 
+  abilityInfos:
+  - name: Marksmanship
+    iconSpr: {fileID: 21300000, guid: d70e64f24e00f1a4b9ef04a071b610f8, type: 3}
+    description: 'Rifler learns the crucial points on the target, occasionally finding
+      them and dealing double damage.
+
+
+      Crit Chance: 20/25/30/35'
+    loreDescription: Strike at their weak points. When 1 limb fails the rest will
+      follow.
+    abilityType: 0
+  - name: Relentless Stacks
+    iconSpr: {fileID: 21300000, guid: bb16bfc3c31a98b4cb770b6eae3820c4, type: 3}
+    description: 'When successfully attacking the same unit, Rifler passively gains
+      an increase in attack speed and lasts until he switches targets.
+
+
+      Attack
+      Interval Decrease: 0.1s
+
+      Max Relentless Stack: 5/7/12/15'
+    loreDescription: Bullets zooming, casing ejecting. If it's still breathing then
+      keep on shooting.
+    abilityType: 0

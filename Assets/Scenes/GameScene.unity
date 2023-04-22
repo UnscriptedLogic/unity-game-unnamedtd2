@@ -859,6 +859,51 @@ MonoBehaviour:
   scrollSpeed: 0.25
   scrollRange: {x: 2, y: 20}
   lerpSpeed: 10
+--- !u!1 &358773525
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 358773526}
+  - component: {fileID: 358773527}
+  m_Layer: 0
+  m_Name: AbilityManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &358773526
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358773525}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1024117617}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &358773527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358773525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9157c51d95f1ac9469d54ed69cd48a5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilities: {fileID: 11400000, guid: b7f297904fc626848ae617055672426c, type: 2}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1586,6 +1631,7 @@ Transform:
   - {fileID: 1805454263}
   - {fileID: 1287491286}
   - {fileID: 1703267435}
+  - {fileID: 358773526}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1702,24 +1748,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnerSettings:
-    startPoints: 7
+    startPoints: 10
     startInterval: 2
     spawnInterval: 1
-    waveInterval: 1
+    waveInterval: 30
     maximumWaves: -1
     spawnables:
-    - spawnable: {fileID: 8747836210194945649, guid: 171e033453bb5b3448f38f948a4d5f06,
-        type: 3}
-      cost: 1
-      withinWaves: {x: 0, y: 100}
-    - spawnable: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
-        type: 3}
-      cost: 1
-      withinWaves: {x: 0, y: 100}
     - spawnable: {fileID: 8747836210194945649, guid: 7d48fd704c75c0445bbaedf23deb0001,
         type: 3}
-      cost: 5
-      withinWaves: {x: 5, y: 100}
+      cost: 10
+      withinWaves: {x: 0, y: 100}
 --- !u!1 &1309185850
 GameObject:
   m_ObjectHideFlags: 0

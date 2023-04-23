@@ -6,6 +6,9 @@ UnnamedTD2, much like its ancestor UnnamedTD, is a tower defense game where a ma
 ### New Mechanic: Upgrade Options
 Instead of just optimizing parts of the game with better code, I have decided to add an extra layer of gameplay called "Upgrade Options" where instead of upgrade paths like BloonsTD6, these upgrades operate like a multiple choice question where you are presented n number of upgrades but may only choose 1 per level. The design behind this was initially meant to invoke upgrade harmony where certain choices of upgrades operate better when paired together in different levels but after discussing its possibilities with friends, it also opened up ideas to a similar style to BloonsTD series of having the same tower have different purposes (Core, Support) when certain upgrades are bought together.
 
+### New Mechanic: Abilities
+Towers now have abilities much like that of MOBA games, attaining them as you upgrade your tower and levelling them up as your tower gains experience from dealing damage. In this way, towers can remain even more unique even when their weapons and attack style remain similar. Some enemies may also have abilities to increase their survivability on the field.
+
 ### New Visuals: Humanoid Entities
 The project is also seeing a facelift graphically. Straying away from the static tower models and primitive shaped enemies, the entities are now animated humanoids. While still new to modelling, rigging and animating, I will do my best to bring life to the models.
 

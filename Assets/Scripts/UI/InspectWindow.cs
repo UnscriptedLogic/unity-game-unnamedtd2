@@ -1,11 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnscriptedLogic.MathUtils;
 using UnscriptedLogic.Raycast;
+using UnscriptedLogic.MathUtils;
+using System.Collections.Generic;
+using DG.Tweening.Core;
+using DG.Tweening;
 
 public class InspectWindow : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class InspectWindow : MonoBehaviour
     [SerializeField] private Transform openPos;
     [SerializeField] private Transform closePos;
     [SerializeField] private float tweenTime = 0.25f;
-    [SerializeField] private LeanTweenType easeType;
+    [SerializeField] private Ease easeType = Ease.InOutSine;
     [SerializeField] private LayerMask unitLayer;
     [SerializeField] private LayerMask towerLayer;
 
@@ -217,7 +218,9 @@ public class InspectWindow : MonoBehaviour
     {
         if (isOpen) return;
 
-        LeanTween.move(gameObject, openPos.position, tweenTime).setEase(easeType).setOnComplete(() => transform.position = openPos.position); 
+        transform.DOMove(openPos.position, tweenTime).SetEase(easeType);
+        //gameObject.transform.position = openPos.position;
+        //LeanTween.move(gameObject, openPos.position, tweenTime).setEase(easeType).setOnComplete(() => transform.position = openPos.position); 
         isOpen = true;
     }
     
@@ -225,10 +228,14 @@ public class InspectWindow : MonoBehaviour
     {
         if (!isOpen) return;
 
-        LeanTween.move(gameObject, closePos.position, tweenTime).setOnComplete(() =>
-        {
-            Clear(statParent);
-        });
+        transform.DOMove(closePos.position, tweenTime).SetEase(easeType);
+        Clear(statParent);
+
+        //gameObject.transform.position = closePos.position;
+        //LeanTween.move(gameObject, closePos.position, tweenTime).setOnComplete(() =>
+        //{
+        //    Clear(statParent);
+        //});
 
         isOpen = false;
     }

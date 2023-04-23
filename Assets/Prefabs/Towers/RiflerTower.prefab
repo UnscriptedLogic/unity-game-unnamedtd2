@@ -190,6 +190,7 @@ MonoBehaviour:
   projectileSpeed: 30
   projectileLifetime: 2
   pierce: 0
+  penetratePercent: 0
   animator: {fileID: 2005009624228618231}
   projectilePrefabs:
   - {fileID: 6119345793376831157, guid: 7069f100b21b7c241b939f411a6d2445, type: 3}
@@ -198,7 +199,8 @@ MonoBehaviour:
     levelled: 0
   shootAnchors:
   - {fileID: 1796027251}
-  audioClips: []
+  audioClips:
+  - {fileID: 8300000, guid: ae75ad79d15e3ba49989e0cea67ad148, type: 3}
   drawGizmos: 0
   losBaseOffset: 0.5
   losObstructionLayer:

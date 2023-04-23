@@ -12,8 +12,8 @@ public class InspectWindow : MonoBehaviour
     [Header("Inspect Window")]
     [SerializeField] private Transform openPos;
     [SerializeField] private Transform closePos;
-    [SerializeField] private float tweenTime = 0.25f;
-    [SerializeField] private LeanTweenType easeType;
+    //[SerializeField] private float tweenTime = 0.25f;
+    //[SerializeField] private LeanTweenType easeType;
     [SerializeField] private LayerMask unitLayer;
     [SerializeField] private LayerMask towerLayer;
 
@@ -217,7 +217,8 @@ public class InspectWindow : MonoBehaviour
     {
         if (isOpen) return;
 
-        LeanTween.move(gameObject, openPos.position, tweenTime).setEase(easeType).setOnComplete(() => transform.position = openPos.position); 
+        gameObject.transform.position = openPos.position;
+        //LeanTween.move(gameObject, openPos.position, tweenTime).setEase(easeType).setOnComplete(() => transform.position = openPos.position); 
         isOpen = true;
     }
     
@@ -225,10 +226,12 @@ public class InspectWindow : MonoBehaviour
     {
         if (!isOpen) return;
 
-        LeanTween.move(gameObject, closePos.position, tweenTime).setOnComplete(() =>
-        {
-            Clear(statParent);
-        });
+        gameObject.transform.position = closePos.position;
+        Clear(statParent);
+        //LeanTween.move(gameObject, closePos.position, tweenTime).setOnComplete(() =>
+        //{
+        //    Clear(statParent);
+        //});
 
         isOpen = false;
     }

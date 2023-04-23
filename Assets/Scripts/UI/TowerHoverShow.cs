@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -17,12 +18,14 @@ public class TowerHoverShow : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void Show()
     {
-        gameObject.transform.position = openPos.position;
+        //gameObject.transform.position = openPos.position;
+        transform.DOMove(openPos.position, moveTime).SetEase(Ease.InOutSine);
         //LeanTween.move(gameObject, openPos.position, moveTime);
     }
     private void Hide()
     {
-        gameObject.transform.position = closePos.position;
+        //gameObject.transform.position = closePos.position;
+        transform.DOMove(closePos.position, moveTime).SetEase(Ease.InOutSine);
         //LeanTween.move(gameObject, closePos.position, moveTime);
     }
 }

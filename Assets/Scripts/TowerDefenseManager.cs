@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnscriptedLogic.Currency;
 
@@ -15,14 +16,17 @@ public class TowerDefenseManager : MonoBehaviour
     [Header("Components")]
     [SerializeField] private BuildManager buildManager;
 
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI healthTMP;
+    [SerializeField] private TextMeshProUGUI currencyTMP;
+
     private CurrencyHandler healthSystem;
     private CurrencyHandler cashSystem;
 
     public CurrencyHandler HealthSystem => healthSystem;
     public CurrencyHandler CashSystem => cashSystem;
-
     public TowerListSO AllTowerList => allUsableTowers;
-
+    
     public static TowerDefenseManager instance { get; private set; }
 
     private void Awake()
@@ -34,6 +38,9 @@ public class TowerDefenseManager : MonoBehaviour
     {
         healthSystem = new CurrencyHandler(startHealth);
         cashSystem = new CurrencyHandler(startCash);
+
+        healthTMP.text = healthSystem.Current.ToString();
+        currencyTMP.text = $"${cashSystem.Current}";
 
         UnitBase.OnAnyUnitCompletedPath += OnUnitCompletedPath;
     }

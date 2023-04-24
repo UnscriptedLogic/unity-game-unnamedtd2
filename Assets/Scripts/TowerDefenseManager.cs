@@ -9,6 +9,7 @@ public class TowerDefenseManager : MonoBehaviour
     [Header("Game Settings")]
     [SerializeField] private int startHealth;
     [SerializeField] private float startCash;
+    [SerializeField] private ExperienceLevelsSO experienceLevels;
 
     [Header("Global Game Variables")]
     [SerializeField] private TowerListSO allUsableTowers;
@@ -26,6 +27,7 @@ public class TowerDefenseManager : MonoBehaviour
     public CurrencyHandler HealthSystem => healthSystem;
     public CurrencyHandler CashSystem => cashSystem;
     public TowerListSO AllTowerList => allUsableTowers;
+    public ExperienceLevelsSO ExperienceLevelsSO => experienceLevels;
     
     public static TowerDefenseManager instance { get; private set; }
 
@@ -41,6 +43,9 @@ public class TowerDefenseManager : MonoBehaviour
 
         healthTMP.text = healthSystem.Current.ToString();
         currencyTMP.text = $"${cashSystem.Current}";
+
+        healthSystem.OnModified += (type, amount, curr) => healthTMP.text = curr.ToString();
+        cashSystem.OnModified += (type, amount, curr) => currencyTMP.text = $"${curr}";
 
         UnitBase.OnAnyUnitCompletedPath += OnUnitCompletedPath;
     }

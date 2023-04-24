@@ -83,6 +83,7 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
     public CurrencyHandler PierceHandler => pierceHandler;
     public CurrencyHandler PenetrateHandler => penetrateHandler;
 
+    public Action<UnitBase, float> DamageToBeApplied;
     public Action<UnitBase, float> ApplyDamage;
     public Action<Transform> OnTowerTargetFound;
     public Action<Transform> WhileTowerTargetFound;
@@ -358,7 +359,7 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
         }
 
         ApplyDamage(unit, incomingDamage);
-
+        DamageToBeApplied?.Invoke(unit, incomingDamage);
         OnTowerProjectileHit?.Invoke(unit, projectileBase, ApplyDamage);
     }
 

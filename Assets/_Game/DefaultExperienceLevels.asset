@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adcd0246a36adb3438ce480ab215be37, type: 3}
+  m_Name: DefaultExperienceLevels
+  m_EditorClassIdentifier: 
+  experienceLevels:
+  - amount: 50
+    totalSumOfBefore: 0
+  - amount: 100
+    totalSumOfBefore: 150
+  - amount: 200
+    totalSumOfBefore: 300
+  - amount: 400
+    totalSumOfBefore: 600
+  - amount: 600
+    totalSumOfBefore: 1000
+  - amount: 850
+    totalSumOfBefore: 1450
+  - amount: 1000
+    totalSumOfBefore: 1850
+  - amount: 1250
+    totalSumOfBefore: 2250
+  - amount: 1550
+    totalSumOfBefore: 2800
+  - amount: 2000
+    totalSumOfBefore: 3550

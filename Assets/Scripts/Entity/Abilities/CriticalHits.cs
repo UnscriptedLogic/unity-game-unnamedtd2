@@ -14,9 +14,9 @@ public class CriticalHits : Ability
         maxLevel = 4;
 
         levelRequirements = new int[maxLevel];
-        levelRequirements[0] = 5;
-        levelRequirements[1] = 10;
-        levelRequirements[2] = 15;
+        levelRequirements[0] = 1;
+        levelRequirements[1] = 2;
+        levelRequirements[2] = 5;
         levelRequirements[3] = 25;
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);

@@ -30,11 +30,13 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     private Ability ability;
     private AbilityInfo abilityInfo;
+    private TowerLevelHandler levelHandler;
 
-    public void Initialize(AbilityInfo abilityInfo, Ability ability)
+    public void Initialize(AbilityInfo abilityInfo, Ability ability, TowerLevelHandler levelHandler)
     {
         this.ability = ability;
         this.abilityInfo = abilityInfo;
+        this.levelHandler = levelHandler;
 
         iconImg.sprite = abilityInfo.IconSpr;
 
@@ -46,12 +48,21 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             levelKnob.GetComponent<Image>().color = color;
         }
 
+        OnLevelledUp();
+        levelHandler.ExperienceHandler.OnFull += OnLevelledUp;
+
+        Hide();
+    }
+
+    public void OnLevelledUp()
+    {
         if (ability.CurrentLevel == ability.MaxLevel)
         {
             levelUpButton.gameObject.SetActive(false);
+            return;
         }
 
-        Hide();
+        levelUpButton.gameObject.SetActive(levelHandler.Level >= ability.NextLevel && !(levelHandler.PointsHandler.Current <= 0f));
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -78,5 +89,10 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private void Hide()
     {
         tooltipObj.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        levelHandler.ExperienceHandler.OnFull -= OnLevelledUp;
     }
 }

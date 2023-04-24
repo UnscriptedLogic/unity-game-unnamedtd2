@@ -7,6 +7,7 @@ using UnscriptedLogic.MathUtils;
 using System.Collections.Generic;
 using DG.Tweening.Core;
 using DG.Tweening;
+using UnscriptedLogic.Currency;
 
 public class InspectWindow : MonoBehaviour
 {
@@ -18,15 +19,15 @@ public class InspectWindow : MonoBehaviour
     [SerializeField] private LayerMask unitLayer;
     [SerializeField] private LayerMask towerLayer;
 
-    [Header("Stats")]
-    [SerializeField] private GameObject statPrefab;
-    [SerializeField] private Transform statParent;
-
     [Header("Avatar Section")]
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI nameTMP;
     [SerializeField] private Image levelSlider;
     [SerializeField] private TextMeshProUGUI levelTMP;
+
+    [Header("Stats")]
+    [SerializeField] private GameObject statPrefab;
+    [SerializeField] private Transform statParent;
 
     [Header("Ability Section")]
     [SerializeField] private GameObject abilityButtonPrefab;
@@ -53,6 +54,7 @@ public class InspectWindow : MonoBehaviour
     private TowerSO inspectedTowerSO;
     private TowerUpgradeHandler inspectedTUH;
     private AbilityHandler inspectedAbilityHandler;
+    private TowerLevelHandler inspectedLevelHandler;
 
     private void Start()
     {
@@ -80,6 +82,7 @@ public class InspectWindow : MonoBehaviour
                 inspectedTowerSO = TowerDefenseManager.instance.AllTowerList.GetSOFromTower(inspectedTower);
                 inspectedTUH = inspectedTower.GetComponent<TowerUpgradeHandler>();
                 inspectedAbilityHandler = inspectedTower.GetComponent<AbilityHandler>();
+                inspectedLevelHandler = inspectedTower.GetComponent<TowerLevelHandler>();
 
                 RefreshTowerWindow();
 
@@ -97,6 +100,13 @@ public class InspectWindow : MonoBehaviour
     {
         icon.sprite = towerSO.IconSpr;
         nameTMP.text = towerSO.TowerName;
+    }
+
+    private void DisplayTowerLevel()
+    {
+        levelSlider.fillAmount = inspectedLevelHandler.ExperienceHandler.Current / inspectedLevelHandler.ExperienceLevel.amount;
+        levelTMP.text = inspectedLevelHandler.Level.ToString();
+        inspectedLevelHandler.ExperienceHandler.OnModified += SyncLevel;
     }
 
     private void DisplayTowerStat(Tower tower)
@@ -132,7 +142,7 @@ public class InspectWindow : MonoBehaviour
             GameObject abilityButton = Instantiate(abilityButtonPrefab, abilityParent);
             AbilityButton buttonScript = abilityButton.GetComponent<AbilityButton>();
 
-            buttonScript.Initialize(abilityManager.GetAbilityInfoByAbility(abilities[i]), abilities[i]);
+            buttonScript.Initialize(abilityManager.GetAbilityInfoByAbility(abilities[i]), abilities[i], inspectedLevelHandler);
 
             int index = i;
             buttonScript.LevelUpButton.onClick.AddListener(() =>
@@ -143,7 +153,7 @@ public class InspectWindow : MonoBehaviour
         }
     }
     
-    public void DisplayUpgradeButtons(TowerSO towerSO, int[] upgradeHistory, TowerUpgradeHandler upgradeHandler)
+    private void DisplayUpgradeButtons(TowerSO towerSO, int[] upgradeHistory, TowerUpgradeHandler upgradeHandler)
     {
         Clear(upgradeParent);
 
@@ -179,6 +189,11 @@ public class InspectWindow : MonoBehaviour
             int index = i;
             upgradeButtonScript.UpgradeBtn.onClick.AddListener(() =>
             {
+                float cost = towerUpgrades[index].Cost;
+                if (!TowerDefenseManager.instance.CashSystem.HasEnough(cost)) return;
+
+                TowerDefenseManager.instance.CashSystem.Modify(ModifyType.Subtract, cost);
+
                 upgradeHandler.UpgradeTower(index);
                 RefreshTowerWindow();
             });
@@ -188,6 +203,7 @@ public class InspectWindow : MonoBehaviour
     private void RefreshTowerWindow()
     {
         DisplayTowerAvatar(inspectedTowerSO);
+        DisplayTowerLevel();
         DisplayTowerStat(inspectedTower);
         DisplayUpgradeButtons(inspectedTowerSO, inspectedTUH.UpgradesChosen.ToArray(), inspectedTUH);
         DisplayTowerAbilities();
@@ -199,6 +215,12 @@ public class InspectWindow : MonoBehaviour
         {
             Destroy(parent.GetChild(i).gameObject);
         }
+    }
+
+    private void SyncLevel(ModifyType modifyType, float amount, float current)
+    {
+        levelSlider.fillAmount = inspectedLevelHandler.ExperienceHandler.Current / inspectedLevelHandler.ExperienceLevel.amount;
+        levelTMP.text = inspectedLevelHandler.Level.ToString();
     }
 
     private void StatRefreshWindow(ModifyType type, float current, float amount)
@@ -230,12 +252,6 @@ public class InspectWindow : MonoBehaviour
 
         transform.DOMove(closePos.position, tweenTime).SetEase(easeType);
         Clear(statParent);
-
-        //gameObject.transform.position = closePos.position;
-        //LeanTween.move(gameObject, closePos.position, tweenTime).setOnComplete(() =>
-        //{
-        //    Clear(statParent);
-        //});
 
         isOpen = false;
     }

@@ -18,6 +18,7 @@ public class Ability
     public int CurrentLevel => (int)levelHandler.Current;
     public int MaxLevel => maxLevel;
     public int[] LevelRequirements => levelRequirements;
+    public int NextLevel => levelRequirements[CurrentLevel - 1];
 
     public void Initialize(AbilityHandler abilityHandler, Tower tower)
     {

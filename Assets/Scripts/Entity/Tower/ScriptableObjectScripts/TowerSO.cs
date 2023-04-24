@@ -33,7 +33,6 @@ public class TowerLevel
 
     public UpgradeOption[] upgradeOptions;
 }
-
 [CreateAssetMenu(fileName = "New Tower", menuName = "ScriptableObjects/Create New Tower")]
 public class TowerSO : ScriptableObject
 {

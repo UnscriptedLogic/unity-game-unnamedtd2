@@ -147,7 +147,6 @@ public class InspectWindow : MonoBehaviour
             int index = i;
             buttonScript.LevelUpButton.onClick.AddListener(() =>
             {
-                abilities[index].LevelUp();
                 RefreshTowerWindow();
             });
         }

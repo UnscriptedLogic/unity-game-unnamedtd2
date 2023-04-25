@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnscriptedLogic.MathUtils;
 
 public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -48,21 +49,31 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             levelKnob.GetComponent<Image>().color = color;
         }
 
-        OnLevelledUp();
-        levelHandler.ExperienceHandler.OnFull += OnLevelledUp;
+        SetLevelUpButtonActive(ModifyType.Add, 0f, 0f);
+        levelHandler.PointsHandler.OnModified += SetLevelUpButtonActive;
 
         Hide();
     }
 
-    public void OnLevelledUp()
+    public void SetLevelUpButtonActive(ModifyType type, float current, float amount)
     {
-        if (ability.CurrentLevel == ability.MaxLevel)
+        if (type == ModifyType.Add)
         {
-            levelUpButton.gameObject.SetActive(false);
-            return;
-        }
+            if (ability.CurrentLevel == ability.MaxLevel)
+            {
+                levelUpButton.gameObject.SetActive(false);
+                return;
+            }
 
-        levelUpButton.gameObject.SetActive(levelHandler.Level >= ability.NextLevel && !(levelHandler.PointsHandler.Current <= 0f));
+            levelUpButton.gameObject.SetActive(levelHandler.Level >= ability.NextLevel && !(levelHandler.PointsHandler.Current <= 0f));
+
+            levelUpButton.onClick.AddListener(() =>
+            {
+                ability.LevelUp();
+                levelHandler.PointsHandler.Modify(ModifyType.Subtract, 1);
+            });
+
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -93,6 +104,6 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     private void OnDestroy()
     {
-        levelHandler.ExperienceHandler.OnFull -= OnLevelledUp;
+        levelHandler.PointsHandler.OnModified -= SetLevelUpButtonActive;
     }
 }

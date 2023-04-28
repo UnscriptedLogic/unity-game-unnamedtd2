@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnscriptedLogic.Currency;
 using UnscriptedLogic.MathUtils;
 
 public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -27,6 +29,11 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] private TextMeshProUGUI descriptionTMP;
     [SerializeField] private TextMeshProUGUI loreDescriptionTMP;
 
+    [Header("Cooldown")]
+    [SerializeField] private Transform cooldownParent;
+    [SerializeField] private TextMeshProUGUI cooldownTMP;
+    [SerializeField] private Image cooldownFill;
+
     public Button LevelUpButton => levelUpButton;
 
     private Ability ability;
@@ -49,15 +56,22 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             levelKnob.GetComponent<Image>().color = color;
         }
 
-        SetLevelUpButtonActive(ModifyType.Add, 0f, 0f);
+        SetLevelUpButtonActive(null, new CurrencyEventArgs());
         levelHandler.PointsHandler.OnModified += SetLevelUpButtonActive;
 
+        levelUpButton.onClick.AddListener(() =>
+        {
+            ability.LevelUp();
+            levelHandler.PointsHandler.Modify(ModifyType.Subtract, 1);
+        });
+
         Hide();
+        SetCooldown(0f, 1f);
     }
 
-    public void SetLevelUpButtonActive(ModifyType type, float current, float amount)
+    public void SetLevelUpButtonActive(object sender, CurrencyEventArgs e)
     {
-        if (type == ModifyType.Add)
+        if (e.modifyType == ModifyType.Add)
         {
             if (ability.CurrentLevel == ability.MaxLevel)
             {
@@ -66,14 +80,15 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             }
 
             levelUpButton.gameObject.SetActive(levelHandler.Level >= ability.NextLevel && !(levelHandler.PointsHandler.Current <= 0f));
-
-            levelUpButton.onClick.AddListener(() =>
-            {
-                ability.LevelUp();
-                levelHandler.PointsHandler.Modify(ModifyType.Subtract, 1);
-            });
-
         }
+    }
+
+    public void SetCooldown(float value, float maxValue)
+    {
+        cooldownParent.gameObject.SetActive(value > 0f);
+
+        cooldownFill.fillAmount = value / maxValue;
+        cooldownTMP.text = $"{Mathf.RoundToInt(value)}";
     }
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -24,6 +24,12 @@ public class MapManager : MonoBehaviour
     private List<Cell> pathwayCells;
     public List<Vector3> Pathway { get; private set; }
 
+    [Header("Debri Settings")]
+    [SerializeField] private int amount;
+    [SerializeField] private float verticalOffset;
+    [SerializeField] private Transform parent;
+    [SerializeField] private DebriThemeSO debriThemeSO;
+
     #region Singleton
     public static MapManager instance { get; private set; }
 
@@ -37,6 +43,7 @@ public class MapManager : MonoBehaviour
     {
         GenerateMapGrid();
         GenerateMapPath();
+        GenerateMapDebri();
     }
 
     private void GenerateMapGrid()
@@ -149,6 +156,34 @@ public class MapManager : MonoBehaviour
             gridGenerator.gridCells[path[i]].SetActive(false);
             Pathway.Add(new Vector3(path[i].WorldCoords.x, 0f, path[i].WorldCoords.y));
         }
+    }
+
+    private void GenerateMapDebri()
+    {
+        DebriGenerator.GenerateDebrisRandomly(new DebriGenSettings()
+        {
+            amount = amount,
+            verticalOffset = verticalOffset,
+            parent = parent,
+            pathlist = Pathway,
+            nodes = GetAllNonePathNodePositions(),
+            debriTheme = debriThemeSO
+        });
+    }
+
+    private List<Vector3> GetAllNonePathNodePositions()
+    {
+        List<Vector3> nodes = new List<Vector3>();
+        for (int i = 0; i < gridGenerator.gridCells.Count; i++)
+        {
+            GameObject nodeObject = gridGenerator.gridCells.ElementAt(i).Value;
+            if (nodeObject.activeInHierarchy)
+            {
+                nodes.Add(nodeObject.transform.position);
+            }
+        }
+
+        return nodes;
     }
 
     private void OnDrawGizmos()

@@ -8,11 +8,13 @@ public class UpgradeOption
 {
     [Header("Next Upgrade Settings")]
     [SerializeField] private string name;
-    [TextArea(3, 10)][SerializeField] private string description;
-    [TextArea(3, 10)][SerializeField] private string loreDescription;
     [SerializeField] private Sprite iconSpr;
     [SerializeField] private float cost;
     [SerializeField] private GameObject overrideObject;
+    [Space(10)]
+    [TextArea(3, 10)][SerializeField] private string description;
+    [Space(10)]
+    [TextArea(3, 10)][SerializeField] private string loreDescription;
 
     public string Name => name;
     public string Description => description;

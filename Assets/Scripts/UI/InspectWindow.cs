@@ -50,7 +50,7 @@ public class InspectWindow : MonoBehaviour
 
     //Inspected components
     private GameObject inspectedObject;
-    private Tower inspectedTower;
+    private TowerBase inspectedTower;
     private TowerSO inspectedTowerSO;
     private TowerUpgradeHandler inspectedTUH;
     private AbilityHandler inspectedAbilityHandler;
@@ -78,7 +78,7 @@ public class InspectWindow : MonoBehaviour
             IInspectable inspectable = unitHit.collider.gameObject.GetComponent<IInspectable>();
             if (inspectable != null)
             {
-                inspectedTower = inspectable as Tower;
+                inspectedTower = inspectable as TowerBase;
                 inspectedTowerSO = TowerDefenseManager.instance.AllTowerList.GetSOFromTower(inspectedTower);
                 inspectedTUH = inspectedTower.GetComponent<TowerUpgradeHandler>();
                 inspectedAbilityHandler = inspectedTower.GetComponent<AbilityHandler>();
@@ -104,12 +104,11 @@ public class InspectWindow : MonoBehaviour
 
     private void DisplayTowerLevel()
     {
-        levelSlider.fillAmount = inspectedLevelHandler.ExperienceHandler.Current / inspectedLevelHandler.ExperienceLevel.amount;
-        levelTMP.text = inspectedLevelHandler.Level.ToString();
+        SyncLevel(null, new CurrencyEventArgs());
         inspectedLevelHandler.ExperienceHandler.OnModified += SyncLevel;
     }
 
-    private void DisplayTowerStat(Tower tower)
+    private void DisplayTowerStat(TowerBase tower)
     {
         float damage = tower.Damage;
         float range = tower.Range;
@@ -216,19 +215,19 @@ public class InspectWindow : MonoBehaviour
         }
     }
 
-    private void SyncLevel(ModifyType modifyType, float amount, float current)
+    private void SyncLevel(object sender, CurrencyEventArgs e)
     {
         levelSlider.fillAmount = inspectedLevelHandler.ExperienceHandler.Current / inspectedLevelHandler.ExperienceLevel.amount;
-        levelTMP.text = inspectedLevelHandler.Level.ToString();
+        levelTMP.text = $"{inspectedLevelHandler.Level + 1}";
     }
 
-    private void StatRefreshWindow(ModifyType type, float current, float amount)
+    private void StatRefreshWindow(object sender, CurrencyEventArgs e)
     {
         DisplayTowerStat(inspectedTower);
         UnsubscribeTowerStatEvents(inspectedTower);
     }
 
-    private void UnsubscribeTowerStatEvents(Tower tower)
+    private void UnsubscribeTowerStatEvents(TowerBase tower)
     {
         tower.DamageHandler.OnModified -= StatRefreshWindow;
         tower.RangeHandler.OnModified -= StatRefreshWindow;

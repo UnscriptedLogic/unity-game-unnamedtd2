@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88622d87a6974624dae1f2a08aeee458, type: 3}
+  m_Name: DefaultTheme
+  m_EditorClassIdentifier: 
+  debris:
+  - prefab: {fileID: 1844421412495829564, guid: 8d7cdce082d40a848a53a5f3dc7fcfd6,
+      type: 3}
+    size: 3

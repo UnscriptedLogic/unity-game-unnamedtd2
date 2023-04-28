@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,8 +6,15 @@ using UnscriptedLogic.Builders;
 using UnscriptedLogic.Currency;
 using UnscriptedLogic.MathUtils;
 
+public class OnProjectileHitEventArgs : EventArgs
+{
+    public UnitBase unit;
+    public ProjectileBase projectile;
+    public Action<UnitBase, float> ApplyDamageMethod;
+}
+
 [DefaultExecutionOrder(0)]
-public class Tower : MonoBehaviour, IBuildable, IInspectable
+public class TowerBase : MonoBehaviour, IBuildable, IInspectable
 {
     public enum TargetSortMode
     {
@@ -27,8 +33,15 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
         public bool levelled;
     }
 
+    [Serializable]
+    public class AudioFields
+    {
+        public AudioClip clip;
+        public float volume;
+    }
+
     [Header("Base Tower Settings")]
-    [SerializeField] private string id = "towerRifler";
+    [SerializeField] private string id = "tower[TYPE]";
     [SerializeField] private float damage = 1f;
     [SerializeField] private float range = 1f;
     [SerializeField] private float reloadTime = 1f;
@@ -53,7 +66,7 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
     [SerializeField] protected Transform[] shootAnchors;
 
     [Space(10)]
-    [SerializeField] protected AudioClip[] audioClips;
+    [SerializeField] protected AudioFields[] audioFields;
 
     [Header("Base Settings")]
     [SerializeField] protected bool drawGizmos;
@@ -63,6 +76,8 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
     [SerializeField] protected TargetSortMode targetSortMode = TargetSortMode.First;
     [SerializeField] protected SkinnedMeshRenderer towerMeshRenderer;
 
+    protected SoundManager soundManager;
+    protected TowerDefenseManager tdManager;
     protected float _reloadTime;
     protected Transform currentTarget;
     protected List<Transform> targetsInRange = new List<Transform>();
@@ -71,6 +86,7 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
     public float Damage { get => damageHandler.Current; set { damageHandler.Modify(ModifyType.Set, value); } }
     public float Range { get => rangeHandler.Current; set { rangeHandler.Modify(ModifyType.Set, value); } }
     public float ReloadTime { get => reloadTimeHandler.Current; set { reloadTimeHandler.Modify(ModifyType.Set, value); } }
+    public float CurrentReloadtime { get => _reloadTime; set { _reloadTime = value; } }
 
     public float ProjectileSpeed { get => projectileSpeed; set { projectileSpeed = value; } }
     public float ProjectileLifetime { get => projectileLifetime; set { projectileLifetime = value; } }
@@ -90,8 +106,11 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
     public Action OnTowerTargetLost;
     public Action<GameObject, ProjectileBase> OnTowerProjectileCreated;
     public Action OnTowerProjectileFired;
-    public Action<UnitBase, ProjectileBase, Action<UnitBase, float>> OnTowerProjectileHit;
     public Action<ProjectileBase> OnTowerProjectileDestroyed;
+    public event EventHandler<OnProjectileHitEventArgs> OnProjectileHitEvent;
+
+    public static event EventHandler OnAnyTowerSpawned;
+    public static event EventHandler OnAnyTowerDespawned;
 
     public TargetSortMode TargetMode => targetSortMode;
     public SkinnedMeshRenderer TowerMeshRenderer => towerMeshRenderer;
@@ -102,6 +121,7 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
         localBuildConditions = new List<LocalBuildCondition>()
         {
             new LocalBuildCondition("Test", (pos, rot) => true, "Test Failed", "Test Succeeded"),
+            //new LocalBuildCondition("Cost", (pos, rot) => tdManager.AllTowerList.GetSOFromTower(this).TowerCost <= tdManager.CurrentCash, "Insufficient Cash", "Sufficient Cash")
         };
     }
 
@@ -116,6 +136,19 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
         penetrateHandler = new CurrencyHandler(penetratePercent);
 
         _reloadTime = 0.5f;
+    }
+
+    private void OnEnable()
+    {
+        tdManager = TowerDefenseManager.instance;
+        soundManager = SoundManager.instance;
+
+        OnAnyTowerSpawned?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void OnDisable()
+    {
+        OnAnyTowerDespawned?.Invoke(this, EventArgs.Empty);
     }
 
     protected virtual void Update()
@@ -248,8 +281,8 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
                     RotateToTarget(rotationHeads[i].rotationHead, levelled: rotationHeads[i].levelled);
                 }
 
-                FireProjectile();
                 _reloadTime = reloadTimeHandler.Current;
+                FireProjectile();
             }
         }
         else
@@ -285,12 +318,12 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
 
     protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Transform anchor, ProjectileBehaviour projectileBehaviour = null)
     {
-        return CreateBullet(out projectileBase, prefab, anchor.position, anchor.rotation, new ProjectileSettings(projectileSpeed, projectileLifetime, pierce), projectileBehaviour);
+        return CreateBullet(out projectileBase, prefab, anchor.position, anchor.rotation, new ProjectileSettings(ProjectileSpeed, ProjectileLifetime, ProjectilePierce), projectileBehaviour);
     }
 
     protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Vector3 position, Quaternion rotation, ProjectileBehaviour projectileBehaviour = null)
     {
-        return CreateBullet(out projectileBase, prefab, position, rotation, new ProjectileSettings(projectileSpeed, projectileLifetime, pierce), projectileBehaviour);
+        return CreateBullet(out projectileBase, prefab, position, rotation, new ProjectileSettings(ProjectileSpeed, ProjectileLifetime, ProjectilePierce), projectileBehaviour);
     }
 
     protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Vector3 position, Quaternion rotation, ProjectileSettings projectileSettings, ProjectileBehaviour projectileBehaviour = null)
@@ -351,7 +384,7 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
 
     protected virtual void OnProjectileHit(UnitBase unit, ProjectileBase projectileBase)
     {
-        float incomingDamage = damage;
+        float incomingDamage = damageHandler.Current;
 
         if (ApplyDamage == null)
         {
@@ -360,7 +393,13 @@ public class Tower : MonoBehaviour, IBuildable, IInspectable
 
         ApplyDamage(unit, incomingDamage);
         DamageToBeApplied?.Invoke(unit, incomingDamage);
-        OnTowerProjectileHit?.Invoke(unit, projectileBase, ApplyDamage);
+
+        OnProjectileHitEvent?.Invoke(this, new OnProjectileHitEventArgs()
+        {
+            unit = unit,
+            projectile = projectileBase,
+            ApplyDamageMethod = ApplyDamage,
+        });
     }
 
     public void DamageUnit(UnitBase unit, float damage) => unit.TakeDamage(damage);

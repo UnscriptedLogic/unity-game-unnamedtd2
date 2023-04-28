@@ -1,17 +1,27 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnscriptedLogic.Builders;
+using UnscriptedLogic.MathUtils;
 using UnscriptedLogic.Raycast;
 
-public class BuildManager : MonoBehaviour, IBuilder<Tower, GameObject>
+public class OnBuildEventArgs : EventArgs
+{
+    public int buildIndex;
+    public Vector3 position;
+    public Quaternion rotation;
+    public GameObject buildObject;
+}
+
+public class BuildManager : MonoBehaviour, IBuilder<TowerBase, GameObject>
 {
     [SerializeField] private Material previewMaterial;
     [SerializeField] private Material invalidSpotMaterial;
 
     private RaycastHit hit;
-    private BuildHandlerSimple<Tower, BuildManager, GameObject> buildHandler;
+    private BuildHandlerSimple<TowerBase, BuildManager, GameObject> buildHandler;
     private TowerDefenseManager tdManager;
 
     private bool isBuilding;
@@ -19,18 +29,21 @@ public class BuildManager : MonoBehaviour, IBuilder<Tower, GameObject>
     private bool isValidSpot, setAsValid;
     private int towerBuildIndex;
 
-    public BuildHandlerSimple<Tower, BuildManager, GameObject> BuildHandler => buildHandler;
+    public BuildHandlerSimple<TowerBase, BuildManager, GameObject> BuildHandler => buildHandler;
     public GameObject[] buildableContainers => GetContainers();
+
+    public event EventHandler<OnBuildEventArgs> OnBuild;
 
     private void Start()
     {
         tdManager = TowerDefenseManager.instance;
 
-        buildHandler = new BuildHandlerSimple<Tower, BuildManager, GameObject>(this, buildableContainers.ToList());
-        buildHandler.adminBuildConditions = new List<AdminBuildCondition<Tower>>()
+        buildHandler = new BuildHandlerSimple<TowerBase, BuildManager, GameObject>(this, buildableContainers.ToList());
+        buildHandler.adminBuildConditions = new List<AdminBuildCondition<TowerBase>>()
         {
-            new AdminBuildCondition<Tower>("On Node Layer", tower => LayerMask.NameToLayer("Node").Equals(hit.collider.gameObject.layer), "Invalid Build Position", "Valid Build Position"),
-            new AdminBuildCondition<Tower>("Node Empty", tower => Physics.Raycast(hit.collider.transform.position, Vector3.up, 1f) == false),
+            new AdminBuildCondition<TowerBase>("On Node Layer", tower => LayerMask.NameToLayer("Node").Equals(hit.collider.gameObject.layer), "Invalid Build Position", "Valid Build Position"),
+            new AdminBuildCondition<TowerBase>("Node Empty", tower => Physics.Raycast(hit.collider.transform.position, Vector3.up, 1f) == false),
+            new AdminBuildCondition<TowerBase>("Cash", tower => tdManager.CurrentCash >= tdManager.AllTowerList.GetSOFromTower(tower).TowerCost)
         };
 
         InputManager.instance.OnMouseDown += InputManager_OnMouseDown;
@@ -96,7 +109,7 @@ public class BuildManager : MonoBehaviour, IBuilder<Tower, GameObject>
     private void SetBuildableMaterial(Material material)
     {
         GameObject buildable = BuildHandler.PreviewObject;
-        SkinnedMeshRenderer skinnedMeshRenderer = buildable.GetComponent<Tower>().TowerMeshRenderer;
+        SkinnedMeshRenderer skinnedMeshRenderer = buildable.GetComponent<TowerBase>().TowerMeshRenderer;
 
         Material[] flashMats = new Material[skinnedMeshRenderer.materials.Length];
         for (int i = 0; i < skinnedMeshRenderer.materials.Length; i++)
@@ -129,21 +142,29 @@ public class BuildManager : MonoBehaviour, IBuilder<Tower, GameObject>
     public void WhenCreateBuildable(int index, Vector3 position, Quaternion rotation, GameObject buildableContainer)
     {
         Instantiate(buildableContainer, position + (Vector3.up * 0.15f), rotation);
-        buildableContainer.GetComponent<Tower>().enabled = true;
+        buildableContainer.GetComponent<TowerBase>().enabled = true;
+
+        OnBuild?.Invoke(this, new OnBuildEventArgs()
+        {
+            buildIndex = index,
+            position = position,
+            rotation = rotation,
+            buildObject = buildableContainer
+        });
     }
 
-    public void WhenCreatePreview(int index, Vector3 position, Quaternion rotation, GameObject buildableContainer, out Tower tower, out GameObject towerObject)
+    public void WhenCreatePreview(int index, Vector3 position, Quaternion rotation, GameObject buildableContainer, out TowerBase tower, out GameObject towerObject)
     {
         towerObject = Instantiate(buildableContainer, position, rotation);
-        towerObject.GetComponent<Tower>().enabled = false;
+        towerObject.GetComponent<TowerBase>().enabled = false;
         Destroy(towerObject.GetComponent<BoxCollider>());
 
         tower = WhenGetBuildable(buildableContainer);
     }
 
-    public Tower WhenGetBuildable(GameObject buildableObject) => buildableObject.GetComponent<Tower>();
+    public TowerBase WhenGetBuildable(GameObject buildableObject) => buildableObject.GetComponent<TowerBase>();
 
-    public void ClearPreview(Tower towerPreviewScript, GameObject towerPreviewObject)
+    public void ClearPreview(TowerBase towerPreviewScript, GameObject towerPreviewObject)
     {
         Destroy(towerPreviewObject);
     }

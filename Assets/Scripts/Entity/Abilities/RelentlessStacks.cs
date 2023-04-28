@@ -19,23 +19,23 @@ public class RelentlessStacks : Ability
         levelRequirements = new int[maxLevel];
         levelRequirements[0] = 1;
         levelRequirements[1] = 3;
-        levelRequirements[2] = 5;
-        levelRequirements[3] = 25;
+        levelRequirements[2] = 4;
+        levelRequirements[3] = 7;
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);
 
         currentStack = 0;
     }
 
-    protected override void OnProjectileHit(UnitBase unitScript, ProjectileBase projectileScript, Action<UnitBase, float> damageMethod)
+    protected override void OnProjectileHit(object sender, OnProjectileHitEventArgs e)
     {
         if (unit == null)
         {
-            unit = unitScript.gameObject;
+            unit = e.unit.gameObject;
             return;
         }
 
-        if (unit.GetInstanceID() == unitScript.gameObject.GetInstanceID())
+        if (unit.GetInstanceID() == e.unit.gameObject.GetInstanceID())
         {
             if (currentStack < maxStack)
             {

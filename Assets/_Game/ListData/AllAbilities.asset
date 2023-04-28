@@ -16,10 +16,13 @@ MonoBehaviour:
   - name: Marksmanship
     iconSpr: {fileID: 21300000, guid: d70e64f24e00f1a4b9ef04a071b610f8, type: 3}
     description: 'Rifler learns the crucial points on the target, occasionally finding
-      them and dealing double damage.
+      them and dealing increased damage based on the current damage of the tower.
 
 
-      Crit Chance: 20/25/30/35'
+      Crit
+      Multiplier: 2x/2x/3x/4x
+
+      Crit Chance: 20%/25%/30%/35%'
     loreDescription: Strike at their weak points. When 1 limb fails the rest will
       follow.
     abilityType: 0
@@ -35,4 +38,19 @@ MonoBehaviour:
       Max Relentless Stack: 5/7/12/15'
     loreDescription: Bullets zooming, casing ejecting. If it's still breathing then
       keep on shooting.
+    abilityType: 0
+  - name: Double Tap
+    iconSpr: {fileID: 21300000, guid: 003f432e994a29a4f84e1b0a98a68471, type: 3}
+    description: 'After shooting once, Rifler locks on to his target again, shooting
+      another projectile in quick succession.
+
+
+      Double tap next attack time:
+      0.25s
+
+      Double tap chance: 10%/14%/19%/25%
+
+      Double tap can trigger
+      double tap again'
+    loreDescription: I'm not that fast but within my sights, you will not last
     abilityType: 0

@@ -26,9 +26,9 @@ public class TowerBuyMenu : MonoBehaviour
 
             if (!towerBuyButton) return;
 
-            tdManager.CashSystem.OnModified += (type, amount, curr) =>
+            tdManager.CashSystem.OnModified += (sender, eventArgs) =>
             {
-                towerBuyButton.TowerBtn.gameObject.SetActive(curr >= towerSO.TowerCost);
+                towerBuyButton.TowerBtn.gameObject.SetActive(eventArgs.currentValue >= towerSO.TowerCost);
             };
 
             index = i;
@@ -36,9 +36,7 @@ public class TowerBuyMenu : MonoBehaviour
             {
                 if (tdManager.CashSystem.HasEnough(towerSO.TowerCost))
                 {
-
                     BuyTower(index);
-                    tdManager.CashSystem.Modify(ModifyType.Subtract, towerSO.TowerCost);
                 }
             });
         }

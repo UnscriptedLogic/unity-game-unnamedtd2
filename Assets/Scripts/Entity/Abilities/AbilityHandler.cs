@@ -8,7 +8,7 @@ using UnscriptedLogic.MathUtils;
 public class Ability
 {
     protected AbilityHandler abilityHandler;
-    protected Tower tower;
+    protected TowerBase tower;
     protected CurrencyHandler levelHandler;
 
     protected int maxLevel;
@@ -20,14 +20,14 @@ public class Ability
     public int[] LevelRequirements => levelRequirements;
     public int NextLevel => levelRequirements[CurrentLevel - 1];
 
-    public void Initialize(AbilityHandler abilityHandler, Tower tower)
+    public void Initialize(AbilityHandler abilityHandler, TowerBase tower)
     {
         this.abilityHandler = abilityHandler;
         this.tower = tower;
 
         tower.OnTowerProjectileCreated += OnProjectileCreated;
         tower.OnTowerProjectileFired += OnProjectileFired;
-        tower.OnTowerProjectileHit += OnProjectileHit;
+        tower.OnProjectileHitEvent += OnProjectileHit;
         tower.OnTowerProjectileDestroyed += OnProjectileDestroyed;
         tower.OnTowerTargetFound += OnTargetFound;
         tower.WhileTowerTargetFound += WhileTargetFound;
@@ -50,7 +50,7 @@ public class Ability
     protected virtual void OnTargetLost() { }
     protected virtual void OnProjectileCreated(GameObject bulletObject, ProjectileBase projectileScript) { }
     protected virtual void OnProjectileFired() { }
-    protected virtual void OnProjectileHit(UnitBase unitScript, ProjectileBase projectileScript, Action<UnitBase, float> damageMethod) { }
+    protected virtual void OnProjectileHit(object sender, OnProjectileHitEventArgs eventArgs) { }
     protected virtual void OnProjectileDestroyed(ProjectileBase projectileScript) { }
     protected virtual void OnLevelUp() { }
 }
@@ -66,7 +66,7 @@ public class AbilityHandler : MonoBehaviour
         abilities = new List<Ability>();
     }
 
-    public void AddAbility(Ability ability, Tower tower)
+    public void AddAbility(Ability ability, TowerBase tower)
     {
         ability.Initialize(this, tower);
         abilities.Add(ability);

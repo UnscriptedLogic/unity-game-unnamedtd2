@@ -4,6 +4,12 @@ using UnityEngine;
 using UnscriptedLogic.Currency;
 using UnscriptedLogic.MathUtils;
 
+public class UnitTookDamageEventArgs : EventArgs
+{
+    public float damage;
+    public float currentHealth;
+}
+
 public class UnitBase : MonoBehaviour
 {
     [Header("Health Settings")]
@@ -40,7 +46,10 @@ public class UnitBase : MonoBehaviour
     public float CurrentArmor => armorHandler.Current;
 
     public int CurrentWaypoint => currentPoint;
+    public static event EventHandler OnAnyUnitSpawned;
+    public static event EventHandler OnAnyUnitDespawned;
     public static event EventHandler OnAnyUnitCompletedPath;
+    public static event EventHandler<UnitTookDamageEventArgs> OnAnyUnitTookDamage;
 
     private void OnEnable()
     {
@@ -54,7 +63,19 @@ public class UnitBase : MonoBehaviour
         speedHandler = new CurrencyHandler(speed);
 
         healthHandler.OnEmpty += OnDeath;
-        speedHandler.OnModified += (type, amount, current) => animator.speed /= Mathf.Sqrt(walkAnimMulti);
+        speedHandler.OnModified += SpeedHandler_OnModified; ;
+        animator.speed /= Mathf.Sqrt(walkAnimMulti);
+
+        OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void OnDisable()
+    {
+        OnAnyUnitDespawned?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void SpeedHandler_OnModified(object sender, CurrencyEventArgs e)
+    {
         animator.speed /= Mathf.Sqrt(walkAnimMulti);
     }
 
@@ -82,13 +103,23 @@ public class UnitBase : MonoBehaviour
         healthHandler.Modify(ModifyType.Subtract, damage);
 
         damageFlash.Flash();
+        OnAnyUnitTookDamage?.Invoke(this, new UnitTookDamageEventArgs()
+        {
+            damage = damage,
+            currentHealth = healthHandler.Current,
+        });
     }
 
-    public virtual void OnDeath()
+    public virtual void OnDeath(object sender, EventArgs e)
     {
         points = new Vector3[0];
         boxCollider.enabled = false;
         animator.SetTrigger("Die");
         Destroy(gameObject, deathDelay);
+    }
+
+    public void KillUnit()
+    {
+        Destroy(gameObject);
     }
 }

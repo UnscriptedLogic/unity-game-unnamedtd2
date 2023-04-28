@@ -10,7 +10,7 @@ public class TowerLevelHandler : MonoBehaviour
     [SerializeField] private int level;
     [SerializeField] private int upgradePoints;
 
-    private Tower tower;
+    private TowerBase tower;
     private CurrencyHandler experienceHandler;
     private CurrencyHandler upgradePointsHandler;
     private ExperienceLevel currentExperienceLevel;
@@ -23,20 +23,21 @@ public class TowerLevelHandler : MonoBehaviour
 
     private void Start()
     {
-        tower = GetComponent<Tower>();
+        tower = GetComponent<TowerBase>();
 
         experienceHandler = new CurrencyHandler(0f);
         upgradePointsHandler = new CurrencyHandler(upgradePoints);
 
         currentExperienceLevel = TowerDefenseManager.instance.ExperienceLevelsSO.ExpList[level];
-        tower.OnTowerProjectileHit += (unitbase, projBase, method) => 
-        {
-            experienceHandler.Modify(ModifyType.Add, tower.Damage);
-            if (experienceHandler.Current >= currentExperienceLevel.amount)
-            {
-                LevelUp();
-            }
-        };
+
+        tower.OnProjectileHitEvent += Tower_OnTowerProjectileHit;
+    }
+
+    private void Tower_OnTowerProjectileHit(object sender, OnProjectileHitEventArgs e)
+    {
+        experienceHandler.Modify(ModifyType.Add, tower.Damage);
+        if (experienceHandler.Current >= currentExperienceLevel.amount)
+            LevelUp();
     }
 
     private void LevelUp()

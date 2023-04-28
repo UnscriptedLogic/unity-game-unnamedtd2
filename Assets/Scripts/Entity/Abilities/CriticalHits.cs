@@ -7,7 +7,7 @@ using UnscriptedLogic.MathUtils;
 public class CriticalHits : Ability
 {
     private float damageMultiplier = 2f;
-    private int procChancePercent = 20;
+    private int procChancePercent = 15;
 
     public override void OnAdded()
     {
@@ -17,7 +17,7 @@ public class CriticalHits : Ability
         levelRequirements[0] = 1;
         levelRequirements[1] = 2;
         levelRequirements[2] = 5;
-        levelRequirements[3] = 25;
+        levelRequirements[3] = 7;
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);
 
@@ -26,7 +26,7 @@ public class CriticalHits : Ability
 
     public void OverrideDamageMethod(UnitBase unit, float damage)
     {
-        if (RandomLogic.RandomIntZeroTo(100) < procChancePercent)
+        if (RandomLogic.IntZeroTo(100) < procChancePercent)
         {
             damage *= damageMultiplier;
         }
@@ -43,10 +43,12 @@ public class CriticalHits : Ability
         else if (levelHandler.Current == 3)
         {
             procChancePercent = 30;
+            damageMultiplier = 3f;
         }
         else if (levelHandler.Current == 4)
         {
             procChancePercent = 35;
+            damageMultiplier = 4f;
         }
     }
 }

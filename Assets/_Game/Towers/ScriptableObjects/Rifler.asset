@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fff6d362259cbb4b8750b52cfb4863a, type: 3}
+  m_Name: Rifler
+  m_EditorClassIdentifier: 
+  iconSpr: {fileID: 21300000, guid: a9b76cf54425f6948990e0fbc2b69c95, type: 3}
+  towerName: Scout
+  towerCost: 100
+  towerPrefab: {fileID: 4391050392790055348, guid: b6d7afabc6ed4d84fa033c3eea7dd1fb,
+    type: 3}
+  towerLevels:
+  - overrideName: 
+    sellCost: 50
+    towerIcon: {fileID: 0}
+    towerPrefab: {fileID: 0}
+    upgradeOptions:
+    - name: Quick Shots
+      iconSpr: {fileID: 21300000, guid: ba05c1c5c42e60a4eb042e071629bd2a, type: 3}
+      cost: 100
+      overrideObject: {fileID: 0}
+      description: 'Increases attack speed
+
+
+        Attack cooldown reduction: 0.25s'
+      loreDescription: Oh don't worry, I've got another in the barrel
+    - name: Headshots
+      iconSpr: {fileID: 21300000, guid: 06e69497efb250b42b993c9e4d3d1ba8, type: 3}
+      cost: 200
+      overrideObject: {fileID: 0}
+      description: Increases damage by 2
+      loreDescription: Don't wanna be standing infront of this one.
+  - overrideName: 
+    sellCost: 100
+    towerIcon: {fileID: 0}
+    towerPrefab: {fileID: 0}
+    upgradeOptions:
+    - name: Marksmanship
+      iconSpr: {fileID: 21300000, guid: d70e64f24e00f1a4b9ef04a071b610f8, type: 3}
+      cost: 150
+      overrideObject: {fileID: 0}
+      description: Adds a new passive ability that has a chance to deal critical
+        damage
+      loreDescription: 
+    - name: Stable Grip
+      iconSpr: {fileID: 21300000, guid: 207497d1cf245444b943f1a977813bff, type: 3}
+      cost: 200
+      overrideObject: {fileID: 0}
+      description: Increases range by 2
+      loreDescription: I've got me contact lenses on now. Wha-? What do you mean
+        "Are they square?" Of course they are!
+  - overrideName: 
+    sellCost: 200
+    towerIcon: {fileID: 0}
+    towerPrefab: {fileID: 0}
+    upgradeOptions:
+    - name: Double Tap
+      iconSpr: {fileID: 21300000, guid: 003f432e994a29a4f84e1b0a98a68471, type: 3}
+      cost: 1200
+      overrideObject: {fileID: 0}
+      description: Adds a new passive ability that has a chance to shoot 2 projectiles
+        in quick succession
+      loreDescription: 
+    - name: Rapid Reloading
+      iconSpr: {fileID: 21300000, guid: ba05c1c5c42e60a4eb042e071629bd2a, type: 3}
+      cost: 200
+      overrideObject: {fileID: 0}
+      description: 'Further increases attack speed
+
+
+        Attack cooldown reduction:
+        0.25s'
+      loreDescription: Ready that magazine. No not that one. That's for my alone
+        time.
+  - overrideName: 
+    sellCost: 300
+    towerIcon: {fileID: 0}
+    towerPrefab: {fileID: 0}
+    upgradeOptions:
+    - name: Piercing Shots
+      iconSpr: {fileID: 21300000, guid: c789946ba26fde64ba253933d571a918, type: 3}
+      cost: 400
+      overrideObject: {fileID: 0}
+      description: 'Increases piercing power
+
+
+        Additional hits after initial
+        contact: 2'
+      loreDescription: Come one, come all. Shoot through one and they all fall.
+    - name: Pin Point Accuracy Projectiles
+      iconSpr: {fileID: 21300000, guid: d70e64f24e00f1a4b9ef04a071b610f8, type: 3}
+      cost: 450
+      overrideObject: {fileID: 0}
+      description: Turns the tower into a hitscan tower, removing projectiles and
+        dealing damage to the unit directly.
+      loreDescription: The manufacturers sure had fun coming up with this acronym.

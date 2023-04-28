@@ -453,7 +453,7 @@ MonoBehaviour:
   id: towerRifler
   damage: 1
   range: 7
-  reloadTime: 3
+  reloadTime: 2.5
   projectileSpeed: 30
   projectileLifetime: 2
   pierce: 0
@@ -463,11 +463,12 @@ MonoBehaviour:
   - {fileID: 6119345793376831157, guid: 7069f100b21b7c241b939f411a6d2445, type: 3}
   rotationHeads:
   - rotationHead: {fileID: 4391050392790055351}
-    levelled: 0
+    levelled: 1
   shootAnchors:
   - {fileID: 1796027251}
-  audioClips:
-  - {fileID: 8300000, guid: ae75ad79d15e3ba49989e0cea67ad148, type: 3}
+  audioFields:
+  - clip: {fileID: 8300000, guid: fc8762a3f26de5f47a935275c9749b26, type: 3}
+    volume: 0.1
   drawGizmos: 0
   losBaseOffset: 0.5
   losObstructionLayer:
@@ -478,6 +479,7 @@ MonoBehaviour:
     m_Bits: 64
   targetSortMode: 0
   towerMeshRenderer: {fileID: 6419205505243604171}
+  useHitscan: 0
 --- !u!114 &1942740841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,7 +517,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b798f2131631b041bad4cc81cc42066, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevel: 0
+  level: 0
+  upgradePoints: 0
 --- !u!1001 &1456081136
 PrefabInstance:
   m_ObjectHideFlags: 0

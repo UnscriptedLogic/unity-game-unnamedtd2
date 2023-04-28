@@ -17,9 +17,9 @@ public class TowerUpgradeHandler : MonoBehaviour
         public float projLifetime { get; private set; }
         public int projPierce { get; private set; }
 
-        public Action<Tower> method;
+        public Action<TowerBase> method;
 
-        public UpgradeProperty(float damage = 0, float range = 0, float reloadTime = 0, float projSpeed = 0, float projLifetime = 0, int projPierce = 0, Action<Tower> method = null)
+        public UpgradeProperty(float damage = 0, float range = 0, float reloadTime = 0, float projSpeed = 0, float projLifetime = 0, int projPierce = 0, Action<TowerBase> method = null)
         {
             this.damage = damage;
             this.range = range;
@@ -31,7 +31,7 @@ public class TowerUpgradeHandler : MonoBehaviour
             this.method = method;
         }
 
-        public UpgradeProperty(Tower towerBase)
+        public UpgradeProperty(TowerBase towerBase)
         {
             damage = towerBase.Damage;
             range = towerBase.Range;
@@ -65,23 +65,23 @@ public class TowerUpgradeHandler : MonoBehaviour
 
     [SerializeField] protected TowerSO towerSO;
     protected List<UpgradeGroup> upgradeGroups = new List<UpgradeGroup>();
-    protected Tower towerBase;
+    protected TowerBase towerBase;
     protected List<int> upgradesChosen = new List<int>();
     protected UpgradeProperty persistantProperty;
 
     public List<int> UpgradesChosen => upgradesChosen;
     public TowerSO TowerSO => towerSO;
 
-    public Action<Tower> OnTowerBaseReplaced;
+    public Action<TowerBase> OnTowerBaseReplaced;
 
     protected virtual void Start()
     {
-        towerBase = GetComponent<Tower>();
+        towerBase = GetComponent<TowerBase>();
         InitUpgrades(towerBase);
         persistantProperty = new UpgradeProperty(towerBase);
     }
 
-    protected virtual void InitUpgrades(Tower towerBase)
+    protected virtual void InitUpgrades(TowerBase towerBase)
     {
 
     }
@@ -101,7 +101,7 @@ public class TowerUpgradeHandler : MonoBehaviour
                     tower.SetParent(transform);
                     Destroy(instantiatedOverride);
 
-                    towerBase = tower.GetComponent<Tower>();
+                    towerBase = tower.GetComponent<TowerBase>();
                     OnTowerBaseReplaced?.Invoke(towerBase);
                 }
 

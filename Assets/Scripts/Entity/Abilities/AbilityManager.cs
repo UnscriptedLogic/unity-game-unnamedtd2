@@ -19,11 +19,13 @@ public class AbilityManager : MonoBehaviour
         {
             { abilities.AbilityInfos[0], GetCriticalHits() },
             { abilities.AbilityInfos[1], GetRelentlessStacks() },
+            { abilities.AbilityInfos[2], GetDoubleTap() },
         };
     }
 
     public Ability GetCriticalHits() => new CriticalHits();
     public Ability GetRelentlessStacks() => new RelentlessStacks();
+    public Ability GetDoubleTap() => new DoubleTap();
 
     public Ability GetAbilityByName(string abilityName)
     {

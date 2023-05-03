@@ -17,7 +17,6 @@ public class TowerBuyMenu : MonoBehaviour
     {
         tdManager = TowerDefenseManager.instance;
 
-        int index = 0;
         for (int i = 0; i < towerListDebug.Count; i++)
         {
             TowerSO towerSO = towerListDebug[i];
@@ -31,7 +30,7 @@ public class TowerBuyMenu : MonoBehaviour
                 towerBuyButton.TowerBtn.gameObject.SetActive(eventArgs.currentValue >= towerSO.TowerCost);
             };
 
-            index = i;
+            int index = i;
             towerBuyButton.Initialize(towerSO.TowerCost, towerSO.IconSpr, () => 
             {
                 if (tdManager.CashSystem.HasEnough(towerSO.TowerCost))

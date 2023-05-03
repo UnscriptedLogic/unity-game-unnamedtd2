@@ -87,7 +87,7 @@ public class BuildManager : MonoBehaviour, IBuilder<TowerBase, GameObject>
 
         if (RaycastLogic.FromMousePos3D(Camera.main, out hit))
         {
-            buildHandler.Build(0, hit.collider.transform.position, Quaternion.identity, OnConditionResult);
+            buildHandler.Build(towerBuildIndex, hit.collider.transform.position, Quaternion.identity, OnConditionResult);
 
             buildHandler.ClearPreview();
             previewMode = false;

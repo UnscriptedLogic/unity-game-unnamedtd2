@@ -25,8 +25,13 @@ public class UnitBase : MonoBehaviour
     [Header("Misc Settings")]
     [SerializeField] private float deathDelay = 5f;
 
-    [Tooltip("The multiplication from the walking speed to the animation's walking speed")]
-    [SerializeField] private float walkAnimMulti = 2f;
+    [Space(10)]
+    [Tooltip("The reference matching float for the animation's walking speed")]
+    [SerializeField] private bool autoMatchRefWalkSpeed;
+    [SerializeField] private float refWalkSpeedAnim;
+    [Tooltip("The multiplier adjustment for the animation speed")]
+    [SerializeField] private float walkSpeedAdjust = 2f;
+    [Space(10)]
     [SerializeField] private BoxCollider boxCollider;
     [SerializeField] private Animator animator;
     [SerializeField] private DamageFlashSkinned damageFlash;
@@ -63,8 +68,8 @@ public class UnitBase : MonoBehaviour
         speedHandler = new CurrencyHandler(speed);
 
         healthHandler.OnEmpty += OnDeath;
-        speedHandler.OnModified += SpeedHandler_OnModified; ;
-        animator.speed /= Mathf.Sqrt(walkAnimMulti);
+        speedHandler.OnModified += SpeedHandler_OnModified;
+        animator.speed = (animator.speed / refWalkSpeedAnim * speedHandler.Current) * walkSpeedAdjust;
 
         OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
     }
@@ -76,7 +81,7 @@ public class UnitBase : MonoBehaviour
 
     private void SpeedHandler_OnModified(object sender, CurrencyEventArgs e)
     {
-        animator.speed /= Mathf.Sqrt(walkAnimMulti);
+        animator.speed = (animator.speed / refWalkSpeedAnim * speedHandler.Current) * walkSpeedAdjust;
     }
 
     private void Update()
@@ -121,5 +126,13 @@ public class UnitBase : MonoBehaviour
     public void KillUnit()
     {
         Destroy(gameObject);
+    }
+
+    private void OnValidate()
+    {
+        if (autoMatchRefWalkSpeed)
+        {
+            refWalkSpeedAnim = speed;
+        }
     }
 }

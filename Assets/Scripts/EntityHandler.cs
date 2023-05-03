@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,9 @@ public class EntityHandler : MonoBehaviour
     public List<TowerBase> Towers => towers;
     public List<UnitBase> Units => units;
 
+    public event EventHandler OnUnitListRemoved;
+    public event EventHandler OnTowerListRemoved;
+
     private void Awake()
     {
         instance = this;
@@ -23,11 +27,19 @@ public class EntityHandler : MonoBehaviour
         UnitBase.OnAnyUnitDespawned += UnitBase_OnAnyUnitDespawned;
     }
 
-    private void UnitBase_OnAnyUnitSpawned(object sender, System.EventArgs e) => units.Remove(sender as UnitBase);
-    private void UnitBase_OnAnyUnitDespawned(object sender, System.EventArgs e) => units.Remove(sender as UnitBase);
+    private void UnitBase_OnAnyUnitSpawned(object sender, System.EventArgs e) => units.Add(sender as UnitBase);
+    private void UnitBase_OnAnyUnitDespawned(object sender, System.EventArgs e)
+    {
+        units.Remove(sender as UnitBase);
+        OnUnitListRemoved?.Invoke(this, EventArgs.Empty);
+    }
 
     private void TowerBase_OnAnyTowerDespawned(object sender, System.EventArgs e) => towers.Remove(sender as TowerBase);
-    private void Tower_OnAnyTowerSpawned(object sender, System.EventArgs e) => towers.Add(sender as TowerBase);
+    private void Tower_OnAnyTowerSpawned(object sender, System.EventArgs e)
+    {
+        towers.Add(sender as TowerBase);
+        OnTowerListRemoved?.Invoke(this, EventArgs.Empty);
+    }
 
     public void KillAllUnits()
     {

@@ -52,5 +52,58 @@ MonoBehaviour:
 
       Double tap can trigger
       double tap again'
-    loreDescription: I'm not that fast but within my sights, you will not last
+    loreDescription: As a cadet, they always called me hasty with my shots but my
+      seargent knew better. Patience is not a fixed value of speed, but the skill
+      of knowing when to act and when to wait.
+    abilityType: 0
+  - name: Power Shot
+    iconSpr: {fileID: 21300000, guid: e2a8ea1bb05ce9844aec972b503d170b, type: 3}
+    description: 'Ranger releases a powerful shot, going through through multiple
+      enemies and dealing heavy damage.
+
+
+      Damage: 25/50/100/200
+
+      Pierce:
+      6/10/12/15'
+    loreDescription: Where I come from, brute force is not encouraged. They didn't
+      say it wasn't allowed though.
+    abilityType: 1
+  - name: Projectile Maintenance
+    iconSpr: {fileID: 21300000, guid: 92d36e597a108904392e031c8db33265, type: 3}
+    description: 'Passively increases the piercing points of the tower.
+
+
+      Total
+      extra pierce: 2/4/6/8'
+    loreDescription: Through all the reprimanding and punishments, my seniors always
+      applauded my meticulously maintained equipment. It's the one thing about me
+      they're proud of.
+    abilityType: 0
+  - name: Split Shot
+    iconSpr: {fileID: 21300000, guid: b4cded57d89128642b00daef27d6482c, type: 3}
+    description: 'Passively has a chance to shoot multiple projectiles at once.
+
+
+      Extra
+      Projectiles: 2 on each side
+
+      Proc. Chance:10/12/15/20
+
+      Dmg Reduction
+      on extra arrows: 75/50/25/0'
+    loreDescription: '"But I was patient with my shot!" I said proclaiming to my
+      supervisor as he reports to the headmaster about me violating the "One arrow
+      at a time" rule. Such a stupid rule.'
+    abilityType: 0
+  - name: Ranger's Requiem
+    iconSpr: {fileID: 21300000, guid: 06e69497efb250b42b993c9e4d3d1ba8, type: 3}
+    description: 'Every 4th shot deals additional damage based on how far Ranger
+      is to his target
+
+
+      DMG Multiplier/meter: 25%/50%/75%/100%'
+    loreDescription: Tradition was always a guiding light for me, following down
+      paths once taken by legends in my darkest of hours. With Master gone, it's
+      up to us to pass down the ways of a Ranger. Never let them know who hit them.
     abilityType: 0

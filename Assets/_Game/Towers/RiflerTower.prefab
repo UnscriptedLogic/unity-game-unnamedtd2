@@ -473,7 +473,7 @@ MonoBehaviour:
   losBaseOffset: 0.5
   losObstructionLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   unitLayer:
     serializedVersion: 2
     m_Bits: 64

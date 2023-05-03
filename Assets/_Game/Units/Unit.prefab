@@ -71,12 +71,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 6
   armor: 0
-  speed: 0.25
+  speed: 0.27
   turnSpeed: 0.1
   offsetHeight: 0
   stoppingDistance: 0.1
   deathDelay: 5
-  walkAnimMulti: 1
+  autoMatchRefWalkSpeed: 1
+  refWalkSpeedAnim: 0.27
+  walkSpeedAdjust: 1
   boxCollider: {fileID: 1980012444950660233}
   animator: {fileID: 7770833018142612583}
   damageFlash: {fileID: 2851142742430535772}

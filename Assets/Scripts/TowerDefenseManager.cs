@@ -18,6 +18,7 @@ public class TowerDefenseManager : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] private BuildManager buildManager;
+    [SerializeField] private CameraControls camControls;
 
     [Header("UI")]
     [SerializeField] private Transform hudUI;
@@ -35,9 +36,10 @@ public class TowerDefenseManager : MonoBehaviour
     public CurrencyHandler CashSystem => cashSystem;
     public TowerListSO AllTowerList => allUsableTowers;
     public ExperienceLevelsSO ExperienceLevelsSO => experienceLevels;
-
     public float CurrentCash => cashSystem.Current;
-    
+
+    public event EventHandler OnInitialized;
+
     public static TowerDefenseManager instance { get; private set; }
 
     private void Awake()
@@ -71,6 +73,18 @@ public class TowerDefenseManager : MonoBehaviour
         UnitBase.OnAnyUnitCompletedPath += OnUnitCompletedPath;
 
         buildManager.OnBuild += BuildManager_OnBuild;
+        OnInitialized?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void Win()
+    {
+        hudUI.gameObject.SetActive(false);
+        winState.gameObject.SetActive(true);
+
+        EntityHandler.instance.KillAllUnits();
+
+        camControls.InputManager_OnResetCamera();
+        camControls.DisableAllInput();
     }
 
     private void UnitBase_OnAnyUnitTookDamage(object sender, UnitTookDamageEventArgs e)
@@ -95,6 +109,9 @@ public class TowerDefenseManager : MonoBehaviour
 
             EntityHandler.instance.KillAllUnits();
             EntityHandler.instance.DisableAllTowers();
+
+            camControls.InputManager_OnResetCamera();
+            camControls.DisableAllInput();
         }
     }
 

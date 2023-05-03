@@ -39,16 +39,19 @@ public class CriticalHits : Ability
         if (levelHandler.Current == 2)
         {
             procChancePercent = 25;
+            tower.DamageHandler.Modify(ModifyType.Add, 1);
         }
         else if (levelHandler.Current == 3)
         {
             procChancePercent = 30;
             damageMultiplier = 3f;
+            tower.DamageHandler.Modify(ModifyType.Add, 1);
         }
         else if (levelHandler.Current == 4)
         {
             procChancePercent = 35;
             damageMultiplier = 4f;
+            tower.DamageHandler.Modify(ModifyType.Add, 1);
         }
     }
 }

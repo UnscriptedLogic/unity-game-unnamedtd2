@@ -99,6 +99,9 @@ public class TowerBase : MonoBehaviour, IBuildable, IInspectable
     public CurrencyHandler PierceHandler => pierceHandler;
     public CurrencyHandler PenetrateHandler => penetrateHandler;
 
+    public GameObject[] ProjectilePrefabs => projectilePrefabs;
+    public Transform[] ShootAnchors => shootAnchors;
+
     public Action<UnitBase, float> DamageToBeApplied;
     public Action<UnitBase, float> ApplyDamage;
     public Action<Transform> OnTowerTargetFound;
@@ -316,17 +319,17 @@ public class TowerBase : MonoBehaviour, IBuildable, IInspectable
 
     #region Projectile Handling
 
-    protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Transform anchor, ProjectileBehaviour projectileBehaviour = null)
+    public GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Transform anchor, ProjectileBehaviour projectileBehaviour = null)
     {
         return CreateBullet(out projectileBase, prefab, anchor.position, anchor.rotation, new ProjectileSettings(ProjectileSpeed, ProjectileLifetime, ProjectilePierce), projectileBehaviour);
     }
 
-    protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Vector3 position, Quaternion rotation, ProjectileBehaviour projectileBehaviour = null)
+    public GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Vector3 position, Quaternion rotation, ProjectileBehaviour projectileBehaviour = null)
     {
         return CreateBullet(out projectileBase, prefab, position, rotation, new ProjectileSettings(ProjectileSpeed, ProjectileLifetime, ProjectilePierce), projectileBehaviour);
     }
 
-    protected GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Vector3 position, Quaternion rotation, ProjectileSettings projectileSettings, ProjectileBehaviour projectileBehaviour = null)
+    public GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Vector3 position, Quaternion rotation, ProjectileSettings projectileSettings, ProjectileBehaviour projectileBehaviour = null)
     {
         //GameObject bullet = PoolManager.poolManagerInstance.PullFromPool(prefab, position, rotation, false);
         GameObject bullet = Instantiate(prefab, position, rotation);
@@ -336,13 +339,13 @@ public class TowerBase : MonoBehaviour, IBuildable, IInspectable
         return bullet;
     }
 
-    protected virtual void SubscribeProjectileEvents(ProjectileBase projectileBase)
+    public virtual void SubscribeProjectileEvents(ProjectileBase projectileBase)
     {
         projectileBase.OnEnemyHit += OnProjectileHit;
         projectileBase.OnProjectileDestroyed += OnProjectileDestroyed;
     }
 
-    protected virtual void UnsubscribeProjectileEvents(ProjectileBase projectileBase)
+    public virtual void UnsubscribeProjectileEvents(ProjectileBase projectileBase)
     {
         projectileBase.OnEnemyHit -= OnProjectileHit;
         projectileBase.OnProjectileDestroyed -= OnProjectileDestroyed;
@@ -391,15 +394,15 @@ public class TowerBase : MonoBehaviour, IBuildable, IInspectable
             ApplyDamage = DamageUnit;
         }
 
-        ApplyDamage(unit, incomingDamage);
         DamageToBeApplied?.Invoke(unit, incomingDamage);
-
         OnProjectileHitEvent?.Invoke(this, new OnProjectileHitEventArgs()
         {
             unit = unit,
             projectile = projectileBase,
             ApplyDamageMethod = ApplyDamage,
         });
+
+        ApplyDamage(unit, incomingDamage);
     }
 
     public void DamageUnit(UnitBase unit, float damage) => unit.TakeDamage(damage);
@@ -412,4 +415,25 @@ public class TowerBase : MonoBehaviour, IBuildable, IInspectable
     }
 
     #endregion
+
+    private void OnValidate()
+    {
+        if (towerMeshRenderer == null)
+        {
+            SkinnedMeshRenderer meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+            if (meshRenderer != null)
+            {
+                towerMeshRenderer = meshRenderer;
+            }
+        }
+
+        if (animator == null)
+        {
+            Animator animator = GetComponentInChildren<Animator>();
+            if (animator != null)
+            {
+                this.animator = animator;
+            }
+        }
+    }
 }

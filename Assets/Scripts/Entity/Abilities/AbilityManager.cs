@@ -17,15 +17,15 @@ public class AbilityManager : MonoBehaviour
 
         allUsableAbilities = new Dictionary<AbilityInfo, Ability>()
         {
-            { abilities.AbilityInfos[0], GetCriticalHits() },
-            { abilities.AbilityInfos[1], GetRelentlessStacks() },
-            { abilities.AbilityInfos[2], GetDoubleTap() },
+            { abilities.AbilityInfos[0], new CriticalHits() },
+            { abilities.AbilityInfos[1], new RelentlessStacks() },
+            { abilities.AbilityInfos[2], new DoubleTap() },
+            { abilities.AbilityInfos[3], new PowerShot() },
+            { abilities.AbilityInfos[4], new ProjectileMaintenance() },
+            { abilities.AbilityInfos[5], new SplitShot() },
+            { abilities.AbilityInfos[6], new TippedArrows() },
         };
     }
-
-    public Ability GetCriticalHits() => new CriticalHits();
-    public Ability GetRelentlessStacks() => new RelentlessStacks();
-    public Ability GetDoubleTap() => new DoubleTap();
 
     public Ability GetAbilityByName(string abilityName)
     {

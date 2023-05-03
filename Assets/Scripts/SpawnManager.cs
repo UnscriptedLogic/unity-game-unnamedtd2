@@ -12,6 +12,19 @@ public class SpawnManager : MonoBehaviour
     private void Start()
     {
         waveSystem = new PointBasedWaveSystem(spawnerSettings, OnSpawn, OnCompleted, true);
+
+        TowerDefenseManager.instance.OnInitialized += Instance_OnInitialized;
+    }
+
+    private void Instance_OnInitialized(object sender, EventArgs e)
+    {
+        TowerDefenseManager.instance.HealthSystem.OnEmpty += HealthSystem_OnEmpty;
+    }
+
+    private void HealthSystem_OnEmpty(object sender, EventArgs e)
+    {
+        waveSystem.Pause();
+        EntityHandler.instance.KillAllUnits();
     }
 
     private void Update()

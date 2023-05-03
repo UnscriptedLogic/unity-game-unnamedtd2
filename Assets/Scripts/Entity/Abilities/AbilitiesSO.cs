@@ -8,7 +8,8 @@ using UnityEngine;
 public enum AbilityType
 {
     PASSIVE,
-    ACTIVE
+    PASSIVECD,
+    ACTIVE,
 }
 
 [System.Serializable]

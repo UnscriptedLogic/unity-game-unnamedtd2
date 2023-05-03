@@ -76,7 +76,9 @@ MonoBehaviour:
   offsetHeight: 0
   stoppingDistance: 0.1
   deathDelay: 5
-  walkAnimMulti: 1
+  autoMatchRefWalkSpeed: 0
+  refWalkSpeedAnim: 2.75
+  walkSpeedAdjust: 1
   boxCollider: {fileID: 8174575559621463745}
   animator: {fileID: 7897730241799002481}
   damageFlash: {fileID: 5592007059491101204}

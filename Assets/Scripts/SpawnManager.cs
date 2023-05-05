@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnscriptedLogic.WaveSystems.Infinite;
+using UnscriptedLogic.WaveSystems.Sequential.PointBased;
 
 public class SpawnManager : MonoBehaviour
 {

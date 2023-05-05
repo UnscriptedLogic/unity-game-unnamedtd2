@@ -110,8 +110,8 @@ public class TowerDefenseManager : MonoBehaviour
             EntityHandler.instance.KillAllUnits();
             EntityHandler.instance.DisableAllTowers();
 
+            camControls.stayDisabled = true;
             camControls.InputManager_OnResetCamera();
-            camControls.DisableAllInput();
         }
     }
 

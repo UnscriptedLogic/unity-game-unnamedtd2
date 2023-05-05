@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6214354015832020360}
   - component: {fileID: 2851142742430535772}
   m_Layer: 6
-  m_Name: BiggerUnit
+  m_Name: ToughUnit
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4904924667316968201}
+  - {fileID: 4398780174124206246}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -55,7 +55,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6214489, y: 1.3618535, z: 0.6445457}
+  m_Size: {x: 0.6214489, y: 1.3618535, z: 0.31316286}
   m_Center: {x: 0, y: 0.68136245, z: 0}
 --- !u!114 &7850114091747465119
 MonoBehaviour:
@@ -69,18 +69,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba66c1f32010a449bec396b3f811607, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 24
   armor: 0
-  speed: 0.2
+  speed: 0.23
   turnSpeed: 0.1
   offsetHeight: 0
   stoppingDistance: 0.1
   deathDelay: 5
   autoMatchRefWalkSpeed: 0
-  refWalkSpeedAnim: 0.35
-  walkSpeedAdjust: 0.6
+  refWalkSpeedAnim: 0.27
+  walkSpeedAdjust: 1
   boxCollider: {fileID: 1980012444950660233}
-  animator: {fileID: 454880828389935796}
+  animator: {fileID: 7770833018142612583}
   damageFlash: {fileID: 2851142742430535772}
 --- !u!114 &6214354015832020360
 MonoBehaviour:
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 3
-  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineColor: {r: 0, g: 0, b: 0, a: 1}
   outlineWidth: 2.5
   precomputeOutline: 1
   bakeKeys: []
@@ -113,9 +113,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashMat: {fileID: 2100000, guid: 0b4b05fcd79a58043a9a23bac1cb49d0, type: 2}
-  skinnedMeshRenderer: {fileID: 4852620885551692602}
+  skinnedMeshRenderer: {fileID: 4201200121196439701}
   blinkDuration: 0.075
---- !u!1001 &4871614424714575074
+--- !u!1001 &4215688377037041485
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -127,41 +127,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 087fc4f866769d14082d7a9155201d1a, type: 2}
+      objectReference: {fileID: 2100000, guid: dbce588e3d2cbda479a18025c2da044b, type: 2}
     - target: {fileID: -9165797768001435688, guid: bfc1673db20463647be78eee7b9f5a5b,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 087fc4f866769d14082d7a9155201d1a, type: 2}
+      objectReference: {fileID: 2100000, guid: dbce588e3d2cbda479a18025c2da044b, type: 2}
     - target: {fileID: -9165797768001435688, guid: bfc1673db20463647be78eee7b9f5a5b,
         type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
-      objectReference: {fileID: 2100000, guid: 087fc4f866769d14082d7a9155201d1a, type: 2}
+      objectReference: {fileID: 2100000, guid: dbce588e3d2cbda479a18025c2da044b, type: 2}
     - target: {fileID: -9165797768001435688, guid: bfc1673db20463647be78eee7b9f5a5b,
         type: 3}
       propertyPath: m_Materials.Array.data[3]
       value: 
-      objectReference: {fileID: 2100000, guid: 087fc4f866769d14082d7a9155201d1a, type: 2}
+      objectReference: {fileID: 2100000, guid: dbce588e3d2cbda479a18025c2da044b, type: 2}
     - target: {fileID: -8679921383154817045, guid: bfc1673db20463647be78eee7b9f5a5b,
         type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: bfc1673db20463647be78eee7b9f5a5b,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: bfc1673db20463647be78eee7b9f5a5b,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: bfc1673db20463647be78eee7b9f5a5b,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bfc1673db20463647be78eee7b9f5a5b,
         type: 3}
@@ -225,38 +210,26 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bfc1673db20463647be78eee7b9f5a5b,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 454880828389935796}
+      addedObject: {fileID: 7770833018142612583}
   m_SourcePrefab: {fileID: 100100000, guid: bfc1673db20463647be78eee7b9f5a5b, type: 3}
---- !u!137 &4852620885551692602 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -9165797768001435688, guid: bfc1673db20463647be78eee7b9f5a5b,
-    type: 3}
-  m_PrefabInstance: {fileID: 4871614424714575074}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &4904924667316968201 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bfc1673db20463647be78eee7b9f5a5b,
-    type: 3}
-  m_PrefabInstance: {fileID: 4871614424714575074}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5717911624036827571 stripped
+--- !u!1 &3909207969128256028 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bfc1673db20463647be78eee7b9f5a5b,
     type: 3}
-  m_PrefabInstance: {fileID: 4871614424714575074}
+  m_PrefabInstance: {fileID: 4215688377037041485}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &454880828389935796
+--- !u!95 &7770833018142612583
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5717911624036827571}
+  m_GameObject: {fileID: 3909207969128256028}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 1ccbd13cf25aeb8488958ba14e7dfee5, type: 3}
   m_Controller: {fileID: 9100000, guid: 2cd4d33f5298c1d4bb2e2f32bd12b841, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -265,3 +238,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!137 &4201200121196439701 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -9165797768001435688, guid: bfc1673db20463647be78eee7b9f5a5b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4215688377037041485}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4398780174124206246 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bfc1673db20463647be78eee7b9f5a5b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4215688377037041485}
+  m_PrefabAsset: {fileID: 0}

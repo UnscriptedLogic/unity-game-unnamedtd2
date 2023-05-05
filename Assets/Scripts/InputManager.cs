@@ -35,7 +35,7 @@ public class InputManager : MonoBehaviour
         controls.Interact.started += Interact_started;
         controls.Interact.canceled += Interact_canceled;
 
-        controls.DirectionalMovement.started += DirectionalMovement_started;
+        controls.DirectionalMovement.performed += DirectionalMovement_started;
         controls.DirectionalMovement.canceled += DirectionalMovement_canceled;
         controls.Zoom.started += Zoom_started;
         controls.Zoom.canceled += Zoom_canceled;

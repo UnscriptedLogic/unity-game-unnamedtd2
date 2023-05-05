@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnscriptedLogic.Currency;
+﻿using UnscriptedLogic.Currency;
 using UnscriptedLogic.MathUtils;
 
 public class DoubleTap : Ability
@@ -16,11 +10,7 @@ public class DoubleTap : Ability
     {
         maxLevel = 4;
 
-        levelRequirements = new int[maxLevel];
-        levelRequirements[0] = 1;
-        levelRequirements[1] = 2;
-        levelRequirements[2] = 6;
-        levelRequirements[3] = 10;
+        levelRequirements = new int[3] { 9, 10, 11 };
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);
     }

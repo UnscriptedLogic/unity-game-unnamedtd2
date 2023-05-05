@@ -27,6 +27,7 @@ public class CameraControls : MonoBehaviour
     private Quaternion rotationToLerp;
     private float rotationAngle;
     private bool isResetting;
+    public bool stayDisabled;
 
     private void Start()
     {
@@ -92,7 +93,12 @@ public class CameraControls : MonoBehaviour
             if (Vector3.Distance(anchor.position, new Vector3(0f, anchor.position.y, 0f)) <= 0.1f)
             {
                 isResetting = false;
-                EnableAllInput();
+
+                if (!stayDisabled)
+                {
+                    EnableAllInput();
+                    stayDisabled = false;
+                } 
             }
             return;
         }

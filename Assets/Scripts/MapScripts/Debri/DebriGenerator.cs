@@ -96,20 +96,20 @@ public static class DebriGenerator
             HeatMapNode heatMapNode = settings.heatmap.Find(x => x.position == position);
             if (heatMapNode == null)
             {
-                Debug.Log($"Cant find heatmap node: {position}");
+                //Debug.Log($"Cant find heatmap node: {position}");
                 return false;
             }
 
             if (!MathLogic.isWithinRange(heatMapNode.shortestDistance, debri.heatmapRange))
             {
-                Debug.Log("Within heatmap failed");
+                //Debug.Log("Within heatmap failed");
                 return false;
             }
         }
 
         if (Physics.CheckSphere(position, debri.size, settings.debriLayer))
         {
-            Debug.Log("Away from other debri failed");
+            //Debug.Log("Away from other debri failed");
             return false;
         }
 

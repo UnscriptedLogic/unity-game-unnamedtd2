@@ -10,7 +10,7 @@ public class UnitTookDamageEventArgs : EventArgs
     public float currentHealth;
 }
 
-public class UnitBase : MonoBehaviour
+public class UnitBase : MonoBehaviour, IInspectable
 {
     [Header("Health Settings")]
     [SerializeField] private float health;

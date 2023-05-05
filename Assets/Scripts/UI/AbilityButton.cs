@@ -79,7 +79,7 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 return;
             }
 
-            levelUpButton.gameObject.SetActive(levelHandler.Level >= ability.NextLevel - 1 && !(levelHandler.PointsHandler.Current <= 0f));
+            levelUpButton.gameObject.SetActive(levelHandler.Level + 1 >= ability.NextLevel && !(levelHandler.PointsHandler.Current <= 0f));
         }
     }
 

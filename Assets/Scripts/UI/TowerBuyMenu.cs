@@ -27,7 +27,7 @@ public class TowerBuyMenu : MonoBehaviour
 
             tdManager.CashSystem.OnModified += (sender, eventArgs) =>
             {
-                towerBuyButton.TowerBtn.gameObject.SetActive(eventArgs.currentValue >= towerSO.TowerCost);
+                towerBuyButton.TowerBtn.interactable = eventArgs.currentValue >= towerSO.TowerCost;
             };
 
             int index = i;

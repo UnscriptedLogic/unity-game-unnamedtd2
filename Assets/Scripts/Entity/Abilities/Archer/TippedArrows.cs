@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnscriptedLogic.Currency;
 
@@ -13,11 +11,7 @@ public class TippedArrows : Ability
     {
         maxLevel = 4;
 
-        levelRequirements = new int[maxLevel];
-        levelRequirements[0] = 6;
-        levelRequirements[1] = 10;
-        levelRequirements[2] = 15;
-        levelRequirements[3] = 20;
+        levelRequirements = new int[3] { 10, 15, 20 };
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);
 

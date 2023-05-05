@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnscriptedLogic.Currency;
 using UnscriptedLogic.MathUtils;
@@ -13,11 +11,7 @@ public class SplitShot : Ability
     {
         maxLevel = 4;
 
-        levelRequirements = new int[maxLevel];
-        levelRequirements[0] = 1;
-        levelRequirements[1] = 2;
-        levelRequirements[2] = 5;
-        levelRequirements[3] = 7;
+        levelRequirements = new int[3] { 5, 10, 15 };
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);
 

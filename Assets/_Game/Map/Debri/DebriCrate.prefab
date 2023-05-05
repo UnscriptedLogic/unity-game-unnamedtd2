@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8397568117872343630
 Transform:
@@ -52,8 +52,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.8445153, y: 1.7568536, z: 5.617388}
-  m_Center: {x: 0, y: 1.1300788, z: 0.08529234}
+  m_Size: {x: 3.8445153, y: 2.6101816, z: 5.617388}
+  m_Center: {x: 0, y: 1.074588, z: 0.08529234}
 --- !u!1001 &8577718995308867711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -121,6 +121,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Crate
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b6399e7bf47d22248aa57fdb574d8b87,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

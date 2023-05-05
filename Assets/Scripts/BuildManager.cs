@@ -15,6 +15,12 @@ public class OnBuildEventArgs : EventArgs
     public GameObject buildObject;
 }
 
+public class OnPreviewEventArgs : EventArgs
+{
+    public int buildIndex;
+    public GameObject previewObject;
+}
+
 public class BuildManager : MonoBehaviour, IBuilder<TowerBase, GameObject>
 {
     [SerializeField] private Material previewMaterial;
@@ -33,6 +39,14 @@ public class BuildManager : MonoBehaviour, IBuilder<TowerBase, GameObject>
     public GameObject[] buildableContainers => GetContainers();
 
     public event EventHandler<OnBuildEventArgs> OnBuild;
+    public event EventHandler<OnPreviewEventArgs> OnPreviewing;
+
+    public static BuildManager instance { get; private set; }
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -76,6 +90,12 @@ public class BuildManager : MonoBehaviour, IBuilder<TowerBase, GameObject>
                 SetBuildableMaterial(isValidSpot ? previewMaterial : invalidSpotMaterial);
                 setAsValid = isValidSpot;
             }
+
+            OnPreviewing?.Invoke(this, new OnPreviewEventArgs()
+            {
+                buildIndex = towerBuildIndex,
+                previewObject = buildHandler.PreviewObject,
+            });
         }
     }
 

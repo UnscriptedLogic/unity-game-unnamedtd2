@@ -13,23 +13,46 @@ MonoBehaviour:
   m_Name: DefaultExperienceLevels
   m_EditorClassIdentifier: 
   experienceLevels:
-  - amount: 50
+  - amount: 10
     totalSumOfBefore: 0
-  - amount: 100
-    totalSumOfBefore: 150
-  - amount: 200
-    totalSumOfBefore: 300
-  - amount: 400
-    totalSumOfBefore: 600
-  - amount: 600
-    totalSumOfBefore: 1000
-  - amount: 850
-    totalSumOfBefore: 1450
-  - amount: 1000
-    totalSumOfBefore: 1850
-  - amount: 1250
-    totalSumOfBefore: 2250
-  - amount: 1550
-    totalSumOfBefore: 2800
-  - amount: 2000
-    totalSumOfBefore: 3550
+  - amount: 20
+    totalSumOfBefore: 30
+  - amount: 30
+    totalSumOfBefore: 50
+  - amount: 40
+    totalSumOfBefore: 70
+  - amount: 50
+    totalSumOfBefore: 90
+  - amount: 70
+    totalSumOfBefore: 120
+  - amount: 90
+    totalSumOfBefore: 160
+  - amount: 110
+    totalSumOfBefore: 200
+  - amount: 130
+    totalSumOfBefore: 240
+  - amount: 150
+    totalSumOfBefore: 280
+  - amount: 180
+    totalSumOfBefore: 330
+  - amount: 210
+    totalSumOfBefore: 390
+  - amount: 240
+    totalSumOfBefore: 450
+  - amount: 270
+    totalSumOfBefore: 510
+  - amount: 300
+    totalSumOfBefore: 570
+  - amount: 340
+    totalSumOfBefore: 640
+  - amount: 380
+    totalSumOfBefore: 720
+  - amount: 420
+    totalSumOfBefore: 800
+  - amount: 460
+    totalSumOfBefore: 880
+  - amount: 500
+    totalSumOfBefore: 960
+  memorizeDifference: 0
+  modifiedStartIndex: 0
+  applyDifference: 0

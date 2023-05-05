@@ -1,20 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnscriptedLogic.WaveSystems.Classic;
+using UnscriptedLogic.WaveSystems.Asynchronous.Timed;
 
 public class GameSpawnManager : MonoBehaviour
 {
+    [Header("Spawn Settings")]
     [SerializeField] private SpawnSettings spawnSettings;
-    private SimpleWaveSpawner waveSpawner;
+    [SerializeField] private WaveSO waveSO;
+
+    private TimedWaveSpawner waveSpawner;
+
+    public TimedWaveSpawner WaveSpawner => waveSpawner;
+
+    public event EventHandler OnInitialized;
 
     private void Start()
     {
-        waveSpawner = new SimpleWaveSpawner(spawnSettings);
+        waveSpawner = new TimedWaveSpawner(new SpawnSettings() { startDelay = spawnSettings.startDelay, waves = waveSO.Waves});
         waveSpawner.OnSpawnEnemy += WaveSpawner_OnSpawnEnemy;
         waveSpawner.OnCompleted += WaveSpawner_OnCompleted;
 
         waveSpawner.Start();
+        OnInitialized?.Invoke(this, EventArgs.Empty);
     }
 
     private void WaveSpawner_OnCompleted(object sender, System.EventArgs e)

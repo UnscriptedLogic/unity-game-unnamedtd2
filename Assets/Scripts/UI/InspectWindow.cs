@@ -78,18 +78,21 @@ public class InspectWindow : MonoBehaviour
             IInspectable inspectable = unitHit.collider.gameObject.GetComponent<IInspectable>();
             if (inspectable != null)
             {
-                inspectedTower = inspectable as TowerBase;
-                inspectedTowerSO = TowerDefenseManager.instance.AllTowerList.GetSOFromTower(inspectedTower);
-                inspectedTUH = inspectedTower.GetComponent<TowerUpgradeHandler>();
-                inspectedAbilityHandler = inspectedTower.GetComponent<AbilityHandler>();
-                inspectedLevelHandler = inspectedTower.GetComponent<TowerLevelHandler>();
+                if (inspectable as TowerBase)
+                {
+                    inspectedTower = inspectable as TowerBase;
+                    inspectedTowerSO = TowerDefenseManager.instance.AllTowerList.GetSOFromTower(inspectedTower);
+                    inspectedTUH = inspectedTower.GetComponent<TowerUpgradeHandler>();
+                    inspectedAbilityHandler = inspectedTower.GetComponent<AbilityHandler>();
+                    inspectedLevelHandler = inspectedTower.GetComponent<TowerLevelHandler>();
 
-                RefreshTowerWindow();
+                    RefreshTowerWindow();
 
-                inspectedObject = unitHit.collider.gameObject;
+                    inspectedObject = unitHit.collider.gameObject;
 
-                Show();
-                return;
+                    Show();
+                    return;
+                }
             }
         }
 

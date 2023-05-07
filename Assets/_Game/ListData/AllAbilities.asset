@@ -71,11 +71,13 @@ MonoBehaviour:
     abilityType: 1
   - name: Projectile Maintenance
     iconSpr: {fileID: 21300000, guid: 92d36e597a108904392e031c8db33265, type: 3}
-    description: 'Passively increases the piercing points of the tower.
+    description: 'Ranger gains increased piercing and attack speed for every level
 
 
       Total
-      extra pierce: 2/4/6/8'
+      extra pierce: 2/4/6/8
+
+      Att. Speed reduction: 0.5s/1s/1.5s/2s'
     loreDescription: Through all the reprimanding and punishments, my seniors always
       applauded my meticulously maintained equipment. It's the one thing about me
       they're proud of.

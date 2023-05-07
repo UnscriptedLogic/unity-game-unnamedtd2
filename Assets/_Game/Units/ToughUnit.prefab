@@ -71,7 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 24
   armor: 0
-  speed: 0.23
+  speed: 0.25
   turnSpeed: 0.1
   offsetHeight: 0
   stoppingDistance: 0.1

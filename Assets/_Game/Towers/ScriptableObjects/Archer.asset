@@ -27,7 +27,7 @@ MonoBehaviour:
       iconSpr: {fileID: 21300000, guid: c2b1f01a70073f144a40182d7b7255b7, type: 3}
       cost: 225
       overrideObject: {fileID: 0}
-      description: Increases damage by 1
+      description: Increases damage by 2
       loreDescription: Sharpened tips
     - name: Enhanced Eyesight
       iconSpr: {fileID: 21300000, guid: e2a8ea1bb05ce9844aec972b503d170b, type: 3}
@@ -56,7 +56,8 @@ MonoBehaviour:
       iconSpr: {fileID: 21300000, guid: 92d36e597a108904392e031c8db33265, type: 3}
       cost: 275
       overrideObject: {fileID: 0}
-      description: Adds a passive ability that increases pierce for every level
+      description: Adds a passive ability that increases pierce and attack speed
+        for every level
       loreDescription: 
   - overrideName: 
     sellCost: 0

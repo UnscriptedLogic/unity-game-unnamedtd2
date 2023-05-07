@@ -15,6 +15,8 @@ public class CriticalHits : Ability
         levelHandler = new CurrencyHandler(1, max: maxLevel);
 
         tower.ApplyDamage = OverrideDamageMethod;
+        tower.DamageHandler.Modify(ModifyType.Add, 1);
+        upgradeHandler.UpdatePersistentStats(new TowerUpgradeHandler.UpgradeProperty(damage: 1));
     }
 
     public void OverrideDamageMethod(UnitBase unit, float damage)
@@ -46,5 +48,7 @@ public class CriticalHits : Ability
             damageMultiplier = 4f;
             tower.DamageHandler.Modify(ModifyType.Add, 1);
         }
+
+        upgradeHandler.UpdatePersistentStats(new TowerUpgradeHandler.UpgradeProperty(damage: 1));
     }
 }

@@ -76,7 +76,7 @@ public class TowerBase : MonoBehaviour, IBuildable, IInspectable
     [SerializeField] protected TargetSortMode targetSortMode = TargetSortMode.First;
     [SerializeField] protected SkinnedMeshRenderer towerMeshRenderer;
 
-    protected SoundManager soundManager;
+    protected FXManager soundManager;
     protected TowerDefenseManager tdManager;
     protected float _reloadTime;
     protected Transform currentTarget;
@@ -144,7 +144,7 @@ public class TowerBase : MonoBehaviour, IBuildable, IInspectable
     private void OnEnable()
     {
         tdManager = TowerDefenseManager.instance;
-        soundManager = SoundManager.instance;
+        soundManager = FXManager.instance;
 
         OnAnyTowerSpawned?.Invoke(this, EventArgs.Empty);
     }

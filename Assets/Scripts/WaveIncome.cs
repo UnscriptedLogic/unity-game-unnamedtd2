@@ -39,7 +39,6 @@ public class WaveIncome : MonoBehaviour
             evaluation = waveCap;
 
         float amount = (float)Mathf.Round(animationCurve.Evaluate(evaluation) * multiplier);
-        Debug.Log(amount);
         return amount;
     }
 }

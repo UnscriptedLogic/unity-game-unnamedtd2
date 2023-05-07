@@ -220,7 +220,7 @@ public class InspectWindow : MonoBehaviour
 
     private void SyncLevel(object sender, CurrencyEventArgs e)
     {
-        levelSlider.fillAmount = inspectedLevelHandler.ExperienceHandler.Current / inspectedLevelHandler.ExperienceLevel.amount;
+        levelSlider.fillAmount = inspectedLevelHandler.ExperienceHandler.Current / inspectedLevelHandler.CurrentExperienceLevelNeeded.amount;
         levelTMP.text = $"{inspectedLevelHandler.Level + 1}";
     }
 

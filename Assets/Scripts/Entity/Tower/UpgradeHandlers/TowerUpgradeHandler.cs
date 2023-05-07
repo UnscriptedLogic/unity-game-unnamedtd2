@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static TowerUpgradeHandler;
 
 [DefaultExecutionOrder(2)]
 public class TowerUpgradeHandler : MonoBehaviour
 {
+    [System.Serializable]
     public class UpgradeProperty
     {
         //Core settings
@@ -41,15 +43,34 @@ public class TowerUpgradeHandler : MonoBehaviour
             projPierce = towerBase.ProjectilePierce;
         }
 
-        public void StackProperty(UpgradeProperty upgradeProperty)
+        public static UpgradeProperty operator +(UpgradeProperty a, UpgradeProperty b)
         {
-            damage += upgradeProperty.damage;
-            range += upgradeProperty.range;
-            reloadTime += upgradeProperty.reloadTime;
-            projSpeed += upgradeProperty.projSpeed;
-            projLifetime += upgradeProperty.projLifetime;
-            projPierce += upgradeProperty.projPierce;
-            method += upgradeProperty.method;
+            UpgradeProperty sum = a;
+
+            sum.damage += b.damage;
+            sum.range += b.range;
+            sum.reloadTime += b.reloadTime;
+            sum.projSpeed += b.projSpeed;
+            sum.projLifetime += b.projLifetime;
+            sum.projPierce += b.projPierce;
+            sum.method += b.method;
+
+            return sum;
+        }
+
+        public static UpgradeProperty operator -(UpgradeProperty a, UpgradeProperty b)
+        {
+            UpgradeProperty sum = a;
+
+            sum.damage -= b.damage;
+            sum.range -= b.range;
+            sum.reloadTime -= b.reloadTime;
+            sum.projSpeed -= b.projSpeed;
+            sum.projLifetime -= b.projLifetime;
+            sum.projPierce -= b.projPierce;
+            sum.method -= b.method;
+
+            return sum;
         }
     }
 
@@ -67,7 +88,12 @@ public class TowerUpgradeHandler : MonoBehaviour
     protected List<UpgradeGroup> upgradeGroups = new List<UpgradeGroup>();
     protected TowerBase towerBase;
     protected List<int> upgradesChosen = new List<int>();
-    protected UpgradeProperty persistantProperty;
+
+    //Sum of instant upgrades
+    protected UpgradeProperty upgradePersistantProperty;
+
+    //Sum of all ability affected upgrades
+    protected UpgradeProperty abilityPersistentProperty;
 
     public List<int> UpgradesChosen => upgradesChosen;
     public TowerSO TowerSO => towerSO;
@@ -78,7 +104,8 @@ public class TowerUpgradeHandler : MonoBehaviour
     {
         towerBase = GetComponent<TowerBase>();
         InitUpgrades(towerBase);
-        persistantProperty = new UpgradeProperty(towerBase);
+        upgradePersistantProperty = new UpgradeProperty(towerBase);
+        abilityPersistentProperty = new UpgradeProperty();
     }
 
     protected virtual void InitUpgrades(TowerBase towerBase)
@@ -105,25 +132,36 @@ public class TowerUpgradeHandler : MonoBehaviour
                     OnTowerBaseReplaced?.Invoke(towerBase);
                 }
 
-                UpgradeProperty upgradeProperty = upgradeGroups[upgradesChosen.Count].upgradeProperties[upgradePropertyIndex];
-                persistantProperty.StackProperty(upgradeProperty);
+                upgradePersistantProperty += upgradeGroups[upgradesChosen.Count].upgradeProperties[upgradePropertyIndex];
+                UpgradeProperty propertySum = upgradePersistantProperty + abilityPersistentProperty;
 
                 //Core settings
-                towerBase.Damage = persistantProperty.damage;
-                towerBase.Range = persistantProperty.range;
-                towerBase.ReloadTime = persistantProperty.reloadTime;
+                towerBase.Damage = propertySum.damage;
+                towerBase.Range = propertySum.range;
+                towerBase.ReloadTime = propertySum.reloadTime;
 
                 //Projectile settings
-                towerBase.ProjectilePierce = persistantProperty.projPierce;
-                towerBase.ProjectileSpeed = persistantProperty.projSpeed;
-                towerBase.ProjectileLifetime = persistantProperty.projLifetime;
+                towerBase.ProjectilePierce = propertySum.projPierce;
+                towerBase.ProjectileSpeed = propertySum.projSpeed;
+                towerBase.ProjectileLifetime = propertySum.projLifetime;
 
                 upgradeGroups[upgradesChosen.Count].upgradeProperties[upgradePropertyIndex].method?.Invoke(towerBase);
 
-                //persistantProperty.method?.Invoke(towerBase);
+                //upgradePersistantProperty.method?.Invoke(towerBase);
 
                 upgradesChosen.Add(upgradePropertyIndex);
             }
         }
+    }
+
+    /// <summary>
+    /// Updates a seperate stat group property meant for abilities.
+    /// It stores the cumulation of all the upgrades affecting attributes of the tower ignoring any status effects.
+    /// Abilities should not directly affect the main persistent property.
+    /// Enemies who want to disable passives also have easy access 
+    /// </summary>
+    public void UpdatePersistentStats(UpgradeProperty upgradeProperty)
+    {
+        abilityPersistentProperty += upgradeProperty;
     }
 }

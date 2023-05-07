@@ -1,15 +1,31 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Playables;
 using UnityEngine;
 using UnscriptedLogic.Currency;
 using UnscriptedLogic.MathUtils;
 
+public class OnAnyAbilityHasUpgradeEventArgs : EventArgs
+{
+    public TowerBase tower;
+}
+
+public struct AbilityInitSettings
+{
+    public AbilityHandler abilityHandler;
+    public TowerBase towerBase;
+    public TowerUpgradeHandler upgradeHandler;
+    public TowerLevelHandler towerLevelHandler;
+}
+
 public class Ability
 {
+    protected TowerLevelHandler towerLevelHandler;
+    protected TowerUpgradeHandler upgradeHandler;
     protected AbilityHandler abilityHandler;
-    protected TowerBase tower;
     protected CurrencyHandler levelHandler;
+    protected TowerBase tower;
 
     protected int maxLevel;
     protected int[] levelRequirements;
@@ -20,10 +36,14 @@ public class Ability
     public int[] LevelRequirements => levelRequirements;
     public int NextLevel => levelRequirements[CurrentLevel - 1];
 
-    public void Initialize(AbilityHandler abilityHandler, TowerBase tower)
+    public static event EventHandler<OnAnyAbilityHasUpgradeEventArgs> OnAnyAbilityHasUpgrade;
+
+    public void Initialize(AbilityInitSettings initSettings)
     {
-        this.abilityHandler = abilityHandler;
-        this.tower = tower;
+        abilityHandler = initSettings.abilityHandler;
+        tower = initSettings.towerBase;
+        upgradeHandler = initSettings.upgradeHandler;
+        towerLevelHandler= initSettings.towerLevelHandler;
 
         tower.OnTowerProjectileCreated += OnProjectileCreated;
         tower.OnTowerProjectileFired += OnProjectileFired;
@@ -33,7 +53,21 @@ public class Ability
         tower.WhileTowerTargetFound += WhileTargetFound;
         tower.OnTowerTargetLost += OnTargetLost;
 
+        towerLevelHandler.ExperienceHandler.OnModified += ExperienceHandler_OnModified;
+
         OnAdded();
+    }
+
+    private void ExperienceHandler_OnModified(object sender, CurrencyEventArgs e)
+    {
+        //Checks if the current ability can be upgraded
+        if (towerLevelHandler.Level + 1 >= NextLevel && !(towerLevelHandler.PointsHandler.Current <= 0f))
+        {
+            OnAnyAbilityHasUpgrade?.Invoke(this, new OnAnyAbilityHasUpgradeEventArgs()
+            {
+                tower = tower
+            });
+        }
     }
 
     public void LevelUp()
@@ -64,11 +98,26 @@ public class AbilityHandler : MonoBehaviour
     private void Start()
     {
         abilities = new List<Ability>();
+
+        Ability.OnAnyAbilityHasUpgrade += Ability_OnAnyAbilityHasUpgrade;
+    }
+
+    private void Ability_OnAnyAbilityHasUpgrade(object sender, OnAnyAbilityHasUpgradeEventArgs e)
+    {
+        FXManager.instance.PlayGlobalEffect();
     }
 
     public void AddAbility(Ability ability, TowerBase tower)
     {
-        ability.Initialize(this, tower);
+        AbilityInitSettings settings = new AbilityInitSettings()
+        {
+            abilityHandler = this,
+            towerBase = tower,
+            upgradeHandler = tower.GetComponent<TowerUpgradeHandler>(),
+            towerLevelHandler = tower.GetComponent<TowerLevelHandler>()
+        };
+
+        ability.Initialize(settings);
         abilities.Add(ability);
     }
 

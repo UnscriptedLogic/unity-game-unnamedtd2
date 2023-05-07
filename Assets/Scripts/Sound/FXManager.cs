@@ -9,11 +9,12 @@ public enum AudioType
     OTHER
 }
 
-public struct AudioSettings
+[System.Serializable]
+public class AudioSettings
 {
-    private AudioClip clip;
-    private float volume;
-    private AudioType audioType;
+    [SerializeField] private AudioClip clip;
+    [SerializeField] private float volume;
+    [SerializeField] private AudioType audioType;
     
     public AudioClip Clip => clip;   
     public float Volume => volume;
@@ -27,11 +28,28 @@ public struct AudioSettings
     }
 }
 
-public class SoundManager : MonoBehaviour
+[System.Serializable]
+public class EffectSettings
 {
-    [Range(0, 100)] [SerializeField] private int masterVolume;
-    [Range(0, 100)] [SerializeField] private int towerVolume;
-    [Range(0, 100)] [SerializeField] private int unitVolume;
+    [SerializeField] private GameObject effectPrefab;
+    [SerializeField] private float lifetime;
+
+    public GameObject EffectPrefab => effectPrefab;
+    public float Lifetime => lifetime;
+
+    public EffectSettings(GameObject effectPrefab, float lifetime)
+    {
+        this.effectPrefab = effectPrefab;
+        this.lifetime = lifetime;
+    }
+}
+
+public class FXManager : MonoBehaviour
+{
+    [Range(0, 100)] [SerializeField] private int masterVolume = 100;
+    [Range(0, 100)] [SerializeField] private int towerVolume = 100;
+    [Range(0, 100)] [SerializeField] private int unitVolume = 100;
+    [Range(0, 100)] [SerializeField] private int otherVolume = 100;
 
     public int MasterVolume { get => masterVolume; set { masterVolume = value; } }
     public int TowerVolume { get => towerVolume; set { towerVolume = value; } }
@@ -40,7 +58,7 @@ public class SoundManager : MonoBehaviour
     [Header("Components")]
     [SerializeField] private GameObject audioPrefab;
 
-    public static SoundManager instance { get; private set; }
+    public static FXManager instance { get; private set; }
 
     private void Awake()
     {
@@ -61,6 +79,21 @@ public class SoundManager : MonoBehaviour
         Destroy(audioObject, settings.Clip.length);
     }
 
+    public void PlayEffect(EffectSettings settings, Vector3 position, Quaternion rotation, Vector3 scale)
+    {
+        GameObject particle = Instantiate(settings.EffectPrefab, position, rotation);
+        particle.transform.localScale = scale;
+        Destroy(particle, settings.Lifetime);
+    }
+
+    /// <summary>
+    /// Plays a sound and visual effect prefab from the global constant list of effects.
+    /// </summary>
+    public void PlayGlobalEffect()
+    {
+
+    }
+
     public float CalculateVolume(AudioType audioType, float requestedVolume)
     {
         float volume = 0f;
@@ -74,6 +107,7 @@ public class SoundManager : MonoBehaviour
                 volume = requestedVolume / 100 * unitVolume;
                 break;
             case AudioType.OTHER:
+                volume = requestedVolume / 100 * otherVolume;
                 break;
             default:
                 break;

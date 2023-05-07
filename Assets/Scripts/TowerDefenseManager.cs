@@ -89,7 +89,7 @@ public class TowerDefenseManager : MonoBehaviour
 
     private void UnitBase_OnAnyUnitTookDamage(object sender, UnitTookDamageEventArgs e)
     {
-        cashSystem.Modify(ModifyType.Add, e.damage);
+        cashSystem.Modify(ModifyType.Add, Mathf.RoundToInt(e.damage));
     }
 
     private void CashSystem_OnModified(object sender, CurrencyEventArgs e)

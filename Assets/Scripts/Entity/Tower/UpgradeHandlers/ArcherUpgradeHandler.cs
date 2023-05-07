@@ -18,7 +18,7 @@ public class ArcherUpgradeHandler : TowerUpgradeHandler
 
         //Level 1
         UpgradeGroup level1 = new UpgradeGroup();
-        level1.upgradeProperties.Add(new UpgradeProperty(damage: 3));
+        level1.upgradeProperties.Add(new UpgradeProperty(damage: 2));
         level1.upgradeProperties.Add(new UpgradeProperty(range: 2));
         //level1.upgradeProperties.Add(new UpgradeProperty(method: tower =>
         //{

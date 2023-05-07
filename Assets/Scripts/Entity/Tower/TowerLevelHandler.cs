@@ -19,7 +19,7 @@ public class TowerLevelHandler : MonoBehaviour
     public int UpgradePoints => upgradePoints;
     public CurrencyHandler ExperienceHandler => experienceHandler;
     public CurrencyHandler PointsHandler => upgradePointsHandler;
-    public ExperienceLevel ExperienceLevel => currentExperienceLevel;
+    public ExperienceLevel CurrentExperienceLevelNeeded => currentExperienceLevel;
 
     private void Start()
     {
@@ -36,19 +36,20 @@ public class TowerLevelHandler : MonoBehaviour
     private void Tower_OnTowerProjectileHit(object sender, OnProjectileHitEventArgs e)
     {
         experienceHandler.Modify(ModifyType.Add, tower.Damage);
-        if (experienceHandler.Current >= currentExperienceLevel.amount)
-            LevelUp();
+        CheckLevelUp();
     }
 
-    private void LevelUp()
+    private void CheckLevelUp()
     {
-        if (level + 1 < TowerDefenseManager.instance.ExperienceLevelsSO.ExpList.Count)
+        if (experienceHandler.Current >= currentExperienceLevel.amount)
         {
-            level++;
-            upgradePointsHandler.Modify(ModifyType.Add, 1);
-            experienceHandler.Modify(ModifyType.Set, 0);
-            currentExperienceLevel = TowerDefenseManager.instance.ExperienceLevelsSO.ExpList[level];
-            return;
+            if (level + 1 < TowerDefenseManager.instance.ExperienceLevelsSO.ExpList.Count)
+            {
+                level++;
+                upgradePointsHandler.Modify(ModifyType.Add, 1);
+                experienceHandler.Modify(ModifyType.Set, experienceHandler.Current - currentExperienceLevel.amount);
+                currentExperienceLevel = TowerDefenseManager.instance.ExperienceLevelsSO.ExpList[level];
+            }
         }
     }
 }

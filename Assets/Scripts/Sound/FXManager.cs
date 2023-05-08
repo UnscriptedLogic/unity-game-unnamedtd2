@@ -46,14 +46,17 @@ public class EffectSettings
 
 public class FXManager : MonoBehaviour
 {
+    [SerializeField] private GlobalvfxSO globalfxSO;
     [Range(0, 100)] [SerializeField] private int masterVolume = 100;
     [Range(0, 100)] [SerializeField] private int towerVolume = 100;
     [Range(0, 100)] [SerializeField] private int unitVolume = 100;
     [Range(0, 100)] [SerializeField] private int otherVolume = 100;
 
+    public GlobalvfxSO GlobalEffects => globalfxSO;
     public int MasterVolume { get => masterVolume; set { masterVolume = value; } }
     public int TowerVolume { get => towerVolume; set { towerVolume = value; } }
     public int UnitVolume { get => unitVolume; set { unitVolume = value; } }
+    public int OtherVolume { get => otherVolume; set { otherVolume = value; } }
 
     [Header("Components")]
     [SerializeField] private GameObject audioPrefab;
@@ -65,7 +68,7 @@ public class FXManager : MonoBehaviour
         instance = this;
     }
 
-    public void PlaySound(AudioSettings settings, Vector3 position)
+    public GameObject PlaySound(AudioSettings settings, Vector3 position)
     {
         GameObject audioObject = Instantiate(audioPrefab, position, Quaternion.identity);
         AudioSource source = audioObject.GetComponent<AudioSource>();
@@ -77,21 +80,28 @@ public class FXManager : MonoBehaviour
         source.Play();
 
         Destroy(audioObject, settings.Clip.length);
+        return audioObject;
     }
 
-    public void PlayEffect(EffectSettings settings, Vector3 position, Quaternion rotation, Vector3 scale)
+    public GameObject PlayEffect(EffectSettings settings, Vector3 position, Quaternion rotation, Vector3 scale)
     {
-        GameObject particle = Instantiate(settings.EffectPrefab, position, rotation);
+        GameObject particle = Instantiate(settings.EffectPrefab);
+        particle.transform.position = position;
+        particle.transform.rotation = rotation;
         particle.transform.localScale = scale;
-        Destroy(particle, settings.Lifetime);
+
+        if (settings.Lifetime > 0)
+            Destroy(particle, settings.Lifetime);
+        
+        return particle;
     }
 
     /// <summary>
     /// Plays a sound and visual effect prefab from the global constant list of effects.
     /// </summary>
-    public void PlayGlobalEffect()
+    public (GameObject, GameObject) PlayGlobalEffect(FXPair fXPair, Vector3 position, Quaternion rotation, Vector3 scale)
     {
-
+        return (PlaySound(fXPair.AudioSettings, position), PlayEffect(fXPair.EffectSettings, position, rotation, scale));
     }
 
     public float CalculateVolume(AudioType audioType, float requestedVolume)

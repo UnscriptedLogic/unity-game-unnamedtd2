@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelUp:
     audioSettings:
-      clip: {fileID: 0}
-      volume: 0
+      clip: {fileID: 8300000, guid: bc7c293979932e44a944efcaa69d773b, type: 3}
+      volume: 1
       audioType: 2
     effectSettings:
-      effectPrefab: {fileID: 0}
+      effectPrefab: {fileID: 1027995726539321422, guid: 42b05cdeb882b304ca78e555251f7894,
+        type: 3}
       lifetime: 0

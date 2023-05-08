@@ -39,7 +39,12 @@ public class RangeVisualizer : MonoBehaviour
 
     private void Instance_OnPreviewing(object sender, OnPreviewEventArgs e)
     {
-
+        TowerBase towerbase = e.previewObject.GetComponent<TowerBase>();
+        target = e.previewObject.transform;
+        tower = towerbase;
+        CreateMesh();
+        DrawFOV(e.previewObject.transform, towerbase.RangeHandler.Current);
+        drawRange= true;
     }
 
     private void LateUpdate()
@@ -75,6 +80,9 @@ public class RangeVisualizer : MonoBehaviour
 
         ClearValues();
 
+        ClearMesh();
+        drawRange = false;
+
         if (RaycastLogic.FromMousePos3D(Camera.main, out RaycastHit hit))
         {
             IInspectable inspectable = hit.transform.GetComponent<IInspectable>();
@@ -96,10 +104,6 @@ public class RangeVisualizer : MonoBehaviour
                 drawRange = true;
                 return;
             }
-
-            ClearMesh();
-            drawRange = false;
-            return;
         }
     }
 

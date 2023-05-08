@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,12 +22,14 @@ public class TowerLevelHandler : MonoBehaviour
     public CurrencyHandler PointsHandler => upgradePointsHandler;
     public ExperienceLevel CurrentExperienceLevelNeeded => currentExperienceLevel;
 
-    private void Start()
+    public event EventHandler OnLevelUp;
+
+    private void OnEnable()
     {
         tower = GetComponent<TowerBase>();
 
         experienceHandler = new CurrencyHandler(0f);
-        upgradePointsHandler = new CurrencyHandler(upgradePoints);
+        upgradePointsHandler = new CurrencyHandler(upgradePoints, max: 1f);
 
         currentExperienceLevel = TowerDefenseManager.instance.ExperienceLevelsSO.ExpList[level];
 
@@ -49,6 +52,8 @@ public class TowerLevelHandler : MonoBehaviour
                 upgradePointsHandler.Modify(ModifyType.Add, 1);
                 experienceHandler.Modify(ModifyType.Set, experienceHandler.Current - currentExperienceLevel.amount);
                 currentExperienceLevel = TowerDefenseManager.instance.ExperienceLevelsSO.ExpList[level];
+
+                OnLevelUp?.Invoke(this, EventArgs.Empty);
             }
         }
     }

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnscriptedLogic.Currency;
 using UnscriptedLogic.MathUtils;
 
-public class OnAnyAbilityHasUpgradeEventArgs : EventArgs
+public class OnAnyAbilityEventArgs : EventArgs
 {
     public TowerBase tower;
 }
@@ -29,6 +29,7 @@ public class Ability
 
     protected int maxLevel;
     protected int[] levelRequirements;
+    protected bool called;
 
     public CurrencyHandler LevelHandler => levelHandler;
     public int CurrentLevel => (int)levelHandler.Current;
@@ -36,14 +37,15 @@ public class Ability
     public int[] LevelRequirements => levelRequirements;
     public int NextLevel => levelRequirements[CurrentLevel - 1];
 
-    public static event EventHandler<OnAnyAbilityHasUpgradeEventArgs> OnAnyAbilityHasUpgrade;
+    public static event EventHandler<OnAnyAbilityEventArgs> OnAnyAbilityHasUpgrade;
+    public static event EventHandler<OnAnyAbilityEventArgs> OnAnyAbilityUpgraded;
 
     public void Initialize(AbilityInitSettings initSettings)
     {
         abilityHandler = initSettings.abilityHandler;
         tower = initSettings.towerBase;
         upgradeHandler = initSettings.upgradeHandler;
-        towerLevelHandler= initSettings.towerLevelHandler;
+        towerLevelHandler = initSettings.towerLevelHandler;
 
         tower.OnTowerProjectileCreated += OnProjectileCreated;
         tower.OnTowerProjectileFired += OnProjectileFired;
@@ -53,17 +55,30 @@ public class Ability
         tower.WhileTowerTargetFound += WhileTargetFound;
         tower.OnTowerTargetLost += OnTargetLost;
 
-        towerLevelHandler.ExperienceHandler.OnModified += ExperienceHandler_OnModified;
+        towerLevelHandler.OnLevelUp += TowerLevelHandler_OnLevelUp;
+        OnAnyAbilityUpgraded += Ability_OnAnyAbilityUpgraded;
 
         OnAdded();
     }
 
-    private void ExperienceHandler_OnModified(object sender, CurrencyEventArgs e)
+    private void Ability_OnAnyAbilityUpgraded(object sender, OnAnyAbilityEventArgs e)
+    {
+        if (e.tower != tower) return;
+
+        called = false;
+    }
+
+    private void TowerLevelHandler_OnLevelUp(object sender, EventArgs e)
     {
         //Checks if the current ability can be upgraded
-        if (towerLevelHandler.Level + 1 >= NextLevel && !(towerLevelHandler.PointsHandler.Current <= 0f))
+        if (called) return;
+
+        if (levelHandler.Current >= maxLevel) return;
+
+        if (towerLevelHandler.Level + 1 >= NextLevel && towerLevelHandler.PointsHandler.Current > 0)
         {
-            OnAnyAbilityHasUpgrade?.Invoke(this, new OnAnyAbilityHasUpgradeEventArgs()
+            called = true;
+            OnAnyAbilityHasUpgrade?.Invoke(this, new OnAnyAbilityEventArgs()
             {
                 tower = tower
             });
@@ -74,6 +89,10 @@ public class Ability
     {
         levelHandler.Modify(ModifyType.Add, 1);
         OnLevelUp();
+        OnAnyAbilityUpgraded?.Invoke(this, new OnAnyAbilityEventArgs() 
+        { 
+            tower = tower 
+        });
     }
 
     public virtual void OnAdded() { }
@@ -93,18 +112,63 @@ public class AbilityHandler : MonoBehaviour
 {
     [SerializeField] private List<Ability> abilities;
 
+    private FXManager fXManager;
+    private TowerBase tower;
+    private TowerLevelHandler towerLevelHandler;
+    private GameObject particleGO;
+
     public List<Ability> Abilities => abilities;
 
     private void Start()
     {
         abilities = new List<Ability>();
-
+        fXManager = FXManager.instance;
+        tower = transform.GetComponent<TowerBase>();
+        towerLevelHandler = transform.GetComponent<TowerLevelHandler>();
         Ability.OnAnyAbilityHasUpgrade += Ability_OnAnyAbilityHasUpgrade;
+        Ability.OnAnyAbilityUpgraded += Ability_OnAnyAbilityUpgraded;
+
     }
 
-    private void Ability_OnAnyAbilityHasUpgrade(object sender, OnAnyAbilityHasUpgradeEventArgs e)
+    private void Ability_OnAnyAbilityUpgraded(object sender, OnAnyAbilityEventArgs e)
     {
-        FXManager.instance.PlayGlobalEffect();
+        if (e.tower != tower) return;
+
+        Destroy(particleGO);
+        particleGO = null;
+
+        //bool noMoreUpgrades = true;
+        //if (towerLevelHandler.PointsHandler.Current > 0)
+        //{
+        //    for (int i = 0; i < abilities.Count; i++)
+        //    {
+        //        if (abilities[i].CurrentLevel < abilities[i].MaxLevel)
+        //        {
+        //            if (towerLevelHandler.Level + 1 >= abilities[i].NextLevel)
+        //            {
+        //                noMoreUpgrades = false;
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
+
+        //if (noMoreUpgrades)
+        //{
+        //    Destroy(particleGO);
+        //    particleGO = null;
+        //}
+    }
+
+    private void Ability_OnAnyAbilityHasUpgrade(object sender, OnAnyAbilityEventArgs e)
+    {
+        if (e.tower != tower) return;
+
+        if (particleGO == null)
+        {
+            (GameObject soundGO, GameObject particleGO) = FXManager.instance.PlayGlobalEffect(fXManager.GlobalEffects.LevelUp, tower.transform.position, Quaternion.identity, Vector3.one);
+            this.particleGO = particleGO;
+        }
     }
 
     public void AddAbility(Ability ability, TowerBase tower)

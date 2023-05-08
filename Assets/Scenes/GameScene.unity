@@ -1043,7 +1043,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panSpeed: 15
   panScreenDetectionThickness: 5
-  bounds: {x: 10, y: 10}
+  bounds: {x: 10, y: 15}
   anchor: {fileID: 1254157036}
   panParent: {fileID: 1422540769}
   scrollSpeed: 0.25
@@ -3983,6 +3983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6102434982852546b462505a051ed53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  globalfxSO: {fileID: 11400000, guid: 4ded1c07d6c51704597327eeedf80aaf, type: 2}
   masterVolume: 100
   towerVolume: 100
   unitVolume: 100
@@ -9367,7 +9368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startHealth: 150
-  startCash: 9999
+  startCash: 500
   experienceLevels: {fileID: 11400000, guid: 0d8a8c3e5d058a34183e3623062b4b86, type: 2}
   allUsableTowers: {fileID: 11400000, guid: ede860b77254d04478a10bcb3d003b3e, type: 2}
   buildManager: {fileID: 1805454264}

@@ -16,4 +16,6 @@ public struct FXPair
 public class GlobalvfxSO : ScriptableObject
 {
     [SerializeField] private FXPair levelUp;
+
+    public FXPair LevelUp => levelUp;
 }

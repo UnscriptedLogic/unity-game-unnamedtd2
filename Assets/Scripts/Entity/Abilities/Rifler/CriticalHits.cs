@@ -35,20 +35,24 @@ public class CriticalHits : Ability
         {
             procChancePercent = 25;
             tower.DamageHandler.Modify(ModifyType.Add, 1);
+            upgradeHandler.UpdatePersistentStats(new TowerUpgradeHandler.UpgradeProperty(damage: 1));
+
         }
         else if (levelHandler.Current == 3)
         {
             procChancePercent = 30;
             damageMultiplier = 3f;
             tower.DamageHandler.Modify(ModifyType.Add, 1);
+            upgradeHandler.UpdatePersistentStats(new TowerUpgradeHandler.UpgradeProperty(damage: 1));
+
         }
         else if (levelHandler.Current == 4)
         {
             procChancePercent = 35;
             damageMultiplier = 4f;
             tower.DamageHandler.Modify(ModifyType.Add, 1);
-        }
+            upgradeHandler.UpdatePersistentStats(new TowerUpgradeHandler.UpgradeProperty(damage: 1));
 
-        upgradeHandler.UpdatePersistentStats(new TowerUpgradeHandler.UpgradeProperty(damage: 1));
+        }
     }
 }

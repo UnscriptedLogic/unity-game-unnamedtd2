@@ -21,3 +21,12 @@ MonoBehaviour:
       effectPrefab: {fileID: 1027995726539321422, guid: 42b05cdeb882b304ca78e555251f7894,
         type: 3}
       lifetime: 0
+  crit:
+    audioSettings:
+      clip: {fileID: 8300000, guid: 8e414cd1049dd2b478a954182a932e5a, type: 3}
+      volume: 0.05
+      audioType: 2
+    effectSettings:
+      effectPrefab: {fileID: 8460747976295487, guid: 9b3fc476b21f2914bb92fe0ce7bdf46b,
+        type: 3}
+      lifetime: 2

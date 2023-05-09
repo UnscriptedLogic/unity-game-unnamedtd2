@@ -21,7 +21,7 @@ MonoBehaviour:
       amount: 5
       interval: 4
       currentInterval: 4
-      spawnedAmount: 6
+      spawnedAmount: 5
     waveInterval: 15
   - waveName: 
     waveSegments:
@@ -31,8 +31,25 @@ MonoBehaviour:
       amount: 10
       interval: 4
       currentInterval: 4
-      spawnedAmount: 11
+      spawnedAmount: 10
     waveInterval: 15
+  - waveName: 
+    waveSegments:
+    - startDelay: 0
+      spawnObject: {fileID: 8747836210194945649, guid: 171e033453bb5b3448f38f948a4d5f06,
+        type: 3}
+      amount: 10
+      interval: 2
+      currentInterval: 4
+      spawnedAmount: 10
+    - startDelay: 30
+      spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
+        type: 3}
+      amount: 1
+      interval: 0
+      currentInterval: 4
+      spawnedAmount: 10
+    waveInterval: 30
   - waveName: 'New Unit: Blue Speedies. Hit-scan towers are effective against fast
       units.'
     waveSegments:
@@ -41,22 +58,22 @@ MonoBehaviour:
         type: 3}
       amount: 15
       interval: 4
-      currentInterval: 4
-      spawnedAmount: 16
-    - startDelay: 60
+      currentInterval: -11.167353
+      spawnedAmount: 15
+    - startDelay: 75
       spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
         type: 3}
-      amount: 7
+      amount: 3
       interval: 3
-      currentInterval: -36.031746
-      spawnedAmount: 8
+      currentInterval: 0.7933465
+      spawnedAmount: 4
     waveInterval: 15
   - waveName: 
     waveSegments:
     - startDelay: 0
       spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
         type: 3}
-      amount: 10
+      amount: 7
       interval: 2
       currentInterval: -38.032784
       spawnedAmount: 11
@@ -67,7 +84,7 @@ MonoBehaviour:
       interval: 4
       currentInterval: 4
       spawnedAmount: 16
-    waveInterval: 15
+    waveInterval: 30
   - waveName: 'New Unit: Tough Units'
     waveSegments:
     - startDelay: 0
@@ -77,7 +94,7 @@ MonoBehaviour:
       interval: 3
       currentInterval: 3
       spawnedAmount: 11
-    waveInterval: 15
+    waveInterval: 50
   - waveName: 
     waveSegments:
     - startDelay: 0
@@ -128,7 +145,7 @@ MonoBehaviour:
       interval: 2
       currentInterval: -28.024939
       spawnedAmount: 16
-    waveInterval: 10
+    waveInterval: 30
   - waveName: Prepation Wave
     waveSegments:
     - startDelay: 0
@@ -138,7 +155,7 @@ MonoBehaviour:
       interval: 3
       currentInterval: 3
       spawnedAmount: 6
-    waveInterval: 5
+    waveInterval: 20
   - waveName: Final Wave
     waveSegments:
     - startDelay: 0

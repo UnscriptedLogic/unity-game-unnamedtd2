@@ -23,6 +23,11 @@ public class HeatMapNode
 
 public class MapManager : MonoBehaviour
 {
+    [Header("Seed")]
+    [SerializeField] private bool generateRandom;
+    [SerializeField] private bool logCurrentSeed;
+    [SerializeField] private int seed;
+
     [Header("Grid Settings")]
     [SerializeField] private GameObject[] nodePrefabs;
     [SerializeField] private GridSettings grid;
@@ -68,6 +73,14 @@ public class MapManager : MonoBehaviour
 
     private void Start()
     {
+        if (generateRandom)
+            seed = System.DateTime.Now.Millisecond;
+
+        UnityEngine.Random.InitState(seed);
+
+        if (logCurrentSeed)
+            Debug.Log(UnityEngine.Random.state);
+
         GenerateMapGrid();
         GenerateMapPath();
         GenerateHeatMap();

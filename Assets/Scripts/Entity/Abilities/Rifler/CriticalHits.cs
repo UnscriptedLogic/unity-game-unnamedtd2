@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnscriptedLogic.Currency;
 using UnscriptedLogic.MathUtils;
 
@@ -10,7 +11,7 @@ public class CriticalHits : Ability
     {
         maxLevel = 4;
 
-        levelRequirements = new int[3] { 5, 7, 9 };
+        levelRequirements = new int[3] { 5, 10, 15 };
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);
 
@@ -21,9 +22,12 @@ public class CriticalHits : Ability
 
     public void OverrideDamageMethod(UnitBase unit, float damage)
     {
+        //if (true)
         if (RandomLogic.IntZeroTo(100) < procChancePercent)
         {
             damage *= damageMultiplier;
+            (GameObject sound, GameObject effect) = fxManager.PlayGlobalEffect(fxManager.GlobalEffects.Crit, unit.transform.position + Vector3.up, UnityEngine.Quaternion.identity, Vector3.one);
+            effect.GetComponent<EffectUI>().AmountTMP.text = damage.ToString();
         }
 
         unit.TakeDamage(damage);
@@ -36,7 +40,6 @@ public class CriticalHits : Ability
             procChancePercent = 25;
             tower.DamageHandler.Modify(ModifyType.Add, 1);
             upgradeHandler.UpdatePersistentStats(new TowerUpgradeHandler.UpgradeProperty(damage: 1));
-
         }
         else if (levelHandler.Current == 3)
         {

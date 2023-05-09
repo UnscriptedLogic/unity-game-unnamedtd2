@@ -15,7 +15,7 @@ public class SplitShot : Ability
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);
 
-        chances = new int[4] { 10, 12, 15, 20 };
+        chances = new int[4] { 10, 20, 30, 40 };
         damageReduction = new int[4] { 75, 50, 25, 0 };
     }
 

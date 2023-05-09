@@ -22,7 +22,10 @@ MonoBehaviour:
       Crit
       Multiplier: 2x/2x/3x/4x
 
-      Crit Chance: 20%/25%/30%/35%'
+      Crit Chance: 20%/25%/30%/35%
+
+      Increases
+      damage passively for every level'
     loreDescription: Strike at their weak points. When 1 limb fails the rest will
       follow.
     abilityType: 0
@@ -48,7 +51,7 @@ MonoBehaviour:
       Double tap next attack time:
       0.25s
 
-      Double tap chance: 10%/14%/19%/25%
+      Double tap chance(%): 10/14/19/25
 
       Double tap can trigger
       double tap again'
@@ -77,7 +80,7 @@ MonoBehaviour:
       Total
       extra pierce: 2/4/6/8
 
-      Att. Speed reduction: 0.5s/1s/1.5s/2s'
+      Att. Speed reduction(s): 0.5/1/1.5/2'
     loreDescription: Through all the reprimanding and punishments, my seniors always
       applauded my meticulously maintained equipment. It's the one thing about me
       they're proud of.
@@ -88,12 +91,12 @@ MonoBehaviour:
 
 
       Extra
-      Projectiles: 2 on each side
+      Projectiles: 1 on each side
 
-      Proc. Chance:10/12/15/20
+      Proc. Chance(%): 10/20/30/40
 
-      Dmg Reduction
-      on extra arrows: 75/50/25/0'
+      Dmg
+      Reduction on extra arrows(%): 75/50/25/0'
     loreDescription: '"But I was patient with my shot!" I said proclaiming to my
       supervisor as he reports to the headmaster about me violating the "One arrow
       at a time" rule. Such a stupid rule.'
@@ -104,7 +107,7 @@ MonoBehaviour:
       is to his target
 
 
-      DMG Multiplier/meter: 25%/50%/75%/100%'
+      DMG Multiplier(%)/meter: 50/100/150/200'
     loreDescription: Tradition was always a guiding light for me, following down
       paths once taken by legends in my darkest of hours. With Master gone, it's
       up to us to pass down the ways of a Ranger. Never let them know who hit them.

@@ -45,6 +45,8 @@ public class TowerDefenseManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        TogglePause(true);
     }
 
     private void Start()
@@ -131,5 +133,11 @@ public class TowerDefenseManager : MonoBehaviour
         UnitBase unitScript = sender as UnitBase;
         healthPoints.Modify(ModifyType.Subtract, unitScript.CurrentHealth);
         Destroy(unitScript.gameObject);
+    }
+
+    public void TogglePause(bool pause)
+    {
+        float scale = pause ? 0 : 1;
+        Time.timeScale = scale;
     }
 }

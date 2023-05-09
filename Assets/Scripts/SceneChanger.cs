@@ -29,6 +29,11 @@ public class SceneChanger : MonoBehaviour
         StartCoroutine(MoveToScene(GetSceneByEnum(gameScenes), delay));
     }
 
+    public void ReloadCurrentScene()
+    {
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+    }
+
     public int GetSceneByEnum(GameScenes gameScenes)
     {
         int index = 0;
@@ -52,5 +57,10 @@ public class SceneChanger : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(index);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

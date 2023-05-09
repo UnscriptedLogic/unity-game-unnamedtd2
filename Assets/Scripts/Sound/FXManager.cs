@@ -70,6 +70,8 @@ public class FXManager : MonoBehaviour
 
     public GameObject PlaySound(AudioSettings settings, Vector3 position)
     {
+        if (settings.Clip == null) return null;
+
         GameObject audioObject = Instantiate(audioPrefab, position, Quaternion.identity);
         AudioSource source = audioObject.GetComponent<AudioSource>();
 
@@ -85,6 +87,8 @@ public class FXManager : MonoBehaviour
 
     public GameObject PlayEffect(EffectSettings settings, Vector3 position, Quaternion rotation, Vector3 scale)
     {
+        if (settings.EffectPrefab == null) return null;
+
         GameObject particle = Instantiate(settings.EffectPrefab);
         particle.transform.position = position;
         particle.transform.rotation = rotation;

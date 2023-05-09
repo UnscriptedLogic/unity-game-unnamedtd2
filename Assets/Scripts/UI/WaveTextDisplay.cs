@@ -28,9 +28,15 @@ public class WaveTextDisplay : MonoBehaviour
                 waveTMP.text = $"Starting in {Math.Round(spawnManager.WaveSpawner.Interval, 1)}";
                 break;
             case TimedWaveSpawner.SpawnerState.Waiting:
-                if (spawnManager.WaveSpawner.Interval <= 5f)
+                if (spawnManager.WaveSpawner.WaveIndex < spawnManager.WaveSpawner.WaveAmount - 1)
                 {
-                    waveTMP.text = $"Next Wave in {Math.Round(spawnManager.WaveSpawner.Interval, 1)}";
+                    if (spawnManager.WaveSpawner.Interval <= 5f)
+                    {
+                        waveTMP.text = $"Next Wave in {Math.Round(spawnManager.WaveSpawner.Interval, 1)}";
+                    } 
+                } else
+                {
+                    waveTMP.text = $"Clear all enemies to finish the level";
                 }
                 break;
             default:

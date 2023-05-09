@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Playables;
 using UnityEngine;
 using UnscriptedLogic.Currency;
 using UnscriptedLogic.MathUtils;
@@ -17,10 +15,12 @@ public struct AbilityInitSettings
     public TowerBase towerBase;
     public TowerUpgradeHandler upgradeHandler;
     public TowerLevelHandler towerLevelHandler;
+    public FXManager fxManager;
 }
 
 public class Ability
 {
+    protected FXManager fxManager;
     protected TowerLevelHandler towerLevelHandler;
     protected TowerUpgradeHandler upgradeHandler;
     protected AbilityHandler abilityHandler;
@@ -46,6 +46,7 @@ public class Ability
         tower = initSettings.towerBase;
         upgradeHandler = initSettings.upgradeHandler;
         towerLevelHandler = initSettings.towerLevelHandler;
+        fxManager = initSettings.fxManager;
 
         tower.OnTowerProjectileCreated += OnProjectileCreated;
         tower.OnTowerProjectileFired += OnProjectileFired;
@@ -178,7 +179,8 @@ public class AbilityHandler : MonoBehaviour
             abilityHandler = this,
             towerBase = tower,
             upgradeHandler = tower.GetComponent<TowerUpgradeHandler>(),
-            towerLevelHandler = tower.GetComponent<TowerLevelHandler>()
+            towerLevelHandler = tower.GetComponent<TowerLevelHandler>(),
+            fxManager = FXManager.instance
         };
 
         ability.Initialize(settings);

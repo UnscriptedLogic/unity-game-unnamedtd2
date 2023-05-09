@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnscriptedLogic.Currency;
+using UnscriptedLogic.MathUtils;
 
 public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -26,15 +29,22 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] private TextMeshProUGUI descriptionTMP;
     [SerializeField] private TextMeshProUGUI loreDescriptionTMP;
 
+    [Header("Cooldown")]
+    [SerializeField] private Transform cooldownParent;
+    [SerializeField] private TextMeshProUGUI cooldownTMP;
+    [SerializeField] private Image cooldownFill;
+
     public Button LevelUpButton => levelUpButton;
 
     private Ability ability;
     private AbilityInfo abilityInfo;
+    private TowerLevelHandler levelHandler;
 
-    public void Initialize(AbilityInfo abilityInfo, Ability ability)
+    public void Initialize(AbilityInfo abilityInfo, Ability ability, TowerLevelHandler levelHandler)
     {
         this.ability = ability;
         this.abilityInfo = abilityInfo;
+        this.levelHandler = levelHandler;
 
         iconImg.sprite = abilityInfo.IconSpr;
 
@@ -46,12 +56,39 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             levelKnob.GetComponent<Image>().color = color;
         }
 
-        if (ability.CurrentLevel == ability.MaxLevel)
+        SetLevelUpButtonActive(null, new CurrencyEventArgs());
+        levelHandler.PointsHandler.OnModified += SetLevelUpButtonActive;
+
+        levelUpButton.onClick.AddListener(() =>
         {
-            levelUpButton.gameObject.SetActive(false);
-        }
+            ability.LevelUp();
+            levelHandler.PointsHandler.Modify(ModifyType.Subtract, 1);
+        });
 
         Hide();
+        SetCooldown(0f, 1f);
+    }
+
+    public void SetLevelUpButtonActive(object sender, CurrencyEventArgs e)
+    {
+        if (e.modifyType == ModifyType.Add)
+        {
+            if (ability.CurrentLevel == ability.MaxLevel)
+            {
+                levelUpButton.gameObject.SetActive(false);
+                return;
+            }
+
+            levelUpButton.gameObject.SetActive(levelHandler.Level + 1 >= ability.NextLevel && levelHandler.PointsHandler.Current > 0f);
+        }
+    }
+
+    public void SetCooldown(float value, float maxValue)
+    {
+        cooldownParent.gameObject.SetActive(value > 0f);
+
+        cooldownFill.fillAmount = value / maxValue;
+        cooldownTMP.text = $"{Mathf.RoundToInt(value)}";
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -78,5 +115,10 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private void Hide()
     {
         tooltipObj.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        levelHandler.PointsHandler.OnModified -= SetLevelUpButtonActive;
     }
 }

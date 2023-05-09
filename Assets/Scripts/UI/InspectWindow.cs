@@ -7,6 +7,7 @@ using UnscriptedLogic.MathUtils;
 using System.Collections.Generic;
 using DG.Tweening.Core;
 using DG.Tweening;
+using UnscriptedLogic.Currency;
 
 public class InspectWindow : MonoBehaviour
 {
@@ -18,15 +19,15 @@ public class InspectWindow : MonoBehaviour
     [SerializeField] private LayerMask unitLayer;
     [SerializeField] private LayerMask towerLayer;
 
-    [Header("Stats")]
-    [SerializeField] private GameObject statPrefab;
-    [SerializeField] private Transform statParent;
-
     [Header("Avatar Section")]
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI nameTMP;
     [SerializeField] private Image levelSlider;
     [SerializeField] private TextMeshProUGUI levelTMP;
+
+    [Header("Stats")]
+    [SerializeField] private GameObject statPrefab;
+    [SerializeField] private Transform statParent;
 
     [Header("Ability Section")]
     [SerializeField] private GameObject abilityButtonPrefab;
@@ -49,10 +50,11 @@ public class InspectWindow : MonoBehaviour
 
     //Inspected components
     private GameObject inspectedObject;
-    private Tower inspectedTower;
+    private TowerBase inspectedTower;
     private TowerSO inspectedTowerSO;
     private TowerUpgradeHandler inspectedTUH;
     private AbilityHandler inspectedAbilityHandler;
+    private TowerLevelHandler inspectedLevelHandler;
 
     private void Start()
     {
@@ -76,17 +78,21 @@ public class InspectWindow : MonoBehaviour
             IInspectable inspectable = unitHit.collider.gameObject.GetComponent<IInspectable>();
             if (inspectable != null)
             {
-                inspectedTower = inspectable as Tower;
-                inspectedTowerSO = TowerDefenseManager.instance.AllTowerList.GetSOFromTower(inspectedTower);
-                inspectedTUH = inspectedTower.GetComponent<TowerUpgradeHandler>();
-                inspectedAbilityHandler = inspectedTower.GetComponent<AbilityHandler>();
+                if (inspectable as TowerBase)
+                {
+                    inspectedTower = inspectable as TowerBase;
+                    inspectedTowerSO = TowerDefenseManager.instance.AllTowerList.GetSOFromTower(inspectedTower);
+                    inspectedTUH = inspectedTower.GetComponent<TowerUpgradeHandler>();
+                    inspectedAbilityHandler = inspectedTower.GetComponent<AbilityHandler>();
+                    inspectedLevelHandler = inspectedTower.GetComponent<TowerLevelHandler>();
 
-                RefreshTowerWindow();
+                    RefreshTowerWindow();
 
-                inspectedObject = unitHit.collider.gameObject;
+                    inspectedObject = unitHit.collider.gameObject;
 
-                Show();
-                return;
+                    Show();
+                    return;
+                }
             }
         }
 
@@ -99,7 +105,13 @@ public class InspectWindow : MonoBehaviour
         nameTMP.text = towerSO.TowerName;
     }
 
-    private void DisplayTowerStat(Tower tower)
+    private void DisplayTowerLevel()
+    {
+        SyncLevel(null, new CurrencyEventArgs());
+        inspectedLevelHandler.ExperienceHandler.OnModified += SyncLevel;
+    }
+
+    private void DisplayTowerStat(TowerBase tower)
     {
         float damage = tower.Damage;
         float range = tower.Range;
@@ -132,18 +144,17 @@ public class InspectWindow : MonoBehaviour
             GameObject abilityButton = Instantiate(abilityButtonPrefab, abilityParent);
             AbilityButton buttonScript = abilityButton.GetComponent<AbilityButton>();
 
-            buttonScript.Initialize(abilityManager.GetAbilityInfoByAbility(abilities[i]), abilities[i]);
+            buttonScript.Initialize(abilityManager.GetAbilityInfoByAbility(abilities[i]), abilities[i], inspectedLevelHandler);
 
             int index = i;
             buttonScript.LevelUpButton.onClick.AddListener(() =>
             {
-                abilities[index].LevelUp();
                 RefreshTowerWindow();
             });
         }
     }
     
-    public void DisplayUpgradeButtons(TowerSO towerSO, int[] upgradeHistory, TowerUpgradeHandler upgradeHandler)
+    private void DisplayUpgradeButtons(TowerSO towerSO, int[] upgradeHistory, TowerUpgradeHandler upgradeHandler)
     {
         Clear(upgradeParent);
 
@@ -179,6 +190,11 @@ public class InspectWindow : MonoBehaviour
             int index = i;
             upgradeButtonScript.UpgradeBtn.onClick.AddListener(() =>
             {
+                float cost = towerUpgrades[index].Cost;
+                if (!TowerDefenseManager.instance.CashSystem.HasEnough(cost)) return;
+
+                TowerDefenseManager.instance.CashSystem.Modify(ModifyType.Subtract, cost);
+
                 upgradeHandler.UpgradeTower(index);
                 RefreshTowerWindow();
             });
@@ -188,6 +204,7 @@ public class InspectWindow : MonoBehaviour
     private void RefreshTowerWindow()
     {
         DisplayTowerAvatar(inspectedTowerSO);
+        DisplayTowerLevel();
         DisplayTowerStat(inspectedTower);
         DisplayUpgradeButtons(inspectedTowerSO, inspectedTUH.UpgradesChosen.ToArray(), inspectedTUH);
         DisplayTowerAbilities();
@@ -201,13 +218,19 @@ public class InspectWindow : MonoBehaviour
         }
     }
 
-    private void StatRefreshWindow(ModifyType type, float current, float amount)
+    private void SyncLevel(object sender, CurrencyEventArgs e)
+    {
+        levelSlider.fillAmount = inspectedLevelHandler.ExperienceHandler.Current / inspectedLevelHandler.CurrentExperienceLevelNeeded.amount;
+        levelTMP.text = $"{inspectedLevelHandler.Level + 1}";
+    }
+
+    private void StatRefreshWindow(object sender, CurrencyEventArgs e)
     {
         DisplayTowerStat(inspectedTower);
         UnsubscribeTowerStatEvents(inspectedTower);
     }
 
-    private void UnsubscribeTowerStatEvents(Tower tower)
+    private void UnsubscribeTowerStatEvents(TowerBase tower)
     {
         tower.DamageHandler.OnModified -= StatRefreshWindow;
         tower.RangeHandler.OnModified -= StatRefreshWindow;
@@ -230,12 +253,6 @@ public class InspectWindow : MonoBehaviour
 
         transform.DOMove(closePos.position, tweenTime).SetEase(easeType);
         Clear(statParent);
-
-        //gameObject.transform.position = closePos.position;
-        //LeanTween.move(gameObject, closePos.position, tweenTime).setOnComplete(() =>
-        //{
-        //    Clear(statParent);
-        //});
 
         isOpen = false;
     }

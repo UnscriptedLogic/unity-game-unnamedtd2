@@ -4,17 +4,40 @@ using Roy_T.AStar.Primitives;
 using System.Collections.Generic;
 using UnscriptedLogic.Experimental.Generation;
 using System.Linq;
-using System.Net.Mime;
+using UnscriptedLogic.MathUtils;
+using System.Threading;
+using System.Threading.Tasks;
+
+public class HeatMapNode
+{
+    public Vector3 position;
+    public float shortestDistance;
+    public Vector3 closestPathPosition;
+
+    public HeatMapNode(Vector3 position)
+    {
+        this.position = position;
+        shortestDistance = Mathf.Infinity;
+    }
+}
 
 public class MapManager : MonoBehaviour
 {
+    [Header("Seed")]
+    [SerializeField] private bool generateRandom;
+    [SerializeField] private bool logCurrentSeed;
+    [SerializeField] private int seed;
+
     [Header("Grid Settings")]
-    [SerializeField] private GameObject nodePrefab;
+    [SerializeField] private GameObject[] nodePrefabs;
     [SerializeField] private GridSettings grid;
 
     private GridLogic<GameObject> gridGenerator;
+    private List<Cell> gridWithoutPath;
 
     [Header("Path Settings")]
+    [SerializeField] private bool drawPoints;
+    [SerializeField] private GameObject[] pathwayNodes;
     [SerializeField] private float pointDist = 4;
 
     private List<Vector2> distributedPoints;
@@ -23,6 +46,21 @@ public class MapManager : MonoBehaviour
 
     private List<Cell> pathwayCells;
     public List<Vector3> Pathway { get; private set; }
+
+    [Header("Debri Settings")]
+    [SerializeField] private int amount;
+    [SerializeField] private float verticalOffset;
+    [SerializeField] private Transform parent;
+    [SerializeField] private DebriThemeSO debriThemeSO;
+    [SerializeField] private LayerMask debriLayer;
+
+    [Header("Heat Map")]
+    [Tooltip("Shows the heat map of the node to path")]
+    [SerializeField] private bool generateHeatMap;
+    [SerializeField] private Gradient heatmapColour;
+    [SerializeField] private Transform heatmapParent;
+
+    private List<HeatMapNode> heatmapNodes;
 
     #region Singleton
     public static MapManager instance { get; private set; }
@@ -35,23 +73,35 @@ public class MapManager : MonoBehaviour
 
     private void Start()
     {
+        if (generateRandom)
+            seed = System.DateTime.Now.Millisecond;
+
+        UnityEngine.Random.InitState(seed);
+
+        if (logCurrentSeed)
+            Debug.Log(UnityEngine.Random.state);
+
         GenerateMapGrid();
         GenerateMapPath();
+        GenerateHeatMap();
+        GenerateMapDebri();
     }
 
     private void GenerateMapGrid()
     {
+        gridWithoutPath = new List<Cell>();
         gridGenerator = new GridLogic<GameObject>(grid);
         gridGenerator.CreateGrid((cell, pos) =>
         {
-            GameObject item = Instantiate(nodePrefab);
+            GameObject item = Instantiate(RandomLogic.FromArray(nodePrefabs));
             item.name = $"{cell.GridCoords.x},{cell.GridCoords.y}";
             item.transform.position = new Vector3(pos.x, 0f, pos.y);
-            item.transform.rotation = Quaternion.identity;
+            item.transform.forward = RandomLogic.VectorDirAroundY();
             item.transform.localScale = Vector3.one * grid.CellScale;
             item.transform.SetParent(transform);
 
             gridGenerator.gridCells.Add(cell, item);
+            gridWithoutPath.Add(cell);
         });
     }
 
@@ -146,13 +196,104 @@ public class MapManager : MonoBehaviour
         Pathway = new List<Vector3>();
         for (int i = 0; i < path.Count; i++)
         {
+            if (pathwayNodes.Length > 0)
+            {
+                if (i == 0 || i == path.Count - 1) continue;
+
+                Vector3 dir = (path[i].WorldCoords - path[i+1].WorldCoords).normalized;
+                GameObject pathNode = Instantiate(pathwayNodes[0], new Vector3(path[i].WorldCoords.x, 0f, path[i].WorldCoords.y), Quaternion.identity, transform);
+                pathNode.transform.forward = new Vector3(dir.x, 0f, dir.y);
+            }
+
+            gridWithoutPath.Remove(path[i]);
             gridGenerator.gridCells[path[i]].SetActive(false);
             Pathway.Add(new Vector3(path[i].WorldCoords.x, 0f, path[i].WorldCoords.y));
         }
     }
 
+    private void GenerateMapDebri()
+    {
+        DebriGenerator.GenerateDebrisRandomly(new DebriGenSettings()
+        {
+            amount = amount,
+            verticalOffset = verticalOffset,
+            parent = parent,
+            pathlist = Pathway,
+            nodes = GetAllNonePathNodePositions(),
+            debriTheme = debriThemeSO,
+            debriLayer = debriLayer,
+            heatmap = heatmapNodes
+        });
+    }
+
+    private List<Vector3> GetAllNonePathNodePositions()
+    {
+        List<Vector3> nodes = new List<Vector3>();
+        for (int i = 0; i < gridGenerator.gridCells.Count; i++)
+        {
+            GameObject nodeObject = gridGenerator.gridCells.ElementAt(i).Value;
+            if (nodeObject.activeInHierarchy)
+            {
+                nodes.Add(nodeObject.transform.position);
+            }
+        }
+
+        return nodes;
+    }
+
+    private void GenerateHeatMap()
+    {
+        float lowestValue = Mathf.Infinity;
+        float highestValue = 0f;
+
+        heatmapNodes = new List<HeatMapNode>();
+
+        for (int i = 0; i < gridWithoutPath.Count; i++)
+        {
+            Vector3 nodePos = new Vector3(gridWithoutPath[i].WorldCoords.x, 0f, gridWithoutPath[i].WorldCoords.y);
+            HeatMapNode heatMapNode = new HeatMapNode(nodePos);
+            
+            for (int j = 0; j < Pathway.Count; j++)
+            {
+                float distance = Vector3.Distance(nodePos, Pathway[j]);
+                if (distance < heatMapNode.shortestDistance)
+                {
+                    heatMapNode.shortestDistance = distance;
+                    heatMapNode.closestPathPosition = Pathway[j];
+                }
+            }
+
+            if (heatMapNode.shortestDistance < lowestValue)
+            {
+                lowestValue = heatMapNode.shortestDistance;
+            }
+
+            if (heatMapNode.shortestDistance > highestValue)
+            {
+                highestValue = heatMapNode.shortestDistance;
+            }
+
+            heatmapNodes.Add(heatMapNode);
+        }
+
+        if (generateHeatMap)
+        {
+            highestValue -= lowestValue;
+            for (int i = 0; i < heatmapNodes.Count; i++)
+            {
+                float percentage = (heatmapNodes[i].shortestDistance - lowestValue) / highestValue;
+                GameObject heatmapNodeObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                heatmapNodeObject.transform.position = heatmapNodes[i].position;
+                heatmapNodeObject.transform.SetParent(heatmapParent);
+                heatmapNodeObject.GetComponent<Renderer>().material.color = heatmapColour.Evaluate(percentage);
+                Destroy(heatmapNodeObject.GetComponent<BoxCollider>());
+            }
+        }
+    }
+
     private void OnDrawGizmos()
     {
+        if (!drawPoints) return;
         if (assortedPoints == null)
             return;
 

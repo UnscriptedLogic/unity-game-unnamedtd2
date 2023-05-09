@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 499d67e689d7a6e4a9eb3df253652144, type: 3}
+  m_Name: StartWave
+  m_EditorClassIdentifier: 
+  waves:
+  - waveName: The First Wave
+    waveSegments:
+    - startDelay: 0
+      spawnObject: {fileID: 8747836210194945649, guid: 8826d69d6e075804cb34722c21543cf4,
+        type: 3}
+      amount: 1
+      interval: 120
+      currentInterval: 120
+      spawnedAmount: 1
+    - startDelay: 120
+      spawnObject: {fileID: 1399785308065160249, guid: b99b7d3cd2762d44dbb77c6120a7aca6,
+        type: 3}
+      amount: 1
+      interval: 120
+      currentInterval: 120
+      spawnedAmount: 1
+    - startDelay: 240
+      spawnObject: {fileID: 8747836210194945649, guid: 8826d69d6e075804cb34722c21543cf4,
+        type: 3}
+      amount: 1
+      interval: 120
+      currentInterval: 120
+      spawnedAmount: 1
+    waveInterval: 0

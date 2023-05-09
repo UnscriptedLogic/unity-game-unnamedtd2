@@ -1,19 +1,29 @@
 using UnityEngine;
 
-public class RiflerTower : Tower
+public class RiflerTower : TowerBase
 {
     public ProjectileBehaviour projectileBehaviour;
+    public bool useHitscan;
 
     protected override void FireProjectile()
     {
-        base.FireProjectile();
-
         animator.SetTrigger("Attack");
+        soundManager.PlaySound(new AudioSettings(audioFields[0].clip, audioFields[0].volume, AudioType.TOWER), shootAnchors[0].position);
+
+        if (useHitscan)
+        {
+            OnProjectileFired();
+            OnProjectileHit(currentTarget.GetComponent<UnitBase>(), null);
+        } else
+        {
+            base.FireProjectile();
+            OnProjectileFired();
+        }
     }
 
-    //protected override void OnProjectileHit(UnitBase unit, ProjectileBase projectileBase)
+    //protected override void OnProjectileHitEvent(UnitBase unit, ProjectileBase projectileBase)
     //{
-    //    base.OnProjectileHit(unit, projectileBase);
+    //    base.OnProjectileHitEvent(unit, projectileBase);
 
         //if (useKnockback)
         //{

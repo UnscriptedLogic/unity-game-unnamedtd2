@@ -13,7 +13,7 @@ public static class PoissonDiscSampling
         List<Vector2> points = new List<Vector2>();
         List<Vector2> spawnPoints = new List<Vector2>
         {
-            RandomLogic.RandomInArea2D(sampleRegionSize)
+            RandomLogic.InArea2D(sampleRegionSize)
         };
 
         while (spawnPoints.Count > 0)

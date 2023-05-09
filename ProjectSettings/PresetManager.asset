@@ -14,3 +14,16 @@ PresetManager:
         type: 2}
       m_Filter: glob:"Imports/Icons/*"
       m_Disabled: 0
+  - first:
+      m_NativeTypeID: 1041
+      m_ManagedTypePPtr: {fileID: 0}
+      m_ManagedTypeFallback: 
+    second:
+    - m_Preset: {fileID: 2655988077585873504, guid: 6c9f8239646277b49af2cd2e640467e2,
+        type: 2}
+      m_Filter: glob:"Imports/Models/Debri/*"
+      m_Disabled: 0
+    - m_Preset: {fileID: 2655988077585873504, guid: 0f3af43d2aa87ad49953b84337849cff,
+        type: 2}
+      m_Filter: glob:"Imports/Models/Nodes/*"
+      m_Disabled: 0

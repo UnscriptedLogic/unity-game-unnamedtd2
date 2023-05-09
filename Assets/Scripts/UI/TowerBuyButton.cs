@@ -11,6 +11,8 @@ public class TowerBuyButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI costTMP;
     [SerializeField] private Button towerBtn;
 
+    public Button TowerBtn => towerBtn;
+
     public void Initialize(float cost, Sprite icon, Action onClick)
     {
         costTMP.text = $"${cost}";

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnscriptedLogic.MathUtils;
 
 public class TowerBuyMenu : MonoBehaviour
 {
@@ -10,9 +11,12 @@ public class TowerBuyMenu : MonoBehaviour
 
     [SerializeField] private List<TowerSO> towerListDebug;
 
+    private TowerDefenseManager tdManager;
+
     private void Start()
     {
-        int index = 0;
+        tdManager = TowerDefenseManager.instance;
+
         for (int i = 0; i < towerListDebug.Count; i++)
         {
             TowerSO towerSO = towerListDebug[i];
@@ -21,8 +25,19 @@ public class TowerBuyMenu : MonoBehaviour
 
             if (!towerBuyButton) return;
 
-            index = i;
-            towerBuyButton.Initialize(towerSO.TowerCost, towerSO.IconSpr, () => { BuyTower(index); });
+            tdManager.CashSystem.OnModified += (sender, eventArgs) =>
+            {
+                towerBuyButton.TowerBtn.interactable = eventArgs.currentValue >= towerSO.TowerCost;
+            };
+
+            int index = i;
+            towerBuyButton.Initialize(towerSO.TowerCost, towerSO.IconSpr, () => 
+            {
+                if (tdManager.CashSystem.HasEnough(towerSO.TowerCost))
+                {
+                    BuyTower(index);
+                }
+            });
         }
     }
 

@@ -15,8 +15,10 @@ The project is also seeing a facelift graphically. Straying away from the static
 The timeline of the project remains unknown and highly variable.
 
 ### Screenshots
-![image](https://user-images.githubusercontent.com/86519190/232525088-02be4988-624d-452c-aa13-d11db3af63e9.png)
-![image](https://user-images.githubusercontent.com/86519190/232525317-d45442fa-a4b0-4faa-87bd-58559a88d50a.png)
+![UTD2Thumbnail](https://github.com/UnscriptedLogic/unity-game-unnamedtd2/assets/86519190/3790ad4a-7d51-46a6-8816-4aa5c4d4c7c5)
+![image6](https://github.com/UnscriptedLogic/unity-game-unnamedtd2/assets/86519190/c127795b-6b6f-43cc-954b-bbf285c1dea6)
+![image1](https://github.com/UnscriptedLogic/unity-game-unnamedtd2/assets/86519190/e8440c1d-bcba-4fe1-9e3f-afb512e79b6c)
+![image2](https://github.com/UnscriptedLogic/unity-game-unnamedtd2/assets/86519190/47f8d3e5-b4f9-4c36-8410-678a960ca94d)
 
 ### What happened to UnnamedTD2
 For some of you, you might be wondering why it looks different. Yes there was indeed another version of UnnamedTD2 that had terrain generation with perlin noise like a child's attempt at replicating Minecraft's terrain generation. While it seemed cool, it did not feel right. Either I lack the game design knowledge on how to conduct such an idea or it was simply my hopeless attempt at staying relevant, that project has been dropped. I will however, be bringing over the multi-upgrade option upgrade mechanic because I believe that it still has potential to shine and lot's of room to play with.

@@ -45,8 +45,6 @@ public class TowerDefenseManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-
-        TogglePause(true);
     }
 
     private void Start()

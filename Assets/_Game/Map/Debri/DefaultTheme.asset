@@ -29,15 +29,13 @@ MonoBehaviour:
     heatmapRange: {x: -1, y: 0}
     faceClosestPath: 0
     mustContain: 0
-  - prefab: {fileID: 8397568117872343628, guid: 648fd1567e2677742960614e3fe82789,
-      type: 3}
+  - prefab: {fileID: 748309059799896855, guid: 9f470d9971292db48a4a97983555aae5, type: 3}
     size: 3
-    heatmapRange: {x: 4, y: 10}
+    heatmapRange: {x: 3, y: 4}
     faceClosestPath: 0
     mustContain: 1
-  - prefab: {fileID: 2883730482176506511, guid: e259d9898ddbd884cbb40b68b72566b6,
-      type: 3}
-    size: 4.5
+  - prefab: {fileID: 618305216865751810, guid: 3c37cf39030e73d4187c2dbe62350ecf, type: 3}
+    size: 5
     heatmapRange: {x: 0, y: 2}
-    faceClosestPath: 1
+    faceClosestPath: 0
     mustContain: 10

@@ -10,7 +10,7 @@ public class DoubleTap : Ability
     {
         maxLevel = 4;
 
-        levelRequirements = new int[3] { 9, 10, 11 };
+        levelRequirements = new int[3] { 10, 14, 17 };
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);
     }

@@ -11,7 +11,7 @@ public class SplitShot : Ability
     {
         maxLevel = 4;
 
-        levelRequirements = new int[3] { 5, 10, 15 };
+        levelRequirements = new int[3] { 7, 10, 13 };
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);
 

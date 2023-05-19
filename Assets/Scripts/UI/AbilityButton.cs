@@ -37,6 +37,7 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public Button LevelUpButton => levelUpButton;
 
     private Ability ability;
+    private UnitAbility unitAbility;
     private AbilityInfo abilityInfo;
     private TowerLevelHandler levelHandler;
 
@@ -65,7 +66,21 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             levelHandler.PointsHandler.Modify(ModifyType.Subtract, 1);
         });
 
-        Hide();
+        HideTooltip();
+        SetCooldown(0f, 1f);
+    }
+
+    public void Initialize(AbilityInfo abilityInfo, UnitAbility unitAbility)
+    {
+        this.unitAbility = unitAbility;
+        this.abilityInfo = abilityInfo;
+
+        iconImg.sprite = abilityInfo.IconSpr;
+
+        levelUpButton.gameObject.SetActive(false);
+        
+        
+        HideTooltip();
         SetCooldown(0f, 1f);
     }
 
@@ -99,26 +114,27 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         loreDescriptionTMP.gameObject.SetActive(abilityInfo.LoreDescription != null);
         loreDescriptionTMP.text = abilityInfo.LoreDescription;
 
-        Show();
+        ShowTooltip();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Hide();
+        HideTooltip();
     }
 
-    private void Show()
+    private void ShowTooltip()
     {
         tooltipObj.SetActive(true);
     }
 
-    private void Hide()
+    private void HideTooltip()
     {
         tooltipObj.SetActive(false);
     }
 
     private void OnDestroy()
     {
-        levelHandler.PointsHandler.OnModified -= SetLevelUpButtonActive;
+        if (levelHandler != null)
+            levelHandler.PointsHandler.OnModified -= SetLevelUpButtonActive;
     }
 }

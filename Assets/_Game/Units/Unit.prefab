@@ -69,6 +69,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba66c1f32010a449bec396b3f811607, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayName: Zombie
+  icon: {fileID: 0}
   health: 10
   armor: 0
   speed: 0.3

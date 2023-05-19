@@ -10,6 +10,10 @@ PresetManager:
       m_ManagedTypePPtr: {fileID: 0}
       m_ManagedTypeFallback: 
     second:
+    - m_Preset: {fileID: 2655988077585873504, guid: fa28c0049043d01418818ff371084d8e,
+        type: 2}
+      m_Filter: glob:"Imports/Images/*"
+      m_Disabled: 0
     - m_Preset: {fileID: 2655988077585873504, guid: a6a1d7f53cd0bb64dacb282044071275,
         type: 2}
       m_Filter: glob:"Imports/Icons/*"

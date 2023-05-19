@@ -15,7 +15,7 @@ public class TippedArrows : Ability
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);
 
-        extraDamagesPerMeter = new int[4] { 50, 100, 150, 200 };
+        extraDamagesPerMeter = new int[4] { 50, 75, 100, 150 };
 
         currentShot = 0;
 

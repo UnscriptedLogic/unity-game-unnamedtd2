@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9724e1b49729fd74db989076c11716aa, type: 3}
+  m_Name: AllEnemyAbilities
+  m_EditorClassIdentifier: 
+  abilityInfos:
+  - name: Vital Life Cone
+    iconSpr: {fileID: 21300000, guid: 209a630284c7429478e42a3e7247b1e7, type: 3}
+    description: Passively reduces incoming damage by 30%. The effect is permanently
+      lost once the unit's health drops below 50% of it's max health and will not
+      re-activate even after restoring health above the threshold.
+    loreDescription: The VLC is a multistage life protecting cone that progressively
+      gets more weaker as it continues protecting.
+    abilityType: 0

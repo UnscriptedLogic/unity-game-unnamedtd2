@@ -13,6 +13,7 @@ public class UnitTookDamageEventArgs : EventArgs
 public class UnitBase : MonoBehaviour, IInspectable
 {
     [Header("Basic Settings")]
+    [SerializeField] private string id = "zombieNormal";
     [SerializeField] private string displayName;
     [SerializeField] private Sprite icon;
 
@@ -47,6 +48,7 @@ public class UnitBase : MonoBehaviour, IInspectable
     private CurrencyHandler speedHandler;
     private CurrencyHandler armorHandler;
 
+    public string ID => id;
     public string DisplayName => displayName;
     public Sprite DisplayIcon => icon;
 

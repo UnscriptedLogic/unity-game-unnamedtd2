@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88622d87a6974624dae1f2a08aeee458, type: 3}
-  m_Name: DefaultTheme
+  m_Name: AbandonedRuinTheme
   m_EditorClassIdentifier: 
   debris:
   - prefab: {fileID: 748309059799896855, guid: 6463b64c64185ee47a21595912dbe14f, type: 3}

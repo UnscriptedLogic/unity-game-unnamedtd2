@@ -493,8 +493,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0.53333336, g: 0.6784314, b: 1, a: 0.015686275}
-      maxColor: {r: 0.5330188, g: 0.67697376, b: 1, a: 0.03137255}
+      minColor: {r: 0.53333336, g: 0.6784314, b: 1, a: 0.003921569}
+      maxColor: {r: 0.5330188, g: 0.67697376, b: 1, a: 0.039215688}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -12703,6 +12703,7 @@ GameObject:
   - component: {fileID: 1287491286}
   - component: {fileID: 1287491288}
   - component: {fileID: 1287491289}
+  - component: {fileID: 1287491290}
   m_Layer: 0
   m_Name: EntityHandling
   m_TagString: Untagged
@@ -12790,6 +12791,22 @@ MonoBehaviour:
       waveInterval: 0
     startDelay: 17
   waveSO: {fileID: 11400000, guid: 3d1b355e4b9732841b9f24c14d8dafe9, type: 2}
+--- !u!114 &1287491290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287491285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a737be9a308bbda44a06745bc275f87b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthbarPrefab: {fileID: 3324606151750690350, guid: 8cf5e1ee412b59c4f9d9ccd8f378b854,
+    type: 3}
+  distanceFromHead: 0.5
+  bossScale: 1.5
 --- !u!1 &1290312996
 GameObject:
   m_ObjectHideFlags: 0

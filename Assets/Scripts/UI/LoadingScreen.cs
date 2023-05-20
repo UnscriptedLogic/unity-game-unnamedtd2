@@ -18,9 +18,14 @@ public class LoadingScreen : MonoBehaviour
     
     [Header("Load Screen Bar")]
     [SerializeField] private float fillSmoothTime = 1f;
+    [SerializeField] private Transform loadBarParent;
     [SerializeField] private TextMeshProUGUI loadingTMP;
     [SerializeField] private Slider loadingSlider;
-    
+
+    [Header("Proceed Section")]
+    [SerializeField] private Transform buttonParent;
+    [SerializeField] private Button proceedBtn;
+
     [Header("Transition")]
     [SerializeField] private float transitionDelay = 1f;
     [SerializeField] private CanvasGroup transitionScreen;
@@ -51,9 +56,10 @@ public class LoadingScreen : MonoBehaviour
     public Sequence ToggleScreen(bool visible)
     {
         Sequence sequence = DOTween.Sequence();
+        sequence.SetUpdate(true);
 
-        Tween tween = transitionScreen.DOFade(1f, transitionDelay);
-        tween.onComplete += () =>
+        Tween fadeInTween = FadeIn();
+        fadeInTween.onComplete += () =>
         {
             ToggleLoadingScreen(visible);
             if (visible)
@@ -65,19 +71,30 @@ public class LoadingScreen : MonoBehaviour
             OnFadeInCompleted?.Invoke(this, EventArgs.Empty);
         };
 
-        sequence.Append(tween);
-        sequence.Append(transitionScreen.DOFade(0f, transitionDelay)).onComplete += () => OnFadeOutCompleted?.Invoke(this, EventArgs.Empty);
+        sequence.Append(fadeInTween);
+        sequence.Append(FadeOut()).onComplete += () => OnFadeOutCompleted?.Invoke(this, EventArgs.Empty);
         return sequence;
+    }
+
+    public void ToggleButton(bool value)
+    {
+        buttonParent.gameObject.SetActive(value);
+        loadBarParent.gameObject.SetActive(!value);
+        loadingTMP.gameObject.SetActive(!value);
     }
 
     public TweenerCore<float, float, FloatOptions> FadeIn()
     {
-        return transitionScreen.DOFade(1f, transitionDelay);
+        TweenerCore<float, float, FloatOptions> tween = transitionScreen.DOFade(1f, transitionDelay);
+        tween.SetUpdate(true);
+        return tween;
     }
 
     public TweenerCore<float, float, FloatOptions> FadeOut()
     {
-        return transitionScreen.DOFade(0f, transitionDelay);
+        TweenerCore<float, float, FloatOptions> tween = transitionScreen.DOFade(0f, transitionDelay);
+        tween.SetUpdate(true);
+        return tween;
     }
 
     public void ToggleLoadingScreen(bool visible)
@@ -87,7 +104,18 @@ public class LoadingScreen : MonoBehaviour
 
     public void SetLoadingProgress(float amount, string loadingText = "")
     {
-        loadingSlider.DOValue(amount, fillSmoothTime);
+        loadingSlider.DOValue(amount, fillSmoothTime).SetUpdate(true);
         loadingTMP.text = loadingText;
+    }
+
+    public void ShowProceedButton()
+    {
+        ToggleButton(true);
+
+        proceedBtn.onClick.AddListener(() =>
+        {
+            ToggleScreen(false);
+            Time.timeScale = 1f;
+        });
     }
 }

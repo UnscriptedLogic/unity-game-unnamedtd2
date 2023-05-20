@@ -50,7 +50,7 @@ public class SceneController : MonoBehaviour
         scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE, LoadSceneMode.Additive));
     }
 
-    public IEnumerator LoadAllProcess()
+    public IEnumerator LoadAllProcess(Action OnComplete = null)
     {
         for (int i = 0; i < loadProcesses.Count; i++)
         {
@@ -66,9 +66,9 @@ public class SceneController : MonoBehaviour
 
         loadingScreen.SetLoadingProgress(1f, $"Loading Completed! [100%]");
 
-        yield return new WaitForSeconds(1f);
-        
-        loadingScreen.ToggleScreen(false);
+        yield return new WaitForSecondsRealtime(1f);
+
+        OnComplete?.Invoke();
         scenesLoading.Clear();
     }
 
@@ -76,6 +76,7 @@ public class SceneController : MonoBehaviour
     {
         loadingScreen.ToggleScreen(true).onComplete += () =>
         {
+            Time.timeScale = 0f;
             LoadProcess gameSceneLoad = new LoadProcess("Loading Scenes", process => StartCoroutine(GameScene_LoadProcess(process)));
             LoadProcess delayLoad = new LoadProcess("Prepping Environment", process => StartCoroutine(DelayLoad_LoadProcess(process)));
 
@@ -85,7 +86,10 @@ public class SceneController : MonoBehaviour
                 delayLoad
             };
 
-            StartCoroutine(LoadAllProcess());
+            StartCoroutine(LoadAllProcess(() =>
+            {
+                loadingScreen.ShowProceedButton();
+            }));
         };
     }
 
@@ -119,7 +123,7 @@ public class SceneController : MonoBehaviour
 
         while (currentLoadDelay > 0f)
         {
-            currentLoadDelay -= Time.deltaTime;
+            currentLoadDelay -= Time.unscaledDeltaTime;
             process.progress = 1 - (currentLoadDelay / loadDelay);
             yield return null;
         }

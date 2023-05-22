@@ -27,8 +27,20 @@ public class RangeVisualizer : MonoBehaviour
     private void Start()
     {
         InputManager.instance.OnMouseDown += Instance_OnMouseDown;
+        BuildManager.instance.OnBeganBuilding += Instance_OnBeganBuilding;
         BuildManager.instance.OnPreviewing += Instance_OnPreviewing;
         BuildManager.instance.OnBuild += Instance_OnBuild;
+    }
+
+    private void Instance_OnBeganBuilding(object sender, OnPreviewEventArgs e)
+    {
+        ClearValues();
+        TowerBase towerbase = e.previewObject.GetComponent<TowerBase>();
+        target = e.previewObject.transform;
+        tower = towerbase;
+        CreateMesh();
+        DrawFOV(e.previewObject.transform, towerbase.RangeHandler.Current);
+        drawRange = true;
     }
 
     private void Instance_OnBuild(object sender, OnBuildEventArgs e)

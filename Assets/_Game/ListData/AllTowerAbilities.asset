@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9724e1b49729fd74db989076c11716aa, type: 3}
+  m_Name: AllTowerAbilities
+  m_EditorClassIdentifier: 
+  abilityInfos:
+  - name: Marksmanship
+    iconSpr: {fileID: 21300000, guid: d70e64f24e00f1a4b9ef04a071b610f8, type: 3}
+    description: 'Scout learns the crucial points on the target, occasionally finding
+      them and dealing increased damage based on the current damage of the tower.
+
+
+      Scout
+      also gains 1 point of damage for every level on this ability
+
+
+      Crit Multiplier:
+      2x/2x/3x/4x
+
+      Crit Chance(%): 20/25/30/35'
+    loreDescription: Strike at their weak points. When 1 limb fails the rest will
+      follow.
+    abilityType: 0
+  - name: Relentless Stacks
+    iconSpr: {fileID: 21300000, guid: bb16bfc3c31a98b4cb770b6eae3820c4, type: 3}
+    description: 'When successfully attacking the same unit, Rifler passively gains
+      an increase in attack speed and lasts until he switches targets.
+
+
+      Attack
+      Interval Decrease: 0.1s
+
+      Max Relentless Stack: 5/7/12/15'
+    loreDescription: Bullets zooming, casing ejecting. If it's still breathing then
+      keep on shooting.
+    abilityType: 0
+  - name: Double Tap
+    iconSpr: {fileID: 21300000, guid: 003f432e994a29a4f84e1b0a98a68471, type: 3}
+    description: 'After shooting once, Rifler locks on to his target again, shooting
+      another projectile in quick succession.
+
+
+      Double tap next attack time:
+      0.25s
+
+      Double tap chance(%): 10/14/19/25
+
+      Double tap can trigger
+      double tap again'
+    loreDescription: As a cadet, they always called me hasty with my shots but my
+      seargent knew better. Patience is not a fixed value of speed, but the skill
+      of knowing when to act and when to wait.
+    abilityType: 0
+  - name: Power Shot
+    iconSpr: {fileID: 21300000, guid: e2a8ea1bb05ce9844aec972b503d170b, type: 3}
+    description: 'Ranger releases a powerful shot, going through through multiple
+      enemies and dealing heavy damage.
+
+
+      Damage: 25/50/100/200
+
+      Pierce:
+      6/10/12/15'
+    loreDescription: Where I come from, brute force is not encouraged. They didn't
+      say it wasn't allowed though.
+    abilityType: 1
+  - name: Projectile Maintenance
+    iconSpr: {fileID: 21300000, guid: 92d36e597a108904392e031c8db33265, type: 3}
+    description: 'Ranger gains increased piercing and attack speed for every level
+
+
+      Total
+      extra pierce: 2/4/6/8
+
+      Att. Speed reduction(s): 0.5/1/1.5/2'
+    loreDescription: Through all the reprimanding and punishments, my seniors always
+      applauded my meticulously maintained equipment. It's the one thing about me
+      they're proud of.
+    abilityType: 0
+  - name: Split Shot
+    iconSpr: {fileID: 21300000, guid: b4cded57d89128642b00daef27d6482c, type: 3}
+    description: 'Passively has a chance to shoot multiple projectiles at once. The
+      extra projectiles have damage reduction on them.
+
+
+      Extra Projectiles:
+      1 on each side
+
+      Proc. Chance(%): 10/20/30/40
+
+      Dmg Reduction on
+      extra arrows(%): 75/50/25/0'
+    loreDescription: '"But I was patient with my shot!" I said proclaiming to my
+      supervisor as he reports to the headmaster about me violating the "One arrow
+      at a time" rule. Such a stupid rule.'
+    abilityType: 0
+  - name: Ranger's Requiem
+    iconSpr: {fileID: 21300000, guid: 06e69497efb250b42b993c9e4d3d1ba8, type: 3}
+    description: 'Every 4th shot deals additional damage based on how far Ranger
+      is to his target
+
+
+      DMG Multiplier(%)/meter: 50/75/100/150'
+    loreDescription: Tradition was always a guiding light for me, following down
+      paths once taken by legends in my darkest of hours. With Master gone, it's
+      up to us to pass down the ways of a Ranger. Never let them know who hit them.
+    abilityType: 0

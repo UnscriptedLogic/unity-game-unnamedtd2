@@ -7,7 +7,7 @@ public class ProjectileMaintenance : Ability
     {
         maxLevel = 4;
 
-        levelRequirements = new int[3] { 5, 7, 9 };
+        levelRequirements = new int[3] { 5, 8, 12 };
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);
 
@@ -16,8 +16,6 @@ public class ProjectileMaintenance : Ability
 
     protected override void OnLevelUp()
     {
-        tower.PierceHandler.Modify(ModifyType.Add, 2);
-        tower.ReloadTimeHandler.Modify(ModifyType.Subtract, 0.5f);
         upgradeHandler.UpdatePersistentStats(new TowerUpgradeHandler.UpgradeProperty(projPierce: 2, reloadTime: -0.5f));
     }
 }

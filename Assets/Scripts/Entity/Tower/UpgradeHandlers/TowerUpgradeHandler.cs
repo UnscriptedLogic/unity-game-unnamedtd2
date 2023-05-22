@@ -45,15 +45,15 @@ public class TowerUpgradeHandler : MonoBehaviour
 
         public static UpgradeProperty operator +(UpgradeProperty a, UpgradeProperty b)
         {
-            UpgradeProperty sum = a;
+            UpgradeProperty sum = new UpgradeProperty();
 
-            sum.damage += b.damage;
-            sum.range += b.range;
-            sum.reloadTime += b.reloadTime;
-            sum.projSpeed += b.projSpeed;
-            sum.projLifetime += b.projLifetime;
-            sum.projPierce += b.projPierce;
-            sum.method += b.method;
+            sum.damage = a.damage + b.damage;
+            sum.range = a.range + b.range;
+            sum.reloadTime = a.reloadTime + b.reloadTime;
+            sum.projSpeed = a.projSpeed + b.projSpeed;
+            sum.projLifetime = a.projLifetime + b.projLifetime;
+            sum.projPierce = a.projPierce + b.projPierce;
+            sum.method = a.method + b.method;
 
             return sum;
         }
@@ -133,29 +133,32 @@ public class TowerUpgradeHandler : MonoBehaviour
                 }
 
                 upgradePersistantProperty += upgradeGroups[upgradesChosen.Count].upgradeProperties[upgradePropertyIndex];
-                UpgradeProperty propertySum = upgradePersistantProperty + abilityPersistentProperty;
-
-                //Core settings
-                towerBase.Damage = propertySum.damage;
-                towerBase.Range = propertySum.range;
-                towerBase.ReloadTime = propertySum.reloadTime;
-
-                //Projectile settings
-                towerBase.ProjectilePierce = propertySum.projPierce;
-                towerBase.ProjectileSpeed = propertySum.projSpeed;
-                towerBase.ProjectileLifetime = propertySum.projLifetime;
+                ApplyStats();
 
                 upgradeGroups[upgradesChosen.Count].upgradeProperties[upgradePropertyIndex].method?.Invoke(towerBase);
-
-                //upgradePersistantProperty.method?.Invoke(towerBase);
-
                 upgradesChosen.Add(upgradePropertyIndex);
             }
         }
     }
 
+    private void ApplyStats()
+    {
+        UpgradeProperty propertySum = new UpgradeProperty();
+        propertySum = upgradePersistantProperty + abilityPersistentProperty;
+
+        //Core settings
+        towerBase.Damage = propertySum.damage;
+        towerBase.Range = propertySum.range;
+        towerBase.ReloadTime = propertySum.reloadTime;
+
+        //Projectile settings
+        towerBase.ProjectilePierce = propertySum.projPierce;
+        towerBase.ProjectileSpeed = propertySum.projSpeed;
+        towerBase.ProjectileLifetime = propertySum.projLifetime;
+    }
+
     /// <summary>
-    /// Updates a seperate stat group property meant for abilities.
+    /// Updates a seperate stat group property meant for towerAbilities.
     /// It stores the cumulation of all the upgrades affecting attributes of the tower ignoring any status effects.
     /// Abilities should not directly affect the main persistent property.
     /// Enemies who want to disable passives also have easy access 
@@ -163,5 +166,6 @@ public class TowerUpgradeHandler : MonoBehaviour
     public void UpdatePersistentStats(UpgradeProperty upgradeProperty)
     {
         abilityPersistentProperty += upgradeProperty;
+        ApplyStats();
     }
 }

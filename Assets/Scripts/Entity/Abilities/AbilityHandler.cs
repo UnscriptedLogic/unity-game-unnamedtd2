@@ -137,28 +137,6 @@ public class AbilityHandler : MonoBehaviour
 
         Destroy(particleGO);
         particleGO = null;
-
-        //bool noMoreUpgrades = true;
-        //if (towerLevelHandler.PointsHandler.Current > 0)
-        //{
-        //    for (int i = 0; i < abilities.Count; i++)
-        //    {
-        //        if (abilities[i].CurrentLevel < abilities[i].MaxLevel)
-        //        {
-        //            if (towerLevelHandler.Level + 1 >= abilities[i].NextLevel)
-        //            {
-        //                noMoreUpgrades = false;
-        //                break;
-        //            }
-        //        }
-        //    }
-        //}
-
-        //if (noMoreUpgrades)
-        //{
-        //    Destroy(particleGO);
-        //    particleGO = null;
-        //}
     }
 
     private void Ability_OnAnyAbilityHasUpgrade(object sender, OnAnyAbilityEventArgs e)

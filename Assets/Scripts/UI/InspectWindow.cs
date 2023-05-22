@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using DG.Tweening.Core;
 using DG.Tweening;
 using UnscriptedLogic.Currency;
+using Unity.VisualScripting;
 
 public class InspectWindow : MonoBehaviour
 {
@@ -48,13 +49,20 @@ public class InspectWindow : MonoBehaviour
     private Vector2 mousePos;
     private bool isOverUI;
 
-    //Inspected components
+    //Inspected tower components
     private GameObject inspectedObject;
     private TowerBase inspectedTower;
     private TowerSO inspectedTowerSO;
     private TowerUpgradeHandler inspectedTUH;
     private AbilityHandler inspectedAbilityHandler;
     private TowerLevelHandler inspectedLevelHandler;
+
+    public static InspectWindow instance { get; private set; }
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -71,16 +79,20 @@ public class InspectWindow : MonoBehaviour
         this.mousePos = mousePos;
         this.isOverUI = isOverUI;
 
+        abilityManager = AbilityManager.instance;
+
         if (isOverUI) return;
 
-        if (RaycastLogic.FromMousePos3D(Camera.main, out RaycastHit unitHit, towerLayer))
+        ClearWindow();
+
+        if (RaycastLogic.FromMousePos3D(Camera.main, out RaycastHit unitHit))
         {
-            IInspectable inspectable = unitHit.collider.gameObject.GetComponent<IInspectable>();
-            if (inspectable != null)
+            IInspectable towerInspectable = unitHit.collider.gameObject.GetComponent<IInspectable>();
+            if (towerInspectable != null)
             {
-                if (inspectable as TowerBase)
+                if (towerInspectable as TowerBase)
                 {
-                    inspectedTower = inspectable as TowerBase;
+                    inspectedTower = towerInspectable as TowerBase;
                     inspectedTowerSO = TowerDefenseManager.instance.AllTowerList.GetSOFromTower(inspectedTower);
                     inspectedTUH = inspectedTower.GetComponent<TowerUpgradeHandler>();
                     inspectedAbilityHandler = inspectedTower.GetComponent<AbilityHandler>();
@@ -94,15 +106,76 @@ public class InspectWindow : MonoBehaviour
                     return;
                 }
             }
+
+            IInspectable unitInspectable = unitHit.collider.gameObject.GetComponent<IInspectable>();
+            if (unitInspectable != null)
+            {
+                if (unitInspectable as UnitBase)
+                {
+                    UnitBase unit = unitInspectable as UnitBase;
+                    DisplayInspectedAvatar(unit.DisplayName, unit.DisplayIcon);
+
+                    inspectedObject = unitHit.collider.gameObject;
+
+                    Clear(abilityParent);
+
+                    UnitAbilityHandler abilityHandler = inspectedObject.GetComponent<UnitAbilityHandler>();
+                    if (abilityHandler != null)
+                    {
+                        List<UnitAbility> abilities = new List<UnitAbility>(abilityHandler.Abilities);
+
+                        for (int i = 0; i < abilities.Count; i++)
+                        {
+                            GameObject abilityButton = Instantiate(abilityButtonPrefab, abilityParent);
+                            AbilityButton buttonScript = abilityButton.GetComponent<AbilityButton>();
+                            buttonScript.Initialize(abilityManager.GetUnitAbilityInfoByAbility(abilities[i]), abilities[i]);
+                        }
+                    }
+
+                    Show();
+                    return;
+                }
+            }
+
+            IInspectable debriInspectable = unitHit.collider.gameObject.GetComponent<IInspectable>();
+            if (debriInspectable != null)
+            {
+                if (debriInspectable as InspectableDebri)
+                {
+                    InspectableDebri debri = debriInspectable as InspectableDebri;
+                    DisplayInspectedAvatar(debri.DisplayName, debri.Icon);
+
+                    inspectedObject = unitHit.collider.gameObject;
+
+                    Show();
+                    return;
+                }
+            }
         }
 
         Hide();
     }
 
-    private void DisplayTowerAvatar(TowerSO towerSO)
+    #region Tower Functions
+
+    private void RefreshTowerWindow()
     {
-        icon.sprite = towerSO.IconSpr;
-        nameTMP.text = towerSO.TowerName;
+        ClearWindow();
+
+        DisplayInspectedAvatar(inspectedTowerSO.TowerName, inspectedTowerSO.IconSpr, true);
+        DisplayTowerStat(inspectedTower);
+        DisplayUpgradeButtons(inspectedTowerSO, inspectedTUH.UpgradesChosen.ToArray(), inspectedTUH);
+        DisplayTowerAbilities();
+    }
+
+    private void DisplayInspectedAvatar(string displayName, Sprite icon, bool showLevel = false)
+    {
+        this.icon.enabled = icon != null;
+        this.icon.sprite = icon;
+        nameTMP.text = displayName;
+
+        if (showLevel)
+            DisplayTowerLevel();
     }
 
     private void DisplayTowerLevel()
@@ -116,8 +189,6 @@ public class InspectWindow : MonoBehaviour
         float damage = tower.Damage;
         float range = tower.Range;
         float rate = 60f / tower.ReloadTime / 60f;
-
-        Clear(statParent);
 
         GameObject attStat = Instantiate(statPrefab, statParent);
         attStat.GetComponent<StatView>().Initialized("DMG", damage.ToString());
@@ -135,8 +206,6 @@ public class InspectWindow : MonoBehaviour
 
     private void DisplayTowerAbilities()
     {
-        Clear(abilityParent);
-
         List<Ability> abilities = new List<Ability>(inspectedAbilityHandler.Abilities);
 
         for (int i = 0; i < abilities.Count; i++)
@@ -153,11 +222,9 @@ public class InspectWindow : MonoBehaviour
             });
         }
     }
-    
+
     private void DisplayUpgradeButtons(TowerSO towerSO, int[] upgradeHistory, TowerUpgradeHandler upgradeHandler)
     {
-        Clear(upgradeParent);
-
         if (upgradeHistory.Length == towerSO.TowerLevels.Length)
         {
             //All levels completed
@@ -201,23 +268,6 @@ public class InspectWindow : MonoBehaviour
         }
     }
 
-    private void RefreshTowerWindow()
-    {
-        DisplayTowerAvatar(inspectedTowerSO);
-        DisplayTowerLevel();
-        DisplayTowerStat(inspectedTower);
-        DisplayUpgradeButtons(inspectedTowerSO, inspectedTUH.UpgradesChosen.ToArray(), inspectedTUH);
-        DisplayTowerAbilities();
-    }
-
-    private void Clear(Transform parent)
-    {
-        for (int i = parent.childCount - 1; i >= 0; i--)
-        {
-            Destroy(parent.GetChild(i).gameObject);
-        }
-    }
-
     private void SyncLevel(object sender, CurrencyEventArgs e)
     {
         levelSlider.fillAmount = inspectedLevelHandler.ExperienceHandler.Current / inspectedLevelHandler.CurrentExperienceLevelNeeded.amount;
@@ -235,6 +285,36 @@ public class InspectWindow : MonoBehaviour
         tower.DamageHandler.OnModified -= StatRefreshWindow;
         tower.RangeHandler.OnModified -= StatRefreshWindow;
         tower.ReloadTimeHandler.OnModified -= StatRefreshWindow;
+    }
+
+    #endregion
+
+    public void ClearWindow()
+    {
+        Clear(statParent);
+        Clear(upgradeParent);
+        Clear(abilityParent);
+
+        DesyncLevel();
+    }
+
+    private void DesyncLevel()
+    {
+        if (inspectedLevelHandler != null)
+        {
+            inspectedLevelHandler.ExperienceHandler.OnModified -= SyncLevel;
+        }
+
+        levelSlider.fillAmount = 0f;
+        levelTMP.text = "0";
+    }
+
+    private void Clear(Transform parent)
+    {
+        for (int i = parent.childCount - 1; i >= 0; i--)
+        {
+            Destroy(parent.GetChild(i).gameObject);
+        }
     }
 
     private void Show() 

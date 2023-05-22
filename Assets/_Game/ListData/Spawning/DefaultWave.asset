@@ -1,0 +1,213 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 499d67e689d7a6e4a9eb3df253652144, type: 3}
+  m_Name: DefaultWave
+  m_EditorClassIdentifier: 
+  waves:
+  - waveName: The First Wave
+    waveSegments:
+    - startDelay: 0
+      spawnObject: {fileID: 8747836210194945649, guid: 171e033453bb5b3448f38f948a4d5f06,
+        type: 3}
+      amount: 5
+      interval: 4
+      currentInterval: 4
+      spawnedAmount: 5
+    waveInterval: 15
+  - waveName: 
+    waveSegments:
+    - startDelay: 0
+      spawnObject: {fileID: 8747836210194945649, guid: 171e033453bb5b3448f38f948a4d5f06,
+        type: 3}
+      amount: 10
+      interval: 4
+      currentInterval: 4
+      spawnedAmount: 10
+    waveInterval: 15
+  - waveName: 
+    waveSegments:
+    - startDelay: 0
+      spawnObject: {fileID: 8747836210194945649, guid: 171e033453bb5b3448f38f948a4d5f06,
+        type: 3}
+      amount: 10
+      interval: 2
+      currentInterval: -9.970391
+      spawnedAmount: 10
+    - startDelay: 30
+      spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
+        type: 3}
+      amount: 1
+      interval: 0
+      currentInterval: 0
+      spawnedAmount: 1
+    waveInterval: 30
+  - waveName: 'New Unit: Blue Speedies. Hit-scan towers are effective against fast
+      units.'
+    waveSegments:
+    - startDelay: 0
+      spawnObject: {fileID: 8747836210194945649, guid: 171e033453bb5b3448f38f948a4d5f06,
+        type: 3}
+      amount: 15
+      interval: 4
+      currentInterval: -20.953539
+      spawnedAmount: 15
+    - startDelay: 75
+      spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
+        type: 3}
+      amount: 3
+      interval: 3
+      currentInterval: 3
+      spawnedAmount: 3
+    waveInterval: 15
+  - waveName: 
+    waveSegments:
+    - startDelay: 0
+      spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
+        type: 3}
+      amount: 7
+      interval: 2
+      currentInterval: -62.187954
+      spawnedAmount: 7
+    - startDelay: 20
+      spawnObject: {fileID: 8747836210194945649, guid: 171e033453bb5b3448f38f948a4d5f06,
+        type: 3}
+      amount: 15
+      interval: 4
+      currentInterval: 4
+      spawnedAmount: 15
+    waveInterval: 30
+  - waveName: 'New Unit: Tough Units'
+    waveSegments:
+    - startDelay: 0
+      spawnObject: {fileID: 8747836210194945649, guid: 325c3977f98072a4e8c590bbab8e261e,
+        type: 3}
+      amount: 10
+      interval: 3
+      currentInterval: 3
+      spawnedAmount: 10
+    waveInterval: 50
+  - waveName: 
+    waveSegments:
+    - startDelay: 0
+      spawnObject: {fileID: 8747836210194945649, guid: 325c3977f98072a4e8c590bbab8e261e,
+        type: 3}
+      amount: 15
+      interval: 3
+      currentInterval: 3
+      spawnedAmount: 15
+    - startDelay: 0
+      spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
+        type: 3}
+      amount: 10
+      interval: 2
+      currentInterval: -22.01896
+      spawnedAmount: 10
+    waveInterval: 10
+  - waveName: 
+    waveSegments:
+    - startDelay: 0
+      spawnObject: {fileID: 8747836210194945649, guid: 325c3977f98072a4e8c590bbab8e261e,
+        type: 3}
+      amount: 25
+      interval: 2
+      currentInterval: 2
+      spawnedAmount: 25
+    waveInterval: 30
+  - waveName: 
+    waveSegments:
+    - startDelay: 0
+      spawnObject: {fileID: 8747836210194945649, guid: 325c3977f98072a4e8c590bbab8e261e,
+        type: 3}
+      amount: 15
+      interval: 2
+      currentInterval: -26.02358
+      spawnedAmount: 15
+    - startDelay: 0
+      spawnObject: {fileID: 8747836210194945649, guid: 171e033453bb5b3448f38f948a4d5f06,
+        type: 3}
+      amount: 15
+      interval: 4
+      currentInterval: 4
+      spawnedAmount: 15
+    - startDelay: 0
+      spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
+        type: 3}
+      amount: 15
+      interval: 2
+      currentInterval: -26.02358
+      spawnedAmount: 15
+    waveInterval: 30
+  - waveName: Prepation Wave
+    waveSegments:
+    - startDelay: 0
+      spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
+        type: 3}
+      amount: 5
+      interval: 3
+      currentInterval: 3
+      spawnedAmount: 5
+    waveInterval: 20
+  - waveName: Boss Wave
+    waveSegments:
+    - startDelay: 0
+      spawnObject: {fileID: 8747836210194945649, guid: 171e033453bb5b3448f38f948a4d5f06,
+        type: 3}
+      amount: 10
+      interval: 2
+      currentInterval: -19.98538
+      spawnedAmount: 10
+    - startDelay: 10
+      spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
+        type: 3}
+      amount: 20
+      interval: 0.5
+      currentInterval: -19.850502
+      spawnedAmount: 20
+    - startDelay: 10
+      spawnObject: {fileID: 8747836210194945649, guid: 325c3977f98072a4e8c590bbab8e261e,
+        type: 3}
+      amount: 10
+      interval: 3
+      currentInterval: 0.013807403
+      spawnedAmount: 10
+    waveInterval: 0
+  - waveName: 'New Unit: ConeHeads'
+    waveSegments:
+    - startDelay: 0
+      spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
+        type: 3}
+      amount: 40
+      interval: 0.7
+      currentInterval: -54.88223
+      spawnedAmount: 20
+    - startDelay: 0
+      spawnObject: {fileID: 8747836210194945649, guid: 325c3977f98072a4e8c590bbab8e261e,
+        type: 3}
+      amount: 10
+      interval: 3
+      currentInterval: -34.96839
+      spawnedAmount: 10
+    - startDelay: 30
+      spawnObject: {fileID: 4981413550134097223, guid: a65109d523b46d348ac540e06166e762,
+        type: 3}
+      amount: 10
+      interval: 3
+      currentInterval: -4.9534287
+      spawnedAmount: 10
+    - startDelay: 65
+      spawnObject: {fileID: 8747836210194945649, guid: 7d48fd704c75c0445bbaedf23deb0001,
+        type: 3}
+      amount: 1
+      interval: 5
+      currentInterval: 5
+      spawnedAmount: 2
+    waveInterval: 0

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88622d87a6974624dae1f2a08aeee458, type: 3}
+  m_Name: AbandonedRuinTheme
+  m_EditorClassIdentifier: 
+  debris:
+  - prefab: {fileID: 748309059799896855, guid: 6463b64c64185ee47a21595912dbe14f, type: 3}
+    size: 5
+    heatmapRange: {x: -1, y: 0}
+    faceClosestPath: 0
+    mustContain: 0
+  - prefab: {fileID: 615710583707382553, guid: 77b3a98e70e0c8046b1846ed3d908ffa, type: 3}
+    size: 5
+    heatmapRange: {x: -1, y: 0}
+    faceClosestPath: 0
+    mustContain: 0
+  - prefab: {fileID: 4687438381561111510, guid: 9ed5e62fde746ab49af2da194e6d470d,
+      type: 3}
+    size: 5
+    heatmapRange: {x: -1, y: 0}
+    faceClosestPath: 0
+    mustContain: 0
+  - prefab: {fileID: 748309059799896855, guid: 9f470d9971292db48a4a97983555aae5, type: 3}
+    size: 3
+    heatmapRange: {x: 3, y: 4}
+    faceClosestPath: 0
+    mustContain: 1
+  - prefab: {fileID: 618305216865751810, guid: 3c37cf39030e73d4187c2dbe62350ecf, type: 3}
+    size: 5
+    heatmapRange: {x: 0, y: 2}
+    faceClosestPath: 0
+    mustContain: 10

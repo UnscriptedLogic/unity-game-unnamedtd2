@@ -25,6 +25,7 @@ public class BuildManager : MonoBehaviour, IBuilder<TowerBase, GameObject>
 {
     [SerializeField] private Material previewMaterial;
     [SerializeField] private Material invalidSpotMaterial;
+    [SerializeField] private LayerMask nodeLayer;
 
     private RaycastHit hit;
     private BuildHandlerSimple<TowerBase, BuildManager, GameObject> buildHandler;
@@ -40,6 +41,7 @@ public class BuildManager : MonoBehaviour, IBuilder<TowerBase, GameObject>
 
     public event EventHandler<OnBuildEventArgs> OnBuild;
     public event EventHandler<OnPreviewEventArgs> OnPreviewing;
+    public event EventHandler<OnPreviewEventArgs> OnBeganBuilding;
 
     public static BuildManager instance { get; private set; }
 
@@ -69,12 +71,20 @@ public class BuildManager : MonoBehaviour, IBuilder<TowerBase, GameObject>
     {
         if (!previewMode) return;
 
-        if (RaycastLogic.FromMousePos3D(Camera.main, out hit))
+        if (RaycastLogic.FromMousePos3D(Camera.main, out hit, nodeLayer))
         {
+            Debug.Log(LayerMask.LayerToName(hit.collider.gameObject.layer));
+
             //Preview position handling
             if (buildHandler.PreviewObject == null)
             {
                 buildHandler.Preview(towerBuildIndex, hit.collider.transform.position, Quaternion.identity);
+
+                OnBeganBuilding?.Invoke(this, new OnPreviewEventArgs()
+                {
+                    buildIndex = towerBuildIndex,
+                    previewObject = buildHandler.PreviewObject,
+                });
                 return;
             }
 

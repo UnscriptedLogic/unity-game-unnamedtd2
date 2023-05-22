@@ -55,7 +55,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6214489, y: 1.3618535, z: 0.31316286}
+  m_Size: {x: 0.5, y: 1.3618535, z: 0.5}
   m_Center: {x: 0, y: 0.68136245, z: 0}
 --- !u!114 &7850114091747465119
 MonoBehaviour:
@@ -69,13 +69,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba66c1f32010a449bec396b3f811607, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: zombieNormal
+  displayName: Zombie
+  icon: {fileID: 0}
   health: 10
   armor: 0
   speed: 0.3
   turnSpeed: 0.1
   offsetHeight: 0
   stoppingDistance: 0.1
-  deathDelay: 5
+  deathDelay: 3
   autoMatchRefWalkSpeed: 0
   refWalkSpeedAnim: 0.27
   walkSpeedAdjust: 1

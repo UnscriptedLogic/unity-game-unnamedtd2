@@ -12,6 +12,11 @@ public class UnitTookDamageEventArgs : EventArgs
 
 public class UnitBase : MonoBehaviour, IInspectable
 {
+    [Header("Basic Settings")]
+    [SerializeField] private string id = "zombieNormal";
+    [SerializeField] private string displayName;
+    [SerializeField] private Sprite icon;
+
     [Header("Health Settings")]
     [SerializeField] private float health;
     [SerializeField] private float armor;
@@ -43,6 +48,10 @@ public class UnitBase : MonoBehaviour, IInspectable
     private CurrencyHandler speedHandler;
     private CurrencyHandler armorHandler;
 
+    public string ID => id;
+    public string DisplayName => displayName;
+    public Sprite DisplayIcon => icon;
+
     public float MaxHealth => health;
     public float CurrentHealth => healthHandler.Current;
     public float MaxSpeed => speed;
@@ -51,6 +60,13 @@ public class UnitBase : MonoBehaviour, IInspectable
     public float CurrentArmor => armorHandler.Current;
 
     public int CurrentWaypoint => currentPoint;
+
+    public CurrencyHandler HealthHandler => healthHandler;
+    public CurrencyHandler SpeedHandler => speedHandler;
+    public CurrencyHandler ArmorHandler => armorHandler;
+
+    public Action<float> OverrideApplyDamage;
+
     public static event EventHandler OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDespawned;
     public static event EventHandler OnAnyUnitCompletedPath;
@@ -67,11 +83,25 @@ public class UnitBase : MonoBehaviour, IInspectable
         healthHandler = new CurrencyHandler(health, max: health);
         speedHandler = new CurrencyHandler(speed);
 
+        healthHandler.OnModified += HealthHandler_OnModified;
         healthHandler.OnEmpty += OnDeath;
         speedHandler.OnModified += SpeedHandler_OnModified;
         animator.speed = (animator.speed / refWalkSpeedAnim * speedHandler.Current) * walkSpeedAdjust;
 
         OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void HealthHandler_OnModified(object sender, CurrencyEventArgs e)
+    {
+        if (e.modifyType == ModifyType.Subtract)
+        {
+            damageFlash.Flash();
+            OnAnyUnitTookDamage?.Invoke(this, new UnitTookDamageEventArgs()
+            {
+                damage = e.changeValue,
+                currentHealth = healthHandler.Current,
+            });
+        }
     }
 
     private void OnDisable()
@@ -105,14 +135,14 @@ public class UnitBase : MonoBehaviour, IInspectable
 
     public void TakeDamage(float damage)
     {
-        healthHandler.Modify(ModifyType.Subtract, damage);
-
-        damageFlash.Flash();
-        OnAnyUnitTookDamage?.Invoke(this, new UnitTookDamageEventArgs()
+        if (OverrideApplyDamage != null)
         {
-            damage = damage,
-            currentHealth = healthHandler.Current,
-        });
+            OverrideApplyDamage?.Invoke(damage);
+        }
+        else
+        {
+            healthHandler.Modify(ModifyType.Subtract, damage);
+        }
     }
 
     public virtual void OnDeath(object sender, EventArgs e)

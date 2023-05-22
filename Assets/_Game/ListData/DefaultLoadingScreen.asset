@@ -13,11 +13,6 @@ MonoBehaviour:
   m_Name: DefaultLoadingScreen
   m_EditorClassIdentifier: 
   loadingScreens:
-  - splashart: {fileID: 21300000, guid: 9cc6e34c6a702bc4db79f1c7236245f5, type: 3}
-    title: Did you know?
-    tip: "Some enemies may have passive abilities that modify the way they recieve
-      damage, navigate the map or even alter a tower\u2019s functionality. Beware
-      of them!"
   - splashart: {fileID: 21300000, guid: 99850c3ec4d4b6a4f95d80f1e4743fbb, type: 3}
     title: Discovered Ruin Portals
     tip: The scouting crew stumbled upon these seemingly incomplete portals during

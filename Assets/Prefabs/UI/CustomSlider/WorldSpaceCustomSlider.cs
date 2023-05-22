@@ -71,6 +71,8 @@ public class WorldSpaceCustomSlider : CustomSlider
     private void HealthHandler_OnModified(object sender, UnscriptedLogic.Currency.CurrencyEventArgs e)
     {
         SetValue(e.currentValue);
+        if (e.currentValue <= 0f)
+            SetVisibility(false);
     }
 
     private void FixedUpdate()

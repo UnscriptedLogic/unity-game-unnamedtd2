@@ -108,7 +108,7 @@ namespace External.CustomSlider
                 if (currentValue >= maxValue)
                 {
                     if (gameObject.activeInHierarchy)
-                        StartCoroutine(HideBar());
+                        StartCoroutine(HideBar_Coroutine());
                 } else
                 {
                     StopAllCoroutines();
@@ -117,7 +117,7 @@ namespace External.CustomSlider
             }
         }
 
-        protected IEnumerator HideBar()
+        protected IEnumerator HideBar_Coroutine()
         {
             yield return new WaitForSeconds(hideDelay);
             SetVisibility(false);

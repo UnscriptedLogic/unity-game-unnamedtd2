@@ -15,17 +15,18 @@ MonoBehaviour:
   abilityInfos:
   - name: Marksmanship
     iconSpr: {fileID: 21300000, guid: d70e64f24e00f1a4b9ef04a071b610f8, type: 3}
-    description: 'Rifler learns the crucial points on the target, occasionally finding
+    description: 'Scout learns the crucial points on the target, occasionally finding
       them and dealing increased damage based on the current damage of the tower.
 
 
-      Crit
-      Multiplier: 2x/2x/3x/4x
+      Scout
+      also gains 1 point of damage for every level on this ability
 
-      Crit Chance: 20%/25%/30%/35%
 
-      Increases
-      damage passively for every level'
+      Crit Multiplier:
+      2x/2x/3x/4x
+
+      Crit Chance(%): 20/25/30/35'
     loreDescription: Strike at their weak points. When 1 limb fails the rest will
       follow.
     abilityType: 0
@@ -87,16 +88,17 @@ MonoBehaviour:
     abilityType: 0
   - name: Split Shot
     iconSpr: {fileID: 21300000, guid: b4cded57d89128642b00daef27d6482c, type: 3}
-    description: 'Passively has a chance to shoot multiple projectiles at once.
+    description: 'Passively has a chance to shoot multiple projectiles at once. The
+      extra projectiles have damage reduction on them.
 
 
-      Extra
-      Projectiles: 1 on each side
+      Extra Projectiles:
+      1 on each side
 
       Proc. Chance(%): 10/20/30/40
 
-      Dmg
-      Reduction on extra arrows(%): 75/50/25/0'
+      Dmg Reduction on
+      extra arrows(%): 75/50/25/0'
     loreDescription: '"But I was patient with my shot!" I said proclaiming to my
       supervisor as he reports to the headmaster about me violating the "One arrow
       at a time" rule. Such a stupid rule.'
@@ -107,7 +109,7 @@ MonoBehaviour:
       is to his target
 
 
-      DMG Multiplier(%)/meter: 50/100/150/200'
+      DMG Multiplier(%)/meter: 50/75/100/150'
     loreDescription: Tradition was always a guiding light for me, following down
       paths once taken by legends in my darkest of hours. With Master gone, it's
       up to us to pass down the ways of a Ranger. Never let them know who hit them.

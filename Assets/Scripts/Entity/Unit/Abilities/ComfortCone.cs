@@ -6,7 +6,7 @@ using UnscriptedLogic.MathUtils;
 public class ComfortCone : UnitAbility
 {
     private bool called;
-    private int damageReductionPercent = 30;
+    private int damageReductionPercent = 50;
 
     public override void OnAdded()
     {
@@ -20,7 +20,7 @@ public class ComfortCone : UnitAbility
 
         if (e.modifyType == ModifyType.Subtract)
         {
-            if (unit.HealthHandler.Current <= unit.MaxHealth * 0.5f)
+            if (unit.HealthHandler.Current <= 10f)
             {
                 called = true;
             }

@@ -69,6 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba66c1f32010a449bec396b3f811607, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: zombieNormal
   displayName: Tough Zombie
   icon: {fileID: 0}
   health: 50
@@ -77,7 +78,7 @@ MonoBehaviour:
   turnSpeed: 0.1
   offsetHeight: 0
   stoppingDistance: 0.1
-  deathDelay: 5
+  deathDelay: 3
   autoMatchRefWalkSpeed: 0
   refWalkSpeedAnim: 0.27
   walkSpeedAdjust: 1

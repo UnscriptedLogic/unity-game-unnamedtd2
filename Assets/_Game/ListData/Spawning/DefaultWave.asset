@@ -40,7 +40,7 @@ MonoBehaviour:
         type: 3}
       amount: 10
       interval: 2
-      currentInterval: -9.976669
+      currentInterval: -9.970391
       spawnedAmount: 10
     - startDelay: 30
       spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
@@ -58,7 +58,7 @@ MonoBehaviour:
         type: 3}
       amount: 15
       interval: 4
-      currentInterval: -20.937069
+      currentInterval: -20.953539
       spawnedAmount: 15
     - startDelay: 75
       spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
@@ -75,7 +75,7 @@ MonoBehaviour:
         type: 3}
       amount: 7
       interval: 2
-      currentInterval: -62.002647
+      currentInterval: -62.187954
       spawnedAmount: 7
     - startDelay: 20
       spawnObject: {fileID: 8747836210194945649, guid: 171e033453bb5b3448f38f948a4d5f06,
@@ -109,7 +109,7 @@ MonoBehaviour:
         type: 3}
       amount: 10
       interval: 2
-      currentInterval: -22.002968
+      currentInterval: -22.01896
       spawnedAmount: 10
     waveInterval: 10
   - waveName: 
@@ -129,7 +129,7 @@ MonoBehaviour:
         type: 3}
       amount: 15
       interval: 2
-      currentInterval: -26.02289
+      currentInterval: -26.02358
       spawnedAmount: 15
     - startDelay: 0
       spawnObject: {fileID: 8747836210194945649, guid: 171e033453bb5b3448f38f948a4d5f06,
@@ -143,7 +143,7 @@ MonoBehaviour:
         type: 3}
       amount: 15
       interval: 2
-      currentInterval: -26.02289
+      currentInterval: -26.02358
       spawnedAmount: 15
     waveInterval: 30
   - waveName: Prepation Wave
@@ -163,58 +163,51 @@ MonoBehaviour:
         type: 3}
       amount: 10
       interval: 2
-      currentInterval: -9.94373
+      currentInterval: -19.98538
       spawnedAmount: 10
     - startDelay: 10
       spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
         type: 3}
       amount: 20
       interval: 0.5
-      currentInterval: 0.08189933
+      currentInterval: -19.850502
       spawnedAmount: 20
     - startDelay: 10
       spawnObject: {fileID: 8747836210194945649, guid: 325c3977f98072a4e8c590bbab8e261e,
         type: 3}
       amount: 10
       interval: 3
-      currentInterval: -4.9904017
-      spawnedAmount: 5
-    - startDelay: 40
-      spawnObject: {fileID: 8747836210194945649, guid: 7d48fd704c75c0445bbaedf23deb0001,
-        type: 3}
-      amount: 1
-      interval: 0
-      currentInterval: 0
-      spawnedAmount: 1
+      currentInterval: 0.013807403
+      spawnedAmount: 10
     waveInterval: 0
   - waveName: 'New Unit: ConeHeads'
     waveSegments:
     - startDelay: 0
       spawnObject: {fileID: 1399785308065160249, guid: 0dc13899ed7804d4e85c9befeaf68831,
         type: 3}
-      amount: 20
-      interval: 0.5
-      currentInterval: 0.08189933
+      amount: 40
+      interval: 0.7
+      currentInterval: -54.88223
       spawnedAmount: 20
     - startDelay: 0
       spawnObject: {fileID: 8747836210194945649, guid: 325c3977f98072a4e8c590bbab8e261e,
         type: 3}
       amount: 10
       interval: 3
-      currentInterval: -4.9904017
-      spawnedAmount: 5
+      currentInterval: -34.96839
+      spawnedAmount: 10
     - startDelay: 30
       spawnObject: {fileID: 4981413550134097223, guid: a65109d523b46d348ac540e06166e762,
         type: 3}
       amount: 10
       interval: 3
-      currentInterval: 0
-      spawnedAmount: 1
-    - startDelay: 60
+      currentInterval: -4.9534287
+      spawnedAmount: 10
+    - startDelay: 65
       spawnObject: {fileID: 8747836210194945649, guid: 7d48fd704c75c0445bbaedf23deb0001,
         type: 3}
-      amount: 2
+      amount: 1
       interval: 5
-      currentInterval: 0
-      spawnedAmount: 1
+      currentInterval: 5
+      spawnedAmount: 2
     waveInterval: 0

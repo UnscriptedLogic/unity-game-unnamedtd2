@@ -24,7 +24,7 @@ public class SpawnManager : MonoBehaviour
     private void HealthSystem_OnEmpty(object sender, EventArgs e)
     {
         waveSystem.Pause();
-        EntityHandler.instance.KillAllUnits();
+        EntityHandler.instance.KillAllUnits_Coroutine();
     }
 
     private void Update()

@@ -70,11 +70,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: bossZombieNormal
-  displayName: Zombie Boss
+  displayName: Big Zombie
   icon: {fileID: 0}
-  health: 500
+  health: 800
   armor: 0
-  speed: 0.25
+  speed: 0.3
   turnSpeed: 0.1
   offsetHeight: 0
   stoppingDistance: 0.1

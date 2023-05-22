@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using DG.Tweening.Core;
 using DG.Tweening;
 using UnscriptedLogic.Currency;
+using Unity.VisualScripting;
 
 public class InspectWindow : MonoBehaviour
 {
@@ -56,6 +57,13 @@ public class InspectWindow : MonoBehaviour
     private AbilityHandler inspectedAbilityHandler;
     private TowerLevelHandler inspectedLevelHandler;
 
+    public static InspectWindow instance { get; private set; }
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private void Start()
     {
         Hide();
@@ -74,6 +82,8 @@ public class InspectWindow : MonoBehaviour
         abilityManager = AbilityManager.instance;
 
         if (isOverUI) return;
+
+        ClearWindow();
 
         if (RaycastLogic.FromMousePos3D(Camera.main, out RaycastHit unitHit))
         {
@@ -150,6 +160,8 @@ public class InspectWindow : MonoBehaviour
 
     private void RefreshTowerWindow()
     {
+        ClearWindow();
+
         DisplayInspectedAvatar(inspectedTowerSO.TowerName, inspectedTowerSO.IconSpr, true);
         DisplayTowerStat(inspectedTower);
         DisplayUpgradeButtons(inspectedTowerSO, inspectedTUH.UpgradesChosen.ToArray(), inspectedTUH);
@@ -158,6 +170,7 @@ public class InspectWindow : MonoBehaviour
 
     private void DisplayInspectedAvatar(string displayName, Sprite icon, bool showLevel = false)
     {
+        this.icon.enabled = icon != null;
         this.icon.sprite = icon;
         nameTMP.text = displayName;
 
@@ -177,8 +190,6 @@ public class InspectWindow : MonoBehaviour
         float range = tower.Range;
         float rate = 60f / tower.ReloadTime / 60f;
 
-        Clear(statParent);
-
         GameObject attStat = Instantiate(statPrefab, statParent);
         attStat.GetComponent<StatView>().Initialized("DMG", damage.ToString());
 
@@ -195,8 +206,6 @@ public class InspectWindow : MonoBehaviour
 
     private void DisplayTowerAbilities()
     {
-        Clear(abilityParent);
-
         List<Ability> abilities = new List<Ability>(inspectedAbilityHandler.Abilities);
 
         for (int i = 0; i < abilities.Count; i++)
@@ -216,8 +225,6 @@ public class InspectWindow : MonoBehaviour
 
     private void DisplayUpgradeButtons(TowerSO towerSO, int[] upgradeHistory, TowerUpgradeHandler upgradeHandler)
     {
-        Clear(upgradeParent);
-
         if (upgradeHistory.Length == towerSO.TowerLevels.Length)
         {
             //All levels completed
@@ -281,6 +288,26 @@ public class InspectWindow : MonoBehaviour
     }
 
     #endregion
+
+    public void ClearWindow()
+    {
+        Clear(statParent);
+        Clear(upgradeParent);
+        Clear(abilityParent);
+
+        DesyncLevel();
+    }
+
+    private void DesyncLevel()
+    {
+        if (inspectedLevelHandler != null)
+        {
+            inspectedLevelHandler.ExperienceHandler.OnModified -= SyncLevel;
+        }
+
+        levelSlider.fillAmount = 0f;
+        levelTMP.text = "0";
+    }
 
     private void Clear(Transform parent)
     {

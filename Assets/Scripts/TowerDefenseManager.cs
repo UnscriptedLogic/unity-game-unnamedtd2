@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -81,7 +82,7 @@ public class TowerDefenseManager : MonoBehaviour
         hudUI.gameObject.SetActive(false);
         winState.gameObject.SetActive(true);
 
-        EntityHandler.instance.KillAllUnits();
+        EntityHandler.instance.KillAllUnits_Coroutine();
 
         camControls.InputManager_OnResetCamera();
         camControls.DisableAllInput();
@@ -107,8 +108,8 @@ public class TowerDefenseManager : MonoBehaviour
             hudUI.gameObject.SetActive(false);
             loseState.gameObject.SetActive(true);
 
-            EntityHandler.instance.KillAllUnits();
-            EntityHandler.instance.DisableAllTowers();
+            EntityHandler.instance.KillAllUnits_Coroutine();
+            EntityHandler.instance.DisableAllTowers_Coroutine();
 
             camControls.stayDisabled = true;
             camControls.InputManager_OnResetCamera();
@@ -137,5 +138,17 @@ public class TowerDefenseManager : MonoBehaviour
     {
         float scale = pause ? 0 : 1;
         Time.timeScale = scale;
+    }
+
+    /// <summary>
+    /// Clears inspect window, kills all units and towers.
+    /// </summary>
+    /// <returns>Itself as an IEnumerator for the super coroutine to yield return on</returns>
+    public IEnumerator SceneExitCleanUp_Coroutine()
+    {
+        InspectWindow.instance.ClearWindow();
+        yield return new WaitForSecondsRealtime(0.5f);
+        yield return StartCoroutine(EntityHandler.instance.KillAllUnits_Coroutine());
+        yield return StartCoroutine(EntityHandler.instance.KillAllTowers_Coroutine());
     }
 }

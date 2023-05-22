@@ -2,6 +2,8 @@ using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,6 +35,7 @@ public class LoadingScreen : MonoBehaviour
     public event EventHandler OnFadeInCompleted;
     public event EventHandler OnFadeOutCompleted;
 
+    private bool firstLoad;
     private int currentIndex;
     private LoadingScreenSO.LoadScreen[] LoadScreens => loadingScreenSO.LoadingScreens;
 
@@ -41,19 +44,40 @@ public class LoadingScreen : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        firstLoad = true;
     }
 
     public void InitializeLoadingScreen()
     {
-        UnityEngine.Random.InitState(DateTime.Now.Month + DateTime.Now.Day * DateTime.Now.Minute * DateTime.Now.Second * DateTime.Now.Millisecond);
-        RandomLogic.FromArray(LoadScreens, out currentIndex);
+        if (!firstLoad)
+        {
+            List<int> splashArtIndex = new List<int>();
+            for (int i = 0; i < LoadScreens.Length; i++)
+            {
+                splashArtIndex.Add(i);
+            }
+            splashArtIndex.RemoveAt(currentIndex);
+            currentIndex = RandomLogic.FromList(splashArtIndex);
+
+        } else
+        {
+            firstLoad = false;
+            RandomLogic.FromArray(LoadScreens, out currentIndex);
+        }
 
         splashArt.sprite = LoadScreens[currentIndex].SplashArt;
         titleTMP.text = LoadScreens[currentIndex].Title;
         descTMP.text = LoadScreens[currentIndex].Desc;
+
+        ToggleProceedButton(false);
     }
 
-    public Sequence ToggleScreen(bool visible)
+    /// <summary>
+    /// Toggles the loading screen with fade in and out.
+    /// </summary>
+    /// <param name="loadingScreenVisible">Displays the loading screen or not</param>
+    /// <returns>A DoTween sequence of the entire process</returns>
+    public Sequence ToggleScreen(bool loadingScreenVisible)
     {
         Sequence sequence = DOTween.Sequence();
         sequence.SetUpdate(true);
@@ -61,8 +85,8 @@ public class LoadingScreen : MonoBehaviour
         Tween fadeInTween = FadeIn();
         fadeInTween.onComplete += () =>
         {
-            ToggleLoadingScreen(visible);
-            if (visible)
+            ToggleLoadingScreenImmediate(loadingScreenVisible);
+            if (loadingScreenVisible)
             {
                 InitializeLoadingScreen();
                 loadingSlider.value = 0f;
@@ -76,7 +100,11 @@ public class LoadingScreen : MonoBehaviour
         return sequence;
     }
 
-    public void ToggleButton(bool value)
+    /// <summary>
+    /// Toggles the proceed button. This also disables or enables the loading progress bar in its place.
+    /// </summary>
+    /// <param name="value"></param>
+    public void ToggleProceedButton(bool value)
     {
         buttonParent.gameObject.SetActive(value);
         loadBarParent.gameObject.SetActive(!value);
@@ -97,7 +125,7 @@ public class LoadingScreen : MonoBehaviour
         return tween;
     }
 
-    public void ToggleLoadingScreen(bool visible)
+    public void ToggleLoadingScreenImmediate(bool visible)
     {
         loadingScreenParent.gameObject.SetActive(visible);
     }
@@ -110,7 +138,7 @@ public class LoadingScreen : MonoBehaviour
 
     public void ShowProceedButton()
     {
-        ToggleButton(true);
+        ToggleProceedButton(true);
 
         proceedBtn.onClick.AddListener(() =>
         {

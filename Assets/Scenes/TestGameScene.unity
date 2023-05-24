@@ -231,7 +231,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!199 &17584344
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -5603,9 +5603,9 @@ RectTransform:
   m_Father: {fileID: 307218277}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 635.2424, y: -100.6985}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 472.776, y: 168.09}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &151784034
@@ -6583,7 +6583,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &330585544
 AudioListener:
   m_ObjectHideFlags: 0
@@ -9387,9 +9387,9 @@ RectTransform:
   m_Father: {fileID: 307218277}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1063.9927, y: -100.6985}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 333.297, y: 168.086}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &808480873
@@ -9961,9 +9961,9 @@ RectTransform:
   m_Father: {fileID: 1710897569}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 174.89, y: -30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &916703739
@@ -10603,10 +10603,10 @@ RectTransform:
   m_Father: {fileID: 1597658484}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 230.09, y: -39.578}
-  m_SizeDelta: {x: 440.18, y: 59.156}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 59.156}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &974821125
 MonoBehaviour:
@@ -10849,9 +10849,9 @@ RectTransform:
   m_Father: {fileID: 307218277}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 108.28437, y: -100.6985}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 170.855, y: 170.855}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1017923773
@@ -12050,6 +12050,7 @@ MonoBehaviour:
   - Some units now passive abilties
   - 'Enemies: Coneheads, Bucketheads'
   - Minor environmental improvements
+  balanceChanges: []
   fixedChanges:
   - Passive abilities no longer un-intentionally re-apply their stats when upgrading.
   - Range visual no longer displays wrong range in specific edge cases
@@ -12057,6 +12058,12 @@ MonoBehaviour:
   commentsTMP: {fileID: 1715515591}
   changesTitleTMP: {fileID: 556755382}
   changesTMP: {fileID: 1377113652}
+  updatesColor: {r: 0, g: 0, b: 0, a: 0}
+  commentsColor: {r: 0, g: 0, b: 0, a: 0}
+  balancePrefixColor: {r: 0, g: 0, b: 0, a: 0}
+  abilityMentionColor: {r: 0, g: 0, b: 0, a: 0}
+  playBtn: {fileID: 0}
+  quitBtn: {fileID: 0}
 --- !u!1 &1185293895
 GameObject:
   m_ObjectHideFlags: 0
@@ -12226,9 +12233,9 @@ RectTransform:
   m_Father: {fileID: 1798919822}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 34.445, y: -30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 48.89, y: 48.89}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1224561014
@@ -13539,33 +13546,31 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<color=#4f4f4f>------------------------------------
+  m_text: '<color=#FFD700>[New] <color=#00000000>Update logs look prettier as shown
+    here
+
+    <color=#FFD700>[New] <color=#00000000>Created Theme: Ruins
 
     <color=#FFD700>[New]
-    <color=white>Update logs look prettier as shown here
+    <color=#00000000>Some debri and all units can now be inspected.
 
     <color=#FFD700>[New]
-    <color=white>Created Theme: Ruins
+    <color=#00000000>Some units now passive abilties
 
-    <color=#FFD700>[New] <color=white>Some
-    debri and all units can now be inspected.
+    <color=#FFD700>[New] <color=#00000000>Enemies:
+    Coneheads, Bucketheads
 
-    <color=#FFD700>[New] <color=white>Some
-    units now passive abilties
-
-    <color=#FFD700>[New] <color=white>Enemies: Coneheads,
-    Bucketheads
-
-    <color=#FFD700>[New] <color=white>Minor environmental improvements
+    <color=#FFD700>[New] <color=#00000000>Minor environmental
+    improvements
 
     <color=#4f4f4f>------------------------------------
 
-    <color=#ff5f00>[Fix]
-    <color=white>Passive abilities no longer un-intentionally re-apply their stats
-    when upgrading.
+    <color=#ff9f00>[Fix]
+    <color=#00000000>Passive abilities no longer un-intentionally re-apply their
+    stats when upgrading.
 
-    <color=#ff5f00>[Fix] <color=white>Range visual no longer
-    displays wrong range in specific edge cases'
+    <color=#ff9f00>[Fix] <color=#00000000>Range visual
+    no longer displays wrong range in specific edge cases'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6ce955ccc520f704088ebef82e4165ef, type: 2}
   m_sharedMaterial: {fileID: -5612400405710606972, guid: 6ce955ccc520f704088ebef82e4165ef,
@@ -14474,9 +14479,9 @@ RectTransform:
   m_Father: {fileID: 1710897569}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 34.945, y: -30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 49.89, y: 49.89}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1601147153
@@ -19524,9 +19529,9 @@ RectTransform:
   m_Father: {fileID: 1798919822}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 173.89, y: -30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1622778013
@@ -20072,9 +20077,9 @@ RectTransform:
   m_Father: {fileID: 307218277}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 296.2831, y: -100.6985}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 153.715, y: 168.09}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1693751503
@@ -20329,10 +20334,10 @@ RectTransform:
   m_Father: {fileID: 1597658484}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 230.09, y: -179.156}
-  m_SizeDelta: {x: 440.18, y: 60}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1710897570
 MonoBehaviour:
@@ -20564,7 +20569,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: '<color=#00000000>
+
+    <color=#4f4f4f>===================================='
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6ce955ccc520f704088ebef82e4165ef, type: 2}
   m_sharedMaterial: {fileID: -5612400405710606972, guid: 6ce955ccc520f704088ebef82e4165ef,
@@ -21084,10 +21091,10 @@ RectTransform:
   m_Father: {fileID: 1597658484}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 230.09, y: -109.156}
-  m_SizeDelta: {x: 440.18, y: 60}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1798919823
 MonoBehaviour:
@@ -21601,7 +21608,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1898334161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22276,7 +22283,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2033184451
 RectTransform:
   m_ObjectHideFlags: 0

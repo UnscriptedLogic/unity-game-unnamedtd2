@@ -142,8 +142,11 @@ public class LoadingScreen : MonoBehaviour
 
         proceedBtn.onClick.AddListener(() =>
         {
-            ToggleScreen(false);
             Time.timeScale = 1f;
+            ToggleScreen(false);
+
+            FXManager.instance.PlayThemeProceedSound();
+            FXManager.instance.PlayThemeAtmosphereSound();
         });
     }
 }

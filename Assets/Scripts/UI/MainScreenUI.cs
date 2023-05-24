@@ -89,8 +89,8 @@ public class MainScreenUI : MonoBehaviour
         }
     }
 
-    private string Divider(string before = "", string after = "") => $"{before}<color=#4f4f4f>------------------------------------{after}";
-    private string ThickDivider(string before = "", string after = "") => $"{before}<color=#4f4f4f>===================================={after}";
+    private string Divider(string before = "", string after = "") => $"{before}<color=#4f4f4f>------------------------------------------{after}";
+    private string ThickDivider(string before = "", string after = "") => $"{before}<color=#4f4f4f>====================================={after}";
 
     private string ConvertHex(Color color) => $"#{ColorUtility.ToHtmlStringRGBA(color)}";
 }

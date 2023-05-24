@@ -25,7 +25,7 @@ MonoBehaviour:
       Damage reduction:
       50%
 
-      Disabled when health is 10 and below'
+      Disabled when health is below 50% of max health'
     loreDescription: 'The cones pop off like popcorn, as if it was eager to get off.
       How did they get it on anyway? And why does this cone protect them at all?? '
     abilityType: 0

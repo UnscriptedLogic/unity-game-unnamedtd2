@@ -15,16 +15,22 @@ public class AudioSettings
     [SerializeField] private AudioClip clip;
     [SerializeField] private float volume;
     [SerializeField] private AudioType audioType;
+    [SerializeField] private float spatialBlend;
+    [SerializeField] private bool looping = false;
     
     public AudioClip Clip => clip;   
     public float Volume => volume;
     public AudioType AudioType => audioType;
+    public float SpatialBlend => spatialBlend;
+    public bool Looping => looping;
 
-    public AudioSettings(AudioClip clip, float volume = 1f, AudioType audioType = AudioType.OTHER)
+    public AudioSettings(AudioClip clip, float volume = 1f, AudioType audioType = AudioType.OTHER, float spatialBlend = 1, bool looping = false)
     {
         this.clip = clip;
         this.volume = volume;
         this.audioType = audioType;
+        this.spatialBlend = spatialBlend;
+        this.looping = looping;
     }
 }
 
@@ -77,7 +83,8 @@ public class FXManager : MonoBehaviour
 
         source.clip = settings.Clip;
         source.volume = CalculateVolume(settings.AudioType, settings.Volume);
-        source.loop = false;
+        source.loop = settings.Looping;
+        source.spatialBlend = settings.SpatialBlend;
 
         source.Play();
 
@@ -106,6 +113,21 @@ public class FXManager : MonoBehaviour
     public (GameObject, GameObject) PlayGlobalEffect(FXPair fXPair, Vector3 position, Quaternion rotation, Vector3 scale)
     {
         return (PlaySound(fXPair.AudioSettings, position), PlayEffect(fXPair.EffectSettings, position, rotation, scale));
+    }
+
+    public void PlayThemeStartScreenSound()
+    {
+        PlayGlobalEffect(globalfxSO.RuinsTheme.mainscreenTheme, Vector3.zero, Quaternion.identity, Vector3.one);
+    }
+
+    public void PlayThemeAtmosphereSound()
+    {
+        PlayGlobalEffect(globalfxSO.RuinsTheme.gameAtmosphere, Vector3.zero, Quaternion.identity, Vector3.one);
+    }
+
+    public void PlayThemeProceedSound()
+    {
+        PlayGlobalEffect(globalfxSO.RuinsTheme.proceedClick, Vector3.zero, Quaternion.identity, Vector3.one);
     }
 
     public float CalculateVolume(AudioType audioType, float requestedVolume)

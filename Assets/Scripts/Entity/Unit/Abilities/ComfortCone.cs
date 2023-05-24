@@ -20,7 +20,7 @@ public class ComfortCone : UnitAbility
 
         if (e.modifyType == ModifyType.Subtract)
         {
-            if (unit.HealthHandler.Current <= 10f)
+            if (unit.HealthHandler.Current <= unit.MaxHealth / 0.5f)
             {
                 called = true;
             }

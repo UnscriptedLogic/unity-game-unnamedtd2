@@ -12,7 +12,12 @@ public enum SceneIndexes
 {
     SCENE_CONTROLLER = 0,
     TITLE = 1,
-    GAME = 2
+    LEVEL1 = 2,
+}
+
+public enum MapIndexes
+{
+    RUINS = 3
 }
 
 public class LoadProcess
@@ -38,6 +43,7 @@ public class SceneController : MonoBehaviour
     [SerializeField] private LoadingScreen loadingScreen;
     [SerializeField] private float gameLoadDelay = 4f;
     [SerializeField] private float homeLoadDelay = 2f;
+    [SerializeField] private float startDelay = 1f;
 
     private float currentLoadDelay;
     private List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
@@ -50,11 +56,36 @@ public class SceneController : MonoBehaviour
     {
         instance = this;
 
-        loadingScreen.ToggleLoadingScreenImmediate(false);
-        loadingScreen.FadeOut();
-        scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE, LoadSceneMode.Additive));
+        //loadingScreen.ToggleLoadingScreenImmediate(false);
+        //loadingScreen.FadeOut();
+        //scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE, LoadSceneMode.Additive));
+
+        LoadTitleFromStart();
 
         Application.targetFrameRate = 60;
+    }
+
+    public void LoadTitleFromStart()
+    {
+        loadingScreen.ToggleScreen(true).onComplete += () =>
+        {
+            Time.timeScale = 0f;
+            LoadProcess loadTitle = new LoadProcess("Loading Scene", process => StartCoroutine(LoadTitleAtStart_LoadProcess(process)));
+            LoadProcess delayLoad = new LoadProcess("Entering game", process => StartCoroutine(DelayLoad_LoadProcess(process, startDelay)));
+
+            loadProcesses = new List<LoadProcess>
+            {
+                loadTitle,
+                delayLoad
+            };
+
+            StartCoroutine(LoadAllProcess(() =>
+            {
+                Time.timeScale = 1f;
+                loadingScreen.ToggleScreen(false);
+                FXManager.instance.PlayThemeStartScreenSound();
+            }));
+        };
     }
 
     public void LoadGameFromTitle()
@@ -96,6 +127,7 @@ public class SceneController : MonoBehaviour
             StartCoroutine(LoadAllProcess(() =>
             {
                 loadingScreen.ToggleScreen(false);
+                FXManager.instance.PlayThemeAtmosphereSound();
             }));
         };
     }
@@ -143,6 +175,31 @@ public class SceneController : MonoBehaviour
 
     #region Loading Processes
 
+    private IEnumerator LoadTitleAtStart_LoadProcess(LoadProcess process)
+    {
+        scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE, LoadSceneMode.Additive));
+
+        float totalProgress = 0f;
+        for (int i = 0; i < scenesLoading.Count; i++)
+        {
+            while (!scenesLoading[i].isDone)
+            {
+                totalProgress = 0f;
+                foreach (AsyncOperation operation in scenesLoading)
+                {
+                    totalProgress += operation.progress;
+                }
+
+                process.progress = totalProgress / scenesLoading.Count;
+                yield return null;
+            }
+        }
+
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)SceneIndexes.TITLE));
+
+        process.Done();
+    }
+
     private IEnumerator GameCleanUp_LoadProcess(LoadProcess process)
     {
         yield return StartCoroutine(TowerDefenseManager.instance.SceneExitCleanUp_Coroutine());
@@ -152,8 +209,11 @@ public class SceneController : MonoBehaviour
 
     private IEnumerator TitleScene_LoadProcess(LoadProcess process)
     {
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)SceneIndexes.SCENE_CONTROLLER));
+
         float totalProgress = 0f;
-        scenesLoading.Add(SceneManager.UnloadSceneAsync((int)SceneIndexes.GAME));
+        scenesLoading.Add(SceneManager.UnloadSceneAsync((int)SceneIndexes.LEVEL1));
+        scenesLoading.Add(SceneManager.UnloadSceneAsync((int)MapIndexes.RUINS));
         scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE, LoadSceneMode.Additive));
 
         for (int i = 0; i < scenesLoading.Count; i++)
@@ -171,14 +231,19 @@ public class SceneController : MonoBehaviour
             }
         }
 
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)SceneIndexes.TITLE));
+
         process.Done();
     }
 
     private IEnumerator GameScene_LoadProcess(LoadProcess process)
     {
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)SceneIndexes.SCENE_CONTROLLER));
+
         float totalProgress = 0f;
         scenesLoading.Add(SceneManager.UnloadSceneAsync((int)SceneIndexes.TITLE));
-        scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.GAME, LoadSceneMode.Additive));
+        scenesLoading.Add(SceneManager.LoadSceneAsync((int)MapIndexes.RUINS, LoadSceneMode.Additive));
+        scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.LEVEL1, LoadSceneMode.Additive));
 
         for (int i = 0; i < scenesLoading.Count; i++)
         {
@@ -195,6 +260,8 @@ public class SceneController : MonoBehaviour
             }
         }
 
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)SceneIndexes.LEVEL1));
+
         process.Done();
     }
 
@@ -208,7 +275,7 @@ public class SceneController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator DelayLoad_LoadProcess(LoadProcess process, float time)
     {
-        currentLoadDelay = gameLoadDelay;
+        currentLoadDelay = time;
 
         while (currentLoadDelay > 0f)
         {

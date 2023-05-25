@@ -145,7 +145,7 @@ public class AbilityHandler : MonoBehaviour
 
         if (particleGO == null)
         {
-            (GameObject soundGO, GameObject particleGO) = FXManager.instance.PlayGlobalEffect(fXManager.GlobalEffects.LevelUp, tower.transform.position, Quaternion.identity, Vector3.one);
+            (GameObject soundGO, GameObject particleGO) = FXManager.instance.PlayFXPair(fXManager.GlobalEffects.LevelUp, tower.transform.position, Quaternion.identity, Vector3.one);
             this.particleGO = particleGO;
         }
     }

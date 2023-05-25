@@ -40,8 +40,6 @@ public class InspectWindow : MonoBehaviour
     [SerializeField] private GameObject upgradeButtonPrefab;
     [SerializeField] private Transform upgradeParent;
 
-    private List<Button> upgradeButtons;
-
     //Others
     private InputManager inputManager;
     private AbilityManager abilityManager;
@@ -243,24 +241,21 @@ public class InspectWindow : MonoBehaviour
             return;
         }
 
-        upgradeButtons = new List<Button>();
         for (int i = 0; i < towerUpgrades.Length; i++)
         {
-            //GameObject upgradeButton = LevelManagement.PullObject(upgradeButtonPrefab, Vector3.zero, Quaternion.identity, true, upgradeSection.transform);
             GameObject upgradeButton = Instantiate(upgradeButtonPrefab, upgradeParent);
             upgradeButton.transform.localScale = Vector3.one;
 
             UpgradeButton upgradeButtonScript = upgradeButton.GetComponent<UpgradeButton>();
             upgradeButtonScript.Initalize(towerUpgrades[i]);
-            upgradeButtons.Add(upgradeButtonScript.UpgradeBtn);
 
             int index = i;
             upgradeButtonScript.UpgradeBtn.onClick.AddListener(() =>
             {
-                float cost = towerUpgrades[index].Cost;
-                if (!TowerDefenseManager.instance.CashSystem.HasEnough(cost)) return;
+                upgradeButtonScript.InvokeEvent(TowerDefenseManager.instance.CashSystem.HasEnough(towerUpgrades[index].Cost));
+                if (!TowerDefenseManager.instance.CashSystem.HasEnough(towerUpgrades[index].Cost)) return;
 
-                TowerDefenseManager.instance.CashSystem.Modify(ModifyType.Subtract, cost);
+                TowerDefenseManager.instance.CashSystem.Modify(ModifyType.Subtract, towerUpgrades[index].Cost);
 
                 upgradeHandler.UpgradeTower(index);
                 RefreshTowerWindow();

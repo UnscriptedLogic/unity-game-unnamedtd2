@@ -74,7 +74,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   health: 6
   armor: 0
-  speed: 2.75
+  speed: 2.7
   turnSpeed: 0.1
   offsetHeight: 0
   stoppingDistance: 0.1

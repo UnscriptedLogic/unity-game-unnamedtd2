@@ -42,7 +42,7 @@ public class TippedArrows : Ability
             float extraDamage = tower.Damage / 100 * extraDamagesPerMeter[CurrentLevel - 1];
             damage += Mathf.RoundToInt(distance * extraDamage);
 
-            (GameObject sound, GameObject effect) = fxManager.PlayGlobalEffect(fxManager.GlobalEffects.Crit, unit.transform.position + Vector3.up, UnityEngine.Quaternion.identity, Vector3.one);
+            (GameObject sound, GameObject effect) = fxManager.PlayFXPair(fxManager.GlobalEffects.Crit, unit.transform.position + Vector3.up, UnityEngine.Quaternion.identity, Vector3.one);
             effect.GetComponent<EffectUI>().AmountTMP.text = damage.ToString();
         }
 

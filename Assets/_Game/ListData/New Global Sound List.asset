@@ -65,3 +65,41 @@ MonoBehaviour:
       effectPrefab: {fileID: 8460747976295487, guid: 9b3fc476b21f2914bb92fe0ce7bdf46b,
         type: 3}
       lifetime: 2
+  towerPlace:
+    audioSettings:
+      clip: {fileID: 8300000, guid: 9ba206fddba932342903859965395a49, type: 3}
+      volume: 1
+      audioType: 2
+      spatialBlend: 1
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
+  upgradeBoughts:
+  - audioSettings:
+      clip: {fileID: 8300000, guid: 0e1a1506f125e414ab50dde3fa9e106a, type: 3}
+      volume: 0.5
+      audioType: 2
+      spatialBlend: 0
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
+  - audioSettings:
+      clip: {fileID: 8300000, guid: b12a8050ac7f7b947ba2a99e96bb30f9, type: 3}
+      volume: 0.5
+      audioType: 2
+      spatialBlend: 0
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
+  - audioSettings:
+      clip: {fileID: 8300000, guid: ab0c48fbac45adc46bfa02727ae8830e, type: 3}
+      volume: 0.5
+      audioType: 2
+      spatialBlend: 0
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0

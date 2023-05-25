@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnscriptedLogic.MathUtils;
 
 [System.Serializable]
 public struct FXPair
@@ -30,8 +31,15 @@ public class GlobalvfxSO : ScriptableObject
     [Header("Tower Related")]
     [SerializeField] private FXPair levelUp;
     [SerializeField] private FXPair crit;
+    [SerializeField] private FXPair towerPlace;
+    [SerializeField] private FXPair[] upgradeBoughts;
+
+    public ThemeFX RuinsTheme => ruins;
 
     public FXPair LevelUp => levelUp;
     public FXPair Crit => crit;
-    public ThemeFX RuinsTheme => ruins;
+    public FXPair TowerPlaced => towerPlace;
+    
+    public FXPair[] UpgradeBoughts => upgradeBoughts;
+    public FXPair RandomUpgradeBought => RandomLogic.FromArray(upgradeBoughts);
 }

@@ -1311,11 +1311,25 @@ MonoBehaviour:
     <color=#FFD700>[New]
     <color=#DDDDDDFF>Some debris have ambient sound effects
 
+    <color=#FFD700>[New]
+    <color=#DDDDDDFF>More sound effects in general
+
     <color=#4f4f4f>------------------------------------------
 
     <color=#7EFF7FFF>[Balance]
     <color=#DDDDDDFF>Conehead''s [Vital Life Cone] disable threshold increased from
-    10 remaining HP to 50% of total HP'
+    10 remaining HP to 50% of total HP
+
+    <color=#7EFF7FFF>[Balance] <color=#DDDDDDFF>Normal,
+    Tough, Coneheads and Big zombies movement speed increased slightly
+
+    <color=#7EFF7FFF>[Balance]
+    <color=#DDDDDDFF>Blue zombies movement speed decreased slightly
+
+    <color=#4f4f4f>------------------------------------------
+
+    <color=#ff9f00>[Fix]
+    <color=#DDDDDDFF>Main scene not having proper lighting'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f6b5cb1cdf04e1469a786b2c46f8874, type: 2}
   m_sharedMaterial: {fileID: 6469156930153854335, guid: 9f6b5cb1cdf04e1469a786b2c46f8874,
@@ -8641,10 +8655,14 @@ MonoBehaviour:
   newChanges:
   - Environment Ambience
   - Some debris have ambient sound effects
+  - More sound effects in general
   balanceChanges:
   - Conehead's [Vital Life Cone] disable threshold increased from 10 remaining HP
     to 50% of total HP
-  fixedChanges: []
+  - Normal, Tough, Coneheads and Big zombies movement speed increased slightly
+  - Blue zombies movement speed decreased slightly
+  fixedChanges:
+  - Main scene not having proper lighting
   removedChanges: []
   commentsTMP: {fileID: 346213198}
   changesTitleTMP: {fileID: 1168388760}

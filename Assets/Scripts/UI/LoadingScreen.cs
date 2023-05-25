@@ -144,9 +144,7 @@ public class LoadingScreen : MonoBehaviour
         {
             Time.timeScale = 1f;
             ToggleScreen(false);
-
             FXManager.instance.PlayThemeProceedSound();
-            FXManager.instance.PlayThemeAtmosphereSound();
         });
     }
 }

@@ -681,6 +681,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9695ac819102bf44857f4e5b4f60645, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coneEjectFX:
+    clip: {fileID: 8300000, guid: 9d28152d730a5be4dbef18035688e4de, type: 3}
+    volume: 0.3
+    audioType: 1
+    spatialBlend: 1
+    looping: 0
   coneObject: {fileID: 6707741252213143919}
   trailRenderer: {fileID: 9221805276743918364}
 --- !u!1 &6707741252213143919

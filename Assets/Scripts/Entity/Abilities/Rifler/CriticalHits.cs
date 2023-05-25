@@ -25,7 +25,7 @@ public class CriticalHits : Ability
         if (RandomLogic.IntZeroTo(100) < procChancePercent)
         {
             damage *= damageMultiplier;
-            (GameObject sound, GameObject effect) = fxManager.PlayGlobalEffect(fxManager.GlobalEffects.Crit, unit.transform.position + Vector3.up, UnityEngine.Quaternion.identity, Vector3.one);
+            (GameObject sound, GameObject effect) = fxManager.PlayFXPair(fxManager.GlobalEffects.Crit, unit.transform.position + Vector3.up, UnityEngine.Quaternion.identity, Vector3.one);
             effect.GetComponent<EffectUI>().AmountTMP.text = damage.ToString();
         }
 

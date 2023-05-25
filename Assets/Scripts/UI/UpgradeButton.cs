@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnscriptedLogic.MathUtils;
 
 public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -23,6 +25,8 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private UpgradeOption upgradeOption;
 
     public Button UpgradeBtn => upgradeBtn;
+
+    public static event EventHandler<bool> OnAnyUpgradeButtonClicked;
 
     public void Initalize(UpgradeOption upgradeOption)
     {
@@ -58,4 +62,8 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         tooltipObj.SetActive(false);
     }
 
+    public void InvokeEvent(bool value)
+    {
+        OnAnyUpgradeButtonClicked?.Invoke(this, value);
+    }
 }

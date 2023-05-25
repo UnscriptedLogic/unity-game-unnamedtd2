@@ -15,7 +15,7 @@ public class AudioSettings
     [SerializeField] private AudioClip clip;
     [SerializeField] private float volume;
     [SerializeField] private AudioType audioType;
-    [SerializeField] private float spatialBlend;
+    [Range(0f, 1f)] [SerializeField] private float spatialBlend = 1f;
     [SerializeField] private bool looping = false;
     
     public AudioClip Clip => clip;   
@@ -88,7 +88,9 @@ public class FXManager : MonoBehaviour
 
         source.Play();
 
-        Destroy(audioObject, settings.Clip.length);
+        if (!settings.Looping)
+            Destroy(audioObject, settings.Clip.length);
+        
         return audioObject;
     }
 
@@ -107,27 +109,39 @@ public class FXManager : MonoBehaviour
         return particle;
     }
 
-    /// <summary>
-    /// Plays a sound and visual effect prefab from the global constant list of effects.
-    /// </summary>
-    public (GameObject, GameObject) PlayGlobalEffect(FXPair fXPair, Vector3 position, Quaternion rotation, Vector3 scale)
+    public (GameObject, GameObject) PlayFXPair(FXPair fXPair)
+    {
+        return (PlaySound(fXPair.AudioSettings, Vector3.zero), PlayEffect(fXPair.EffectSettings, Vector3.zero, Quaternion.identity, Vector3.one));
+    }
+
+    public (GameObject, GameObject) PlayFXPair(FXPair fXPair, Vector3 position)
+    {
+        return (PlaySound(fXPair.AudioSettings, position), PlayEffect(fXPair.EffectSettings, position, Quaternion.identity, Vector3.one));
+    }
+
+    public (GameObject, GameObject) PlayFXPair(FXPair fXPair, Vector3 position, Quaternion rotation)
+    {
+        return (PlaySound(fXPair.AudioSettings, position), PlayEffect(fXPair.EffectSettings, position, rotation, Vector3.one));
+    }
+
+    public (GameObject, GameObject) PlayFXPair(FXPair fXPair, Vector3 position, Quaternion rotation, Vector3 scale)
     {
         return (PlaySound(fXPair.AudioSettings, position), PlayEffect(fXPair.EffectSettings, position, rotation, scale));
     }
 
     public void PlayThemeStartScreenSound()
     {
-        PlayGlobalEffect(globalfxSO.RuinsTheme.mainscreenTheme, Vector3.zero, Quaternion.identity, Vector3.one);
+        PlayFXPair(globalfxSO.RuinsTheme.mainscreenTheme, Vector3.zero, Quaternion.identity);
     }
 
     public void PlayThemeAtmosphereSound()
     {
-        PlayGlobalEffect(globalfxSO.RuinsTheme.gameAtmosphere, Vector3.zero, Quaternion.identity, Vector3.one);
+        PlayFXPair(globalfxSO.RuinsTheme.gameAtmosphere, Vector3.zero, Quaternion.identity);
     }
 
     public void PlayThemeProceedSound()
     {
-        PlayGlobalEffect(globalfxSO.RuinsTheme.proceedClick, Vector3.zero, Quaternion.identity, Vector3.one);
+        PlayFXPair(globalfxSO.RuinsTheme.proceedClick, Vector3.zero, Quaternion.identity);
     }
 
     public float CalculateVolume(AudioType audioType, float requestedVolume)

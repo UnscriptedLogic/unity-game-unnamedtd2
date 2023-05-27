@@ -685,6 +685,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 9d28152d730a5be4dbef18035688e4de, type: 3}
     volume: 0.3
     audioType: 1
+    pitch: 0
     spatialBlend: 1
     looping: 0
   coneObject: {fileID: 6707741252213143919}
@@ -1305,6 +1306,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6309697976439881553}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bfc1673db20463647be78eee7b9f5a5b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6333748066413295101}
   m_SourcePrefab: {fileID: 100100000, guid: bfc1673db20463647be78eee7b9f5a5b, type: 3}
 --- !u!4 &93622141400066960 stripped
 Transform:
@@ -1344,6 +1349,70 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &6333748066413295101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722630360339542314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9896119fe0c25a247a66dff2009b8768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 6309697976439881553}
+  footstepsFXs:
+  - audioSettings:
+      clip: {fileID: 8300000, guid: c521d6fc15fb30e4ba22dd98b4dea785, type: 3}
+      volume: 0.35
+      audioType: 1
+      pitch: 1
+      spatialBlend: 1
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
+  - audioSettings:
+      clip: {fileID: 8300000, guid: f17873334f333c84fa1b5382c46a4373, type: 3}
+      volume: 0.35
+      audioType: 1
+      pitch: 1
+      spatialBlend: 1
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
+  - audioSettings:
+      clip: {fileID: 8300000, guid: 653f17fc9c10a9e4ba565452bd99b3ef, type: 3}
+      volume: 0.35
+      audioType: 1
+      pitch: 1
+      spatialBlend: 1
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
+  - audioSettings:
+      clip: {fileID: 8300000, guid: 5c88cfadbcf9e0047b5006f85ffd80a0, type: 3}
+      volume: 0.35
+      audioType: 1
+      pitch: 1
+      spatialBlend: 1
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
+  - audioSettings:
+      clip: {fileID: 8300000, guid: cf2d8f17cf1a8ff4e9ee1bb1d6a3eda2, type: 3}
+      volume: 0.35
+      audioType: 1
+      pitch: 1
+      spatialBlend: 1
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
 --- !u!4 &5793687806104587280 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6242400262390939755, guid: bfc1673db20463647be78eee7b9f5a5b,

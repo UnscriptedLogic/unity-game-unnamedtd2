@@ -202,6 +202,8 @@ GameObject:
   - component: {fileID: 67391442}
   - component: {fileID: 67391441}
   - component: {fileID: 67391443}
+  - component: {fileID: 67391444}
+  - component: {fileID: 67391445}
   m_Layer: 0
   m_Name: LoadManager
   m_TagString: Untagged
@@ -265,6 +267,37 @@ MonoBehaviour:
   gameLoadDelay: 4
   homeLoadDelay: 2
   startDelay: 1
+--- !u!114 &67391444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67391440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171d218bc3d7d0a4bb41c41a09d1c8bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &67391445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67391440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6102434982852546b462505a051ed53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  globalfxSO: {fileID: 11400000, guid: 4ded1c07d6c51704597327eeedf80aaf, type: 2}
+  masterVolume: 100
+  towerVolume: 100
+  unitVolume: 100
+  otherVolume: 100
+  audioPrefab: {fileID: 423395007887647314, guid: 4e6ef4df0583dc9449d614a41fefdad5,
+    type: 3}
 --- !u!1 &353313624
 GameObject:
   m_ObjectHideFlags: 0

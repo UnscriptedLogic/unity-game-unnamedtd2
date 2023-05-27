@@ -15,6 +15,7 @@ public class AudioSettings
     [SerializeField] private AudioClip clip;
     [SerializeField] private float volume;
     [SerializeField] private AudioType audioType;
+    [Range(-3f, 3f)] [SerializeField] private float pitch = 1f;
     [Range(0f, 1f)] [SerializeField] private float spatialBlend = 1f;
     [SerializeField] private bool looping = false;
     
@@ -23,14 +24,16 @@ public class AudioSettings
     public AudioType AudioType => audioType;
     public float SpatialBlend => spatialBlend;
     public bool Looping => looping;
+    public float Pitch => pitch;
 
-    public AudioSettings(AudioClip clip, float volume = 1f, AudioType audioType = AudioType.OTHER, float spatialBlend = 1, bool looping = false)
+    public AudioSettings(AudioClip clip, float volume = 1f, AudioType audioType = AudioType.OTHER, float spatialBlend = 1, bool looping = false, float pitch = 1f)
     {
         this.clip = clip;
         this.volume = volume;
         this.audioType = audioType;
         this.spatialBlend = spatialBlend;
         this.looping = looping;
+        this.pitch = pitch;
     }
 }
 
@@ -81,15 +84,18 @@ public class FXManager : MonoBehaviour
         GameObject audioObject = Instantiate(audioPrefab, position, Quaternion.identity);
         AudioSource source = audioObject.GetComponent<AudioSource>();
 
+        audioObject.name = $"[AUDIO] {settings.Clip.name}";
+
         source.clip = settings.Clip;
         source.volume = CalculateVolume(settings.AudioType, settings.Volume);
         source.loop = settings.Looping;
+        source.pitch = settings.Pitch;
         source.spatialBlend = settings.SpatialBlend;
 
         source.Play();
 
         if (!settings.Looping)
-            Destroy(audioObject, settings.Clip.length);
+            Destroy(audioObject, settings.Clip.length + 1f);
         
         return audioObject;
     }
@@ -102,6 +108,8 @@ public class FXManager : MonoBehaviour
         particle.transform.position = position;
         particle.transform.rotation = rotation;
         particle.transform.localScale = scale;
+
+        particle.name = $"[EFFECT] {settings.EffectPrefab.name}";
 
         if (settings.Lifetime > 0)
             Destroy(particle, settings.Lifetime);

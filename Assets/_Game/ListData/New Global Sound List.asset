@@ -16,8 +16,9 @@ MonoBehaviour:
     mainscreenTheme:
       audioSettings:
         clip: {fileID: 8300000, guid: 3e6b7ea0c6869f8428283b44b0c2090d, type: 3}
-        volume: 0.75
+        volume: 1
         audioType: 2
+        pitch: 1
         spatialBlend: 0
         looping: 1
       effectSettings:
@@ -28,6 +29,7 @@ MonoBehaviour:
         clip: {fileID: 8300000, guid: 7a952a4efc4bcf542aaf75678212d98f, type: 3}
         volume: 0.5
         audioType: 2
+        pitch: 1
         spatialBlend: 0
         looping: 0
       effectSettings:
@@ -38,6 +40,7 @@ MonoBehaviour:
         clip: {fileID: 8300000, guid: dd8c9eb90d1e78f43ab3bee28bac7b61, type: 3}
         volume: 0.5
         audioType: 2
+        pitch: 1
         spatialBlend: 0
         looping: 1
       effectSettings:
@@ -48,6 +51,7 @@ MonoBehaviour:
       clip: {fileID: 8300000, guid: bc7c293979932e44a944efcaa69d773b, type: 3}
       volume: 1
       audioType: 2
+      pitch: 1
       spatialBlend: 1
       looping: 0
     effectSettings:
@@ -59,6 +63,7 @@ MonoBehaviour:
       clip: {fileID: 8300000, guid: 8e414cd1049dd2b478a954182a932e5a, type: 3}
       volume: 0.05
       audioType: 2
+      pitch: 1
       spatialBlend: 1
       looping: 0
     effectSettings:
@@ -70,6 +75,7 @@ MonoBehaviour:
       clip: {fileID: 8300000, guid: 9ba206fddba932342903859965395a49, type: 3}
       volume: 1
       audioType: 2
+      pitch: 1
       spatialBlend: 1
       looping: 0
     effectSettings:
@@ -80,6 +86,7 @@ MonoBehaviour:
       clip: {fileID: 8300000, guid: 0e1a1506f125e414ab50dde3fa9e106a, type: 3}
       volume: 0.5
       audioType: 2
+      pitch: 1
       spatialBlend: 0
       looping: 0
     effectSettings:
@@ -89,6 +96,7 @@ MonoBehaviour:
       clip: {fileID: 8300000, guid: b12a8050ac7f7b947ba2a99e96bb30f9, type: 3}
       volume: 0.5
       audioType: 2
+      pitch: 1
       spatialBlend: 0
       looping: 0
     effectSettings:
@@ -98,6 +106,7 @@ MonoBehaviour:
       clip: {fileID: 8300000, guid: ab0c48fbac45adc46bfa02727ae8830e, type: 3}
       volume: 0.5
       audioType: 2
+      pitch: 1
       spatialBlend: 0
       looping: 0
     effectSettings:

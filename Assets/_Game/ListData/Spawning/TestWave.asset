@@ -16,7 +16,7 @@ MonoBehaviour:
   - waveName: 
     waveSegments:
     - startDelay: 0
-      spawnObject: {fileID: 4981413550134097223, guid: a65109d523b46d348ac540e06166e762,
+      spawnObject: {fileID: 8747836210194945649, guid: 171e033453bb5b3448f38f948a4d5f06,
         type: 3}
       amount: 5
       interval: 5

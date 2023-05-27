@@ -4297,9 +4297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1522026734}
-  - component: {fileID: 1522026735}
   - component: {fileID: 1522026736}
-  - component: {fileID: 1522026737}
   m_Layer: 0
   m_Name: EffectsManager
   m_TagString: Untagged
@@ -4322,25 +4320,6 @@ Transform:
   m_Father: {fileID: 1024117617}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1522026735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1522026733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6102434982852546b462505a051ed53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  globalfxSO: {fileID: 11400000, guid: 4ded1c07d6c51704597327eeedf80aaf, type: 2}
-  masterVolume: 100
-  towerVolume: 100
-  unitVolume: 100
-  otherVolume: 100
-  audioPrefab: {fileID: 423395007887647314, guid: 4e6ef4df0583dc9449d614a41fefdad5,
-    type: 3}
 --- !u!114 &1522026736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4361,18 +4340,6 @@ MonoBehaviour:
   verticalOffset: 0.25
   rangePrefab: {fileID: 1089364368959764893, guid: 3ad282125f7423f41867fa1a48583023,
     type: 3}
---- !u!114 &1522026737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1522026733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 171d218bc3d7d0a4bb41c41a09d1c8bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1597658483
 GameObject:
   m_ObjectHideFlags: 0

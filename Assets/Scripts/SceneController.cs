@@ -38,6 +38,18 @@ public class LoadProcess
     }
 }
 
+public class LevelLoadEventArgs : EventArgs
+{
+    public SceneIndexes scene;
+    public MapIndexes map;
+
+    public LevelLoadEventArgs(SceneIndexes level, MapIndexes map)
+    {
+        this.scene = level;
+        this.map = map;
+    }
+}
+
 public class SceneController : MonoBehaviour
 {
     [SerializeField] private LoadingScreen loadingScreen;
@@ -51,14 +63,11 @@ public class SceneController : MonoBehaviour
     private List<LoadProcess> loadProcesses;
 
     public static SceneController instance { get; private set; }
+    public static event EventHandler<LevelLoadEventArgs> OnLevelFinishedLoading;
 
     private void Awake()
     {
         instance = this;
-
-        //loadingScreen.ToggleLoadingScreenImmediate(false);
-        //loadingScreen.FadeOut();
-        //scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE, LoadSceneMode.Additive));
 
         LoadTitleFromStart();
 
@@ -83,7 +92,8 @@ public class SceneController : MonoBehaviour
             {
                 Time.timeScale = 1f;
                 loadingScreen.ToggleScreen(false);
-                FXManager.instance.PlayThemeStartScreenSound();
+
+                OnLevelFinishedLoading?.Invoke(this, new LevelLoadEventArgs(SceneIndexes.TITLE, MapIndexes.RUINS));
             }));
         };
     }
@@ -105,6 +115,8 @@ public class SceneController : MonoBehaviour
             StartCoroutine(LoadAllProcess(() =>
             {
                 loadingScreen.ShowProceedButton();
+                OnLevelFinishedLoading?.Invoke(this, new LevelLoadEventArgs(SceneIndexes.LEVEL1, MapIndexes.RUINS));
+
             }));
         };
     }
@@ -127,7 +139,7 @@ public class SceneController : MonoBehaviour
             StartCoroutine(LoadAllProcess(() =>
             {
                 loadingScreen.ToggleScreen(false);
-                FXManager.instance.PlayThemeAtmosphereSound();
+                OnLevelFinishedLoading?.Invoke(this, new LevelLoadEventArgs(SceneIndexes.TITLE, MapIndexes.RUINS));
             }));
         };
     }
@@ -178,6 +190,7 @@ public class SceneController : MonoBehaviour
     private IEnumerator LoadTitleAtStart_LoadProcess(LoadProcess process)
     {
         scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE, LoadSceneMode.Additive));
+        scenesLoading.Add(SceneManager.LoadSceneAsync((int)MapIndexes.RUINS, LoadSceneMode.Additive));
 
         float totalProgress = 0f;
         for (int i = 0; i < scenesLoading.Count; i++)
@@ -196,7 +209,6 @@ public class SceneController : MonoBehaviour
         }
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)SceneIndexes.TITLE));
-
         process.Done();
     }
 
@@ -232,7 +244,6 @@ public class SceneController : MonoBehaviour
         }
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)SceneIndexes.TITLE));
-
         process.Done();
     }
 
@@ -242,6 +253,7 @@ public class SceneController : MonoBehaviour
 
         float totalProgress = 0f;
         scenesLoading.Add(SceneManager.UnloadSceneAsync((int)SceneIndexes.TITLE));
+        scenesLoading.Add(SceneManager.UnloadSceneAsync((int)MapIndexes.RUINS));
         scenesLoading.Add(SceneManager.LoadSceneAsync((int)MapIndexes.RUINS, LoadSceneMode.Additive));
         scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.LEVEL1, LoadSceneMode.Additive));
 
@@ -261,7 +273,6 @@ public class SceneController : MonoBehaviour
         }
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)SceneIndexes.LEVEL1));
-
         process.Done();
     }
 

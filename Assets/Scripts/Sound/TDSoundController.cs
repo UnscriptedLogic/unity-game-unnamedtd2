@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TDSoundController : MonoBehaviour
@@ -10,7 +8,8 @@ public class TDSoundController : MonoBehaviour
     private void Start()
     {
         fxManager = FXManager.instance;
-        fxManager.PlayThemeAtmosphereSound();
+
+        SceneController.OnLevelFinishedLoading += SceneController_OnLevelFinishedLoading;
 
         buildManager = BuildManager.instance;
         if (buildManager != null)
@@ -19,6 +18,18 @@ public class TDSoundController : MonoBehaviour
         }
 
         UpgradeButton.OnAnyUpgradeButtonClicked += PlayUpgradeButtonClick;
+    }
+
+    private void SceneController_OnLevelFinishedLoading(object sender, LevelLoadEventArgs e)
+    {
+        Debug.Log("Called!", gameObject);
+        if (e.scene == SceneIndexes.TITLE)
+        {
+            fxManager.PlayThemeStartScreenSound();
+        } else
+        {
+            fxManager.PlayThemeAtmosphereSound();
+        }
     }
 
     private void PlayUpgradeButtonClick(object sender, bool isBought)

@@ -86,6 +86,8 @@ public class TowerDefenseManager : MonoBehaviour
 
         camControls.InputManager_OnResetCamera();
         camControls.DisableAllInput();
+
+        SceneController.instance.LoadTitleFromGame();
     }
 
     private void UnitBase_OnAnyUnitTookDamage(object sender, UnitTookDamageEventArgs e)
@@ -113,6 +115,8 @@ public class TowerDefenseManager : MonoBehaviour
 
             camControls.stayDisabled = true;
             camControls.InputManager_OnResetCamera();
+
+            SceneController.instance.LoadTitleFromGame();
         }
     }
 
@@ -144,11 +148,17 @@ public class TowerDefenseManager : MonoBehaviour
     /// Clears inspect window, kills all units and towers.
     /// </summary>
     /// <returns>Itself as an IEnumerator for the super coroutine to yield return on</returns>
-    public IEnumerator SceneExitCleanUp_Coroutine()
+    public IEnumerator SceneExitCleanUp_Coroutine(bool killTowers = true, bool killUnits = true)
     {
         InspectWindow.instance.ClearWindow();
         yield return new WaitForSecondsRealtime(0.5f);
-        yield return StartCoroutine(EntityHandler.instance.KillAllUnits_Coroutine());
-        yield return StartCoroutine(EntityHandler.instance.KillAllTowers_Coroutine());
+
+        if (killUnits)
+            yield return StartCoroutine(EntityHandler.instance.KillAllUnits_Coroutine());
+        
+        if (killTowers)
+            yield return StartCoroutine(EntityHandler.instance.KillAllTowers_Coroutine());
+
+        yield return new WaitForSecondsRealtime(0.5f);
     }
 }

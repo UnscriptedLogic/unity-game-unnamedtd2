@@ -1312,7 +1312,7 @@ MonoBehaviour:
     <color=#DDDDDDFF>Some debris have ambient sound effects
 
     <color=#FFD700>[New]
-    <color=#DDDDDDFF>More sound effects in general
+    <color=#DDDDDDFF>Sound effects for placing and upgrading towers
 
     <color=#4f4f4f>------------------------------------------
 
@@ -3651,7 +3651,7 @@ MonoBehaviour:
   newChanges:
   - Environment Ambience
   - Some debris have ambient sound effects
-  - More sound effects in general
+  - Sound effects for placing and upgrading towers
   balanceChanges:
   - Conehead's [Vital Life Cone] disable threshold increased from 10 remaining HP
     to 50% of total HP

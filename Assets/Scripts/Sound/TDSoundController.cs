@@ -11,12 +11,6 @@ public class TDSoundController : MonoBehaviour
 
         SceneController.OnLevelFinishedLoading += SceneController_OnLevelFinishedLoading;
 
-        buildManager = BuildManager.instance;
-        if (buildManager != null)
-        {
-            buildManager.OnBuild += PlayTowerBuildSound;
-        }
-
         UpgradeButton.OnAnyUpgradeButtonClicked += PlayUpgradeButtonClick;
     }
 
@@ -29,6 +23,12 @@ public class TDSoundController : MonoBehaviour
         } else
         {
             fxManager.PlayThemeAtmosphereSound();
+        }
+
+        buildManager = BuildManager.instance;
+        if (buildManager != null)
+        {
+            buildManager.OnBuild += PlayTowerBuildSound;
         }
     }
 

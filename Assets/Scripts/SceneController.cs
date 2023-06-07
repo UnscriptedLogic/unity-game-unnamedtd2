@@ -214,6 +214,7 @@ public class SceneController : MonoBehaviour
 
     private IEnumerator GameCleanUp_LoadProcess(LoadProcess process)
     {
+        yield return new WaitForSecondsRealtime(3f);
         yield return StartCoroutine(TowerDefenseManager.instance.SceneExitCleanUp_Coroutine());
         yield return new WaitForSecondsRealtime(1f);
         process.Done();
@@ -227,6 +228,7 @@ public class SceneController : MonoBehaviour
         scenesLoading.Add(SceneManager.UnloadSceneAsync((int)SceneIndexes.LEVEL1));
         scenesLoading.Add(SceneManager.UnloadSceneAsync((int)MapIndexes.RUINS));
         scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE, LoadSceneMode.Additive));
+        scenesLoading.Add(SceneManager.LoadSceneAsync((int)MapIndexes.RUINS, LoadSceneMode.Additive));
 
         for (int i = 0; i < scenesLoading.Count; i++)
         {

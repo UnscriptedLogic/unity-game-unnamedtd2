@@ -87,6 +87,12 @@ public class TowerDefenseManager : MonoBehaviour
         camControls.InputManager_OnResetCamera();
         camControls.DisableAllInput();
 
+        if (SceneController.instance == null)
+        {
+            Debug.Log("You're probably in a test scene. Couldn't find SceneController component. That's fine. Just remember to test in the actual game scene too.");
+            return;
+        }
+
         SceneController.instance.LoadTitleFromGame();
     }
 

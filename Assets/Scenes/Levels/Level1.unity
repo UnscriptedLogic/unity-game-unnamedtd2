@@ -5001,7 +5001,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  waveCap: 20
+  waveCap: 15
   multiplier: 1500
   spawnManager: {fileID: 1287491289}
 --- !u!1 &1710897568

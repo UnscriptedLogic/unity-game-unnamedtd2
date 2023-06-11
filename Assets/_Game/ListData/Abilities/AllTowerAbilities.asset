@@ -75,13 +75,13 @@ MonoBehaviour:
     abilityType: 1
   - name: Projectile Maintenance
     iconSpr: {fileID: 21300000, guid: 92d36e597a108904392e031c8db33265, type: 3}
-    description: 'Ranger gains increased piercing and attack speed for every level
+    description: 'Ranger gains increased attack speed and damage for every level.
 
 
-      Total
-      extra pierce: 2/4/6/8
+      Att.
+      Speed reduction(s): 0.5/1/1.5/2
 
-      Att. Speed reduction(s): 0.5/1/1.5/2'
+      Additional DMG per level: 1'
     loreDescription: Through all the reprimanding and punishments, my seniors always
       applauded my meticulously maintained equipment. It's the one thing about me
       they're proud of.
@@ -106,10 +106,11 @@ MonoBehaviour:
   - name: Ranger's Requiem
     iconSpr: {fileID: 21300000, guid: 06e69497efb250b42b993c9e4d3d1ba8, type: 3}
     description: 'Every 4th shot deals additional damage based on how far Ranger
-      is to his target
+      is to his target and how much range he has.
 
 
-      DMG Multiplier(%)/meter: 50/75/100/150'
+      DMG Multiplier(%)/meter:
+      50/75/100/200'
     loreDescription: Tradition was always a guiding light for me, following down
       paths once taken by legends in my darkest of hours. With Master gone, it's
       up to us to pass down the ways of a Ranger. Never let them know who hit them.

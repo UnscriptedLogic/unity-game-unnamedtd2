@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class ProjectileBehaviour
 {
+    public virtual void Initialize(ProjectileBase parent)
+    {
+
+    }
+
     public virtual void Move(ProjectileBase projBase)
     {
         projBase.transform.position += projBase.transform.forward * projBase.Speed * Time.deltaTime;

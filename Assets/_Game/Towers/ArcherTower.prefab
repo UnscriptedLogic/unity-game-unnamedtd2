@@ -705,12 +705,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: towerArcher
-  damage: 1
+  damage: 2
   range: 10
-  reloadTime: 4
+  reloadTime: 3
   projectileSpeed: 25
   projectileLifetime: 3
-  pierce: 2
+  pierce: 1
   penetratePercent: 0
   animator: {fileID: 2510793695781416769}
   projectilePrefabs:

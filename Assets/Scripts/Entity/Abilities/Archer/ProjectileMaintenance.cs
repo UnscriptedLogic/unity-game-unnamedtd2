@@ -16,6 +16,6 @@ public class ProjectileMaintenance : Ability
 
     protected override void OnLevelUp()
     {
-        upgradeHandler.UpdatePersistentStats(new TowerUpgradeHandler.UpgradeProperty(projPierce: 2, reloadTime: -0.5f));
+        upgradeHandler.UpdatePersistentStats(new TowerUpgradeHandler.UpgradeProperty(damage: 1, reloadTime: -0.5f));
     }
 }

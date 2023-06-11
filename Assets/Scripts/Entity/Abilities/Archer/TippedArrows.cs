@@ -15,7 +15,7 @@ public class TippedArrows : Ability
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);
 
-        extraDamagesPerMeter = new int[4] { 50, 75, 100, 150 };
+        extraDamagesPerMeter = new int[4] { 50, 75, 100, 200 };
 
         currentShot = 0;
 
@@ -43,6 +43,7 @@ public class TippedArrows : Ability
             damage += Mathf.RoundToInt(distance * extraDamage);
 
             (GameObject sound, GameObject effect) = fxManager.PlayFXPair(fxManager.GlobalEffects.Crit, unit.transform.position + Vector3.up, UnityEngine.Quaternion.identity, Vector3.one);
+
             effect.GetComponent<EffectUI>().AmountTMP.text = damage.ToString();
         }
 

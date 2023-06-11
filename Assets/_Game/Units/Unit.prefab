@@ -72,9 +72,9 @@ MonoBehaviour:
   id: zombieNormal
   displayName: Zombie
   icon: {fileID: 0}
-  health: 10
+  health: 6
   armor: 0
-  speed: 0.3
+  speed: 0.5
   turnSpeed: 0.1
   offsetHeight: 0
   stoppingDistance: 0.1

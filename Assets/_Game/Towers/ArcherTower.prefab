@@ -705,9 +705,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: towerArcher
-  damage: 2
+  damage: 1
   range: 10
-  reloadTime: 3
+  reloadTime: 3.5
   projectileSpeed: 25
   projectileLifetime: 3
   pierce: 1

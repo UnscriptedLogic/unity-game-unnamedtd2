@@ -21,7 +21,7 @@ public class HomingProjectile : ProjectileBehaviour
     public override void Initialize(ProjectileBase parent)
     {
         Ray ray = new Ray(parent.transform.position, parent.transform.forward);
-        if (Physics.SphereCast(ray, 0.25f, out RaycastHit hitinfo, 1000f, parent.UnitLayer))
+        if (Physics.SphereCast(ray, 0.5f, out RaycastHit hitinfo, 1000f, parent.UnitLayer))
         {
             target = hitinfo.transform;
         }

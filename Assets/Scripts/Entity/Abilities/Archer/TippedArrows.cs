@@ -35,6 +35,7 @@ public class TippedArrows : Ability
     private void DistanceBasedDamage(UnitBase unit, float damageToApply)
     {
         float damage = damageToApply;
+
         if (currentShot >= shotsBeforeNext)
         {
             //Distance based shot

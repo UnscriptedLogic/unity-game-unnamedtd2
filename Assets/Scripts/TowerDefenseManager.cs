@@ -93,7 +93,7 @@ public class TowerDefenseManager : MonoBehaviour
             return;
         }
 
-        SceneController.instance.LoadTitleFromGame();
+        SceneController.instance.LoadScene(SceneIndexes.TITLE, MapIndexes.RUINS);
     }
 
     private void UnitBase_OnAnyUnitTookDamage(object sender, UnitTookDamageEventArgs e)
@@ -122,7 +122,7 @@ public class TowerDefenseManager : MonoBehaviour
             camControls.stayDisabled = true;
             camControls.InputManager_OnResetCamera();
 
-            SceneController.instance.LoadTitleFromGame();
+            SceneController.instance.LoadScene(SceneIndexes.TITLE, MapIndexes.RUINS);
         }
     }
 

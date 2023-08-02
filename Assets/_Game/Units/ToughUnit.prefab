@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3164633559894020286}
   - component: {fileID: 1980012444950660233}
   - component: {fileID: 7850114091747465119}
-  - component: {fileID: 6214354015832020360}
   - component: {fileID: 2851142742430535772}
   m_Layer: 6
   m_Name: ToughUnit
@@ -85,24 +84,6 @@ MonoBehaviour:
   boxCollider: {fileID: 1980012444950660233}
   animator: {fileID: 7770833018142612583}
   damageFlash: {fileID: 2851142742430535772}
---- !u!114 &6214354015832020360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8747836210194945649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 3
-  outlineColor: {r: 0, g: 0, b: 0, a: 1}
-  outlineWidth: 2.5
-  precomputeOutline: 1
-  bakeKeys: []
-  bakeValues: []
 --- !u!114 &2851142742430535772
 MonoBehaviour:
   m_ObjectHideFlags: 0

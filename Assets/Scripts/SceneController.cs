@@ -52,6 +52,7 @@ public class LoadSettings
 {
     public SceneIndexes sceneIndex;
     public MapIndexes mapIndex;
+    public bool showsProceedButton;
     public List<LoadProcess> additionalLoadProcesses = new List<LoadProcess>();
     public Action OnComplete;
 }
@@ -59,9 +60,6 @@ public class LoadSettings
 public class SceneController : MonoBehaviour
 {
     [SerializeField] private LoadingScreen loadingScreen;
-    //[SerializeField] private float gameLoadDelay = 4f;
-    //[SerializeField] private float homeLoadDelay = 2f;
-    //[SerializeField] private float startDelay = 1f;
 
     private float currentLoadDelay;
     private List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
@@ -90,21 +88,14 @@ public class SceneController : MonoBehaviour
     /// </summary>
     /// <param name="sceneIndex">The scene index you wish to load into</param>
     /// <param name="mapIndex">The map index you wish to load into</param>
-    public void LoadScene(SceneIndexes sceneIndex, MapIndexes mapIndex)
+    public void LoadScene(SceneIndexes sceneIndex, MapIndexes mapIndex, bool showsProceedButton = false)
     {
         GenericLoad(new LoadSettings() 
         { 
             sceneIndex = sceneIndex,
-            mapIndex = mapIndex
+            mapIndex = mapIndex,
+            showsProceedButton = showsProceedButton
         });
-    }
-
-    public void QuitGame()
-    {
-        loadingScreen.FadeIn().onComplete += () =>
-        {
-            Application.Quit();
-        };
     }
 
     /// <summary>
@@ -118,6 +109,9 @@ public class SceneController : MonoBehaviour
         loadingScreen.ToggleScreen(true).onComplete += () =>
         {
             Time.timeScale = 0f;
+
+            UnloadAllScenes();
+            
             loadProcesses = new List<LoadProcess>()
             {
                 new LoadProcess("Loading Scene", process => StartCoroutine(LoadScene(loadSettings.sceneIndex, process))),
@@ -131,12 +125,33 @@ public class SceneController : MonoBehaviour
 
             StartCoroutine(LoadAllProcess(() =>
             {
-                Time.timeScale = 1f;
-                loadingScreen.ToggleScreen(false);
+                if (loadSettings.showsProceedButton)
+                {
+                    loadingScreen.ShowProceedButton();
+
+                } else
+                {
+                    loadingScreen.ToggleScreen(false);
+                    Time.timeScale = 1f;
+                }
+
                 loadSettings.OnComplete?.Invoke();
                 OnLevelFinishedLoading?.Invoke(this, new LevelLoadEventArgs(loadSettings.sceneIndex, loadSettings.mapIndex));
             }));
         };
+    }
+
+    /// <summary>
+    /// Unloads all scenes EXCEPT the persistant scene. Persistant scene should never be unloaded
+    /// </summary>
+    public void UnloadAllScenes()
+    {
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            if (SceneManager.GetSceneAt(i).buildIndex == (int)SceneIndexes.SCENE_CONTROLLER) continue;
+
+            SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i).buildIndex);
+        }
     }
 
     public IEnumerator LoadAllProcess(Action OnComplete = null)
@@ -172,6 +187,14 @@ public class SceneController : MonoBehaviour
         return sum / loadProcesses.Count;
     }
 
+    public void QuitGame()
+    {
+        loadingScreen.FadeIn().onComplete += () =>
+        {
+            Application.Quit();
+        };
+    }
+
     #region Loading Processes
 
     private IEnumerator LoadScene(SceneIndexes sceneIndex, LoadProcess process)
@@ -194,7 +217,7 @@ public class SceneController : MonoBehaviour
             }
         }
 
-        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)SceneIndexes.TITLE));
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)sceneIndex));
         process.Done();
     }
 
@@ -218,7 +241,6 @@ public class SceneController : MonoBehaviour
             }
         }
 
-        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)mapIndex));
         process.Done();
     }
 

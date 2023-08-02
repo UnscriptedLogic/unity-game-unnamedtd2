@@ -32,7 +32,7 @@ public class MainScreenUI : MonoBehaviour
 
     private void Start()
     {
-        playBtn.onClick.AddListener(() => SceneController.instance.LoadScene(SceneIndexes.LEVEL1, MapIndexes.RUINS));
+        playBtn.onClick.AddListener(() => SceneController.instance.LoadScene(SceneIndexes.LEVEL1, MapIndexes.RUINS, true));
         quitBtn.onClick.AddListener(() => SceneController.instance.QuitGame());
     }
 

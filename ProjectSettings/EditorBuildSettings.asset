@@ -9,9 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/PersistantScene.unity
     guid: 0a2d4ede2e2a9314895ed76c38311c64
   - enabled: 1
-    path: Assets/Scenes/StartScene.unity
+    path: Assets/Scenes/Levels/StartScene.unity
     guid: 46eb9fea0084e6243857d3b9061f1d17
   - enabled: 1
-    path: Assets/Scenes/Ruins.unity
+    path: Assets/Scenes/Levels/Level1.unity
+    guid: 8a3fc40db1651af4fb435c7f89558c40
+  - enabled: 1
+    path: Assets/Scenes/Maps/Ruins.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects: {}

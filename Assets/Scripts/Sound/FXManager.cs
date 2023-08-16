@@ -15,16 +15,25 @@ public class AudioSettings
     [SerializeField] private AudioClip clip;
     [SerializeField] private float volume;
     [SerializeField] private AudioType audioType;
+    [Range(-3f, 3f)] [SerializeField] private float pitch = 1f;
+    [Range(0f, 1f)] [SerializeField] private float spatialBlend = 1f;
+    [SerializeField] private bool looping = false;
     
     public AudioClip Clip => clip;   
     public float Volume => volume;
     public AudioType AudioType => audioType;
+    public float SpatialBlend => spatialBlend;
+    public bool Looping => looping;
+    public float Pitch => pitch;
 
-    public AudioSettings(AudioClip clip, float volume = 1f, AudioType audioType = AudioType.OTHER)
+    public AudioSettings(AudioClip clip, float volume = 1f, AudioType audioType = AudioType.OTHER, float spatialBlend = 1, bool looping = false, float pitch = 1f)
     {
         this.clip = clip;
         this.volume = volume;
         this.audioType = audioType;
+        this.spatialBlend = spatialBlend;
+        this.looping = looping;
+        this.pitch = pitch;
     }
 }
 
@@ -75,13 +84,19 @@ public class FXManager : MonoBehaviour
         GameObject audioObject = Instantiate(audioPrefab, position, Quaternion.identity);
         AudioSource source = audioObject.GetComponent<AudioSource>();
 
+        audioObject.name = $"[AUDIO] {settings.Clip.name}";
+
         source.clip = settings.Clip;
         source.volume = CalculateVolume(settings.AudioType, settings.Volume);
-        source.loop = false;
+        source.loop = settings.Looping;
+        source.pitch = settings.Pitch;
+        source.spatialBlend = settings.SpatialBlend;
 
         source.Play();
 
-        Destroy(audioObject, settings.Clip.length);
+        if (!settings.Looping)
+            Destroy(audioObject, settings.Clip.length + 1f);
+        
         return audioObject;
     }
 
@@ -94,18 +109,47 @@ public class FXManager : MonoBehaviour
         particle.transform.rotation = rotation;
         particle.transform.localScale = scale;
 
+        particle.name = $"[EFFECT] {settings.EffectPrefab.name}";
+
         if (settings.Lifetime > 0)
             Destroy(particle, settings.Lifetime);
         
         return particle;
     }
 
-    /// <summary>
-    /// Plays a sound and visual effect prefab from the global constant list of effects.
-    /// </summary>
-    public (GameObject, GameObject) PlayGlobalEffect(FXPair fXPair, Vector3 position, Quaternion rotation, Vector3 scale)
+    public (GameObject, GameObject) PlayFXPair(FXPair fXPair)
+    {
+        return (PlaySound(fXPair.AudioSettings, Vector3.zero), PlayEffect(fXPair.EffectSettings, Vector3.zero, Quaternion.identity, Vector3.one));
+    }
+
+    public (GameObject, GameObject) PlayFXPair(FXPair fXPair, Vector3 position)
+    {
+        return (PlaySound(fXPair.AudioSettings, position), PlayEffect(fXPair.EffectSettings, position, Quaternion.identity, Vector3.one));
+    }
+
+    public (GameObject, GameObject) PlayFXPair(FXPair fXPair, Vector3 position, Quaternion rotation)
+    {
+        return (PlaySound(fXPair.AudioSettings, position), PlayEffect(fXPair.EffectSettings, position, rotation, Vector3.one));
+    }
+
+    public (GameObject, GameObject) PlayFXPair(FXPair fXPair, Vector3 position, Quaternion rotation, Vector3 scale)
     {
         return (PlaySound(fXPair.AudioSettings, position), PlayEffect(fXPair.EffectSettings, position, rotation, scale));
+    }
+
+    public void PlayThemeStartScreenSound()
+    {
+        PlayFXPair(globalfxSO.RuinsTheme.mainscreenTheme, Vector3.zero, Quaternion.identity);
+    }
+
+    public void PlayThemeAtmosphereSound()
+    {
+        PlayFXPair(globalfxSO.RuinsTheme.gameAtmosphere, Vector3.zero, Quaternion.identity);
+    }
+
+    public void PlayThemeProceedSound()
+    {
+        PlayFXPair(globalfxSO.RuinsTheme.proceedClick, Vector3.zero, Quaternion.identity);
     }
 
     public float CalculateVolume(AudioType audioType, float requestedVolume)

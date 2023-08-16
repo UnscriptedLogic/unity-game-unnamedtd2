@@ -321,12 +321,12 @@ public class TowerBase : MonoBehaviour, IBuildable, IInspectable
 
     public GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Transform anchor, ProjectileBehaviour projectileBehaviour = null)
     {
-        return CreateBullet(out projectileBase, prefab, anchor.position, anchor.rotation, new ProjectileSettings(ProjectileSpeed, ProjectileLifetime, ProjectilePierce), projectileBehaviour);
+        return CreateBullet(out projectileBase, prefab, anchor.position, anchor.rotation, new ProjectileSettings(ProjectileSpeed, ProjectileLifetime, ProjectilePierce, unitLayer), projectileBehaviour);
     }
 
     public GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Vector3 position, Quaternion rotation, ProjectileBehaviour projectileBehaviour = null)
     {
-        return CreateBullet(out projectileBase, prefab, position, rotation, new ProjectileSettings(ProjectileSpeed, ProjectileLifetime, ProjectilePierce), projectileBehaviour);
+        return CreateBullet(out projectileBase, prefab, position, rotation, new ProjectileSettings(ProjectileSpeed, ProjectileLifetime, ProjectilePierce, unitLayer), projectileBehaviour);
     }
 
     public GameObject CreateBullet(out ProjectileBase projectileBase, GameObject prefab, Vector3 position, Quaternion rotation, ProjectileSettings projectileSettings, ProjectileBehaviour projectileBehaviour = null)

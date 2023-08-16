@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3164633559894020286}
   - component: {fileID: 1980012444950660233}
   - component: {fileID: 7850114091747465119}
-  - component: {fileID: 6214354015832020360}
   - component: {fileID: 2851142742430535772}
   m_Layer: 6
   m_Name: Unit
@@ -72,9 +71,9 @@ MonoBehaviour:
   id: zombieNormal
   displayName: Zombie
   icon: {fileID: 0}
-  health: 10
+  health: 6
   armor: 0
-  speed: 0.3
+  speed: 0.5
   turnSpeed: 0.1
   offsetHeight: 0
   stoppingDistance: 0.1
@@ -85,24 +84,6 @@ MonoBehaviour:
   boxCollider: {fileID: 1980012444950660233}
   animator: {fileID: 7770833018142612583}
   damageFlash: {fileID: 2851142742430535772}
---- !u!114 &6214354015832020360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8747836210194945649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 3
-  outlineColor: {r: 0, g: 0, b: 0, a: 1}
-  outlineWidth: 2.5
-  precomputeOutline: 1
-  bakeKeys: []
-  bakeValues: []
 --- !u!114 &2851142742430535772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +195,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7770833018142612583}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bfc1673db20463647be78eee7b9f5a5b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2866622043185284875}
   m_SourcePrefab: {fileID: 100100000, guid: bfc1673db20463647be78eee7b9f5a5b, type: 3}
 --- !u!1 &3909207969128256028 stripped
 GameObject:
@@ -241,6 +226,70 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &2866622043185284875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3909207969128256028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9896119fe0c25a247a66dff2009b8768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7770833018142612583}
+  footstepsFXs:
+  - audioSettings:
+      clip: {fileID: 8300000, guid: c521d6fc15fb30e4ba22dd98b4dea785, type: 3}
+      volume: 0.35
+      audioType: 1
+      pitch: 1
+      spatialBlend: 1
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
+  - audioSettings:
+      clip: {fileID: 8300000, guid: f17873334f333c84fa1b5382c46a4373, type: 3}
+      volume: 0.35
+      audioType: 1
+      pitch: 1
+      spatialBlend: 1
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
+  - audioSettings:
+      clip: {fileID: 8300000, guid: 653f17fc9c10a9e4ba565452bd99b3ef, type: 3}
+      volume: 0.35
+      audioType: 1
+      pitch: 1
+      spatialBlend: 1
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
+  - audioSettings:
+      clip: {fileID: 8300000, guid: 5c88cfadbcf9e0047b5006f85ffd80a0, type: 3}
+      volume: 0.35
+      audioType: 1
+      pitch: 1
+      spatialBlend: 1
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
+  - audioSettings:
+      clip: {fileID: 8300000, guid: cf2d8f17cf1a8ff4e9ee1bb1d6a3eda2, type: 3}
+      volume: 0.35
+      audioType: 1
+      pitch: 1
+      spatialBlend: 1
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
 --- !u!137 &4201200121196439701 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -9165797768001435688, guid: bfc1673db20463647be78eee7b9f5a5b,

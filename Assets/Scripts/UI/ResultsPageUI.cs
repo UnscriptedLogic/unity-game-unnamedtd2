@@ -14,7 +14,7 @@ public class ResultsPageUI : MonoBehaviour
         {
             homeBtn[i].onClick.AddListener(() =>
             {
-                SceneController.instance.LoadTitleFromGame();
+                SceneController.instance.LoadScene(SceneIndexes.TITLE, MapIndexes.RUINS);
             });
         }
 

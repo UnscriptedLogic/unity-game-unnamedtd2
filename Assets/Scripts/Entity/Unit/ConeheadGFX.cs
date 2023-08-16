@@ -5,6 +5,7 @@ using UnscriptedLogic.MathUtils;
 
 public class ConeheadGFX : MonoBehaviour
 {
+    [SerializeField] private AudioSettings coneEjectFX;
     [SerializeField] private GameObject coneObject;
     [SerializeField] private TrailRenderer trailRenderer;
     private UnitBase unitbase;
@@ -39,6 +40,8 @@ public class ConeheadGFX : MonoBehaviour
 
                 rb.AddForce(dir * 10, ForceMode.Impulse);
                 rb.AddTorque(dir * 10, ForceMode.Impulse);
+
+                FXManager.instance.PlaySound(coneEjectFX, coneObject.transform.position);
 
                 Destroy(coneObject, 10f);
             }

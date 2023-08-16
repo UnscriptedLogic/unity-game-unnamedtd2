@@ -12,7 +12,12 @@ public enum SceneIndexes
 {
     SCENE_CONTROLLER = 0,
     TITLE = 1,
-    GAME = 2
+    LEVEL1 = 2,
+}
+
+public enum MapIndexes
+{
+    RUINS = 3
 }
 
 public class LoadProcess
@@ -33,11 +38,28 @@ public class LoadProcess
     }
 }
 
+public class LevelLoadEventArgs : EventArgs
+{
+    public SceneIndexes scene;
+
+    public LevelLoadEventArgs(SceneIndexes level, MapIndexes map)
+    {
+        this.scene = level;
+    }
+}
+
+public class LoadSettings
+{
+    public SceneIndexes sceneIndex;
+    public MapIndexes mapIndex;
+    public bool showsProceedButton;
+    public List<LoadProcess> additionalLoadProcesses = new List<LoadProcess>();
+    public Action OnComplete;
+}
+
 public class SceneController : MonoBehaviour
 {
     [SerializeField] private LoadingScreen loadingScreen;
-    [SerializeField] private float gameLoadDelay = 4f;
-    [SerializeField] private float homeLoadDelay = 2f;
 
     private float currentLoadDelay;
     private List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
@@ -45,67 +67,91 @@ public class SceneController : MonoBehaviour
     private List<LoadProcess> loadProcesses;
 
     public static SceneController instance { get; private set; }
+    public static event EventHandler<LevelLoadEventArgs> OnLevelFinishedLoading;
 
     private void Awake()
     {
         instance = this;
 
-        loadingScreen.ToggleLoadingScreenImmediate(false);
-        loadingScreen.FadeOut();
-        scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE, LoadSceneMode.Additive));
+        GenericLoad(new LoadSettings()
+        {
+            sceneIndex = SceneIndexes.TITLE,
+            mapIndex = MapIndexes.RUINS,
+        });
 
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 120;
     }
 
-    public void LoadGameFromTitle()
+    /// <summary>
+    /// This function encapsulates the entire process of creating a constructor for LoadSettings and simple requires you to input only the scene and map indexes.
+    /// For additional process to load as well as an OnComplete callback, please use GenericLoad()
+    /// </summary>
+    /// <param name="sceneIndex">The scene index you wish to load into</param>
+    /// <param name="mapIndex">The map index you wish to load into</param>
+    public void LoadScene(SceneIndexes sceneIndex, MapIndexes mapIndex, bool showsProceedButton = false)
+    {
+        GenericLoad(new LoadSettings() 
+        { 
+            sceneIndex = sceneIndex,
+            mapIndex = mapIndex,
+            showsProceedButton = showsProceedButton
+        });
+    }
+
+    /// <summary>
+    /// The main function that prepares the scenes and actions to preform while loading. It's in "additionalLoadProcessse" that allows you to add more
+    /// things to load during this process, otherwise it only requires you to input the scene and the map you wish to load into. Unloads all extra scenes
+    /// before proceeding to perform the loading of the new scenes
+    /// </summary>
+    /// <param name="loadSettings">The loading settings requried for this function to operate properly</param>
+    public void GenericLoad(LoadSettings loadSettings)
     {
         loadingScreen.ToggleScreen(true).onComplete += () =>
         {
             Time.timeScale = 0f;
-            LoadProcess gameSceneLoad = new LoadProcess("Loading Scenes", process => StartCoroutine(GameScene_LoadProcess(process)));
-            LoadProcess delayLoad = new LoadProcess("Prepping Environment", process => StartCoroutine(DelayLoad_LoadProcess(process, gameLoadDelay)));
 
-            loadProcesses = new List<LoadProcess>
-            {
-                gameSceneLoad,
-                delayLoad
-            };
-
-            StartCoroutine(LoadAllProcess(() =>
-            {
-                loadingScreen.ShowProceedButton();
-            }));
-        };
-    }
-
-    public void LoadTitleFromGame()
-    {
-        loadingScreen.ToggleScreen(true).onComplete += () =>
-        {
-            LoadProcess cleanUp = new LoadProcess("Cleaning up the field", process => StartCoroutine(GameCleanUp_LoadProcess(process)));
-            LoadProcess sceneLoad = new LoadProcess("Loading Scene", process => StartCoroutine(TitleScene_LoadProcess(process)));
-            LoadProcess delayLoad = new LoadProcess("Returning home", process => StartCoroutine(DelayLoad_LoadProcess(process, homeLoadDelay)));
-
+            UnloadAllScenes();
+            
             loadProcesses = new List<LoadProcess>()
             {
-                cleanUp,
-                sceneLoad,
-                delayLoad,
+                new LoadProcess("Loading Scene", process => StartCoroutine(LoadScene(loadSettings.sceneIndex, process))),
+                new LoadProcess("Loading Map", process => StartCoroutine(LoadMap(loadSettings.mapIndex, process))),
             };
+
+            if (loadSettings.additionalLoadProcesses.Count > 0)
+            {
+                loadProcesses.AddRange(loadSettings.additionalLoadProcesses);
+            }
 
             StartCoroutine(LoadAllProcess(() =>
             {
-                loadingScreen.ToggleScreen(false);
+                if (loadSettings.showsProceedButton)
+                {
+                    loadingScreen.ShowProceedButton();
+
+                } else
+                {
+                    loadingScreen.ToggleScreen(false);
+                    Time.timeScale = 1f;
+                }
+
+                loadSettings.OnComplete?.Invoke();
+                OnLevelFinishedLoading?.Invoke(this, new LevelLoadEventArgs(loadSettings.sceneIndex, loadSettings.mapIndex));
             }));
         };
     }
 
-    public void QuitGame()
+    /// <summary>
+    /// Unloads all scenes EXCEPT the persistant scene. Persistant scene should never be unloaded
+    /// </summary>
+    public void UnloadAllScenes()
     {
-        loadingScreen.FadeIn().onComplete += () =>
+        for (int i = 0; i < SceneManager.sceneCount; i++)
         {
-            Application.Quit();
-        };
+            if (SceneManager.GetSceneAt(i).buildIndex == (int)SceneIndexes.SCENE_CONTROLLER) continue;
+
+            SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i).buildIndex);
+        }
     }
 
     public IEnumerator LoadAllProcess(Action OnComplete = null)
@@ -141,21 +187,21 @@ public class SceneController : MonoBehaviour
         return sum / loadProcesses.Count;
     }
 
-    #region Loading Processes
-
-    private IEnumerator GameCleanUp_LoadProcess(LoadProcess process)
+    public void QuitGame()
     {
-        yield return StartCoroutine(TowerDefenseManager.instance.SceneExitCleanUp_Coroutine());
-        yield return new WaitForSecondsRealtime(1f);
-        process.Done();
+        loadingScreen.FadeIn().onComplete += () =>
+        {
+            Application.Quit();
+        };
     }
 
-    private IEnumerator TitleScene_LoadProcess(LoadProcess process)
-    {
-        float totalProgress = 0f;
-        scenesLoading.Add(SceneManager.UnloadSceneAsync((int)SceneIndexes.GAME));
-        scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE, LoadSceneMode.Additive));
+    #region Loading Processes
 
+    private IEnumerator LoadScene(SceneIndexes sceneIndex, LoadProcess process)
+    {
+        scenesLoading.Add(SceneManager.LoadSceneAsync((int)sceneIndex, LoadSceneMode.Additive));
+
+        float totalProgress = 0f;
         for (int i = 0; i < scenesLoading.Count; i++)
         {
             while (!scenesLoading[i].isDone)
@@ -171,15 +217,15 @@ public class SceneController : MonoBehaviour
             }
         }
 
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)sceneIndex));
         process.Done();
     }
 
-    private IEnumerator GameScene_LoadProcess(LoadProcess process)
+    private IEnumerator LoadMap(MapIndexes mapIndex, LoadProcess process)
     {
-        float totalProgress = 0f;
-        scenesLoading.Add(SceneManager.UnloadSceneAsync((int)SceneIndexes.TITLE));
-        scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.GAME, LoadSceneMode.Additive));
+        scenesLoading.Add(SceneManager.LoadSceneAsync((int)mapIndex, LoadSceneMode.Additive));
 
+        float totalProgress = 0f;
         for (int i = 0; i < scenesLoading.Count; i++)
         {
             while (!scenesLoading[i].isDone)
@@ -208,7 +254,7 @@ public class SceneController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator DelayLoad_LoadProcess(LoadProcess process, float time)
     {
-        currentLoadDelay = gameLoadDelay;
+        currentLoadDelay = time;
 
         while (currentLoadDelay > 0f)
         {

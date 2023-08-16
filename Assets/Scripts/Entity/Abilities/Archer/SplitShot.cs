@@ -21,7 +21,7 @@ public class SplitShot : Ability
 
     protected override void OnProjectileCreated(GameObject bulletObject, ProjectileBase projectileScript)
     {
-        if (RandomLogic.IntZeroTo(100) > chances[(int)levelHandler.Current - 1]) return;
+        //if (RandomLogic.IntZeroTo(100) > chances[(int)levelHandler.Current - 1]) return;
 
         tower.CreateBullet(out ProjectileBase leftProjectile, tower.ProjectilePrefabs[0], tower.ShootAnchors[1]);
         leftProjectile.tags.Add("SplitShot", 1);

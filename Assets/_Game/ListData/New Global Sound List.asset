@@ -12,11 +12,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5237aa77b53d524cb49ad737e8e2f12, type: 3}
   m_Name: New Global Sound List
   m_EditorClassIdentifier: 
+  ruins:
+    mainscreenTheme:
+      audioSettings:
+        clip: {fileID: 8300000, guid: 3e6b7ea0c6869f8428283b44b0c2090d, type: 3}
+        volume: 1
+        audioType: 2
+        pitch: 1
+        spatialBlend: 0
+        looping: 1
+      effectSettings:
+        effectPrefab: {fileID: 0}
+        lifetime: 0
+    proceedClick:
+      audioSettings:
+        clip: {fileID: 8300000, guid: 7a952a4efc4bcf542aaf75678212d98f, type: 3}
+        volume: 0.5
+        audioType: 2
+        pitch: 1
+        spatialBlend: 0
+        looping: 0
+      effectSettings:
+        effectPrefab: {fileID: 0}
+        lifetime: 0
+    gameAtmosphere:
+      audioSettings:
+        clip: {fileID: 8300000, guid: dd8c9eb90d1e78f43ab3bee28bac7b61, type: 3}
+        volume: 0.5
+        audioType: 2
+        pitch: 1
+        spatialBlend: 0
+        looping: 1
+      effectSettings:
+        effectPrefab: {fileID: 0}
+        lifetime: 0
   levelUp:
     audioSettings:
       clip: {fileID: 8300000, guid: bc7c293979932e44a944efcaa69d773b, type: 3}
       volume: 1
       audioType: 2
+      pitch: 1
+      spatialBlend: 1
+      looping: 0
     effectSettings:
       effectPrefab: {fileID: 1027995726539321422, guid: 42b05cdeb882b304ca78e555251f7894,
         type: 3}
@@ -26,7 +63,52 @@ MonoBehaviour:
       clip: {fileID: 8300000, guid: 8e414cd1049dd2b478a954182a932e5a, type: 3}
       volume: 0.05
       audioType: 2
+      pitch: 1
+      spatialBlend: 1
+      looping: 0
     effectSettings:
       effectPrefab: {fileID: 8460747976295487, guid: 9b3fc476b21f2914bb92fe0ce7bdf46b,
         type: 3}
       lifetime: 2
+  towerPlace:
+    audioSettings:
+      clip: {fileID: 8300000, guid: 9ba206fddba932342903859965395a49, type: 3}
+      volume: 1
+      audioType: 2
+      pitch: 1
+      spatialBlend: 1
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
+  upgradeBoughts:
+  - audioSettings:
+      clip: {fileID: 8300000, guid: 0e1a1506f125e414ab50dde3fa9e106a, type: 3}
+      volume: 0.5
+      audioType: 2
+      pitch: 1
+      spatialBlend: 0
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
+  - audioSettings:
+      clip: {fileID: 8300000, guid: b12a8050ac7f7b947ba2a99e96bb30f9, type: 3}
+      volume: 0.5
+      audioType: 2
+      pitch: 1
+      spatialBlend: 0
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0
+  - audioSettings:
+      clip: {fileID: 8300000, guid: ab0c48fbac45adc46bfa02727ae8830e, type: 3}
+      volume: 0.5
+      audioType: 2
+      pitch: 1
+      spatialBlend: 0
+      looping: 0
+    effectSettings:
+      effectPrefab: {fileID: 0}
+      lifetime: 0

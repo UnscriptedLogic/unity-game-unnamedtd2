@@ -15,7 +15,7 @@ public class TippedArrows : Ability
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);
 
-        extraDamagesPerMeter = new int[4] { 50, 75, 100, 150 };
+        extraDamagesPerMeter = new int[4] { 50, 75, 100, 200 };
 
         currentShot = 0;
 
@@ -35,6 +35,7 @@ public class TippedArrows : Ability
     private void DistanceBasedDamage(UnitBase unit, float damageToApply)
     {
         float damage = damageToApply;
+
         if (currentShot >= shotsBeforeNext)
         {
             //Distance based shot
@@ -42,7 +43,8 @@ public class TippedArrows : Ability
             float extraDamage = tower.Damage / 100 * extraDamagesPerMeter[CurrentLevel - 1];
             damage += Mathf.RoundToInt(distance * extraDamage);
 
-            (GameObject sound, GameObject effect) = fxManager.PlayGlobalEffect(fxManager.GlobalEffects.Crit, unit.transform.position + Vector3.up, UnityEngine.Quaternion.identity, Vector3.one);
+            (GameObject sound, GameObject effect) = fxManager.PlayFXPair(fxManager.GlobalEffects.Crit, unit.transform.position + Vector3.up, UnityEngine.Quaternion.identity, Vector3.one);
+
             effect.GetComponent<EffectUI>().AmountTMP.text = damage.ToString();
         }
 

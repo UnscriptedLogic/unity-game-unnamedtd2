@@ -8,13 +8,15 @@ public struct ProjectileSettings
     public int pierce;
     public float speed;
     public float lifetime;
+    public LayerMask unitLayer;
     public ProjectileBehaviour projectileBehaviour;
 
-    public ProjectileSettings(float speed, float lifetime, int pierce, ProjectileBehaviour projectileBehaviour = null)
+    public ProjectileSettings(float speed, float lifetime, int pierce, LayerMask unitLayer, ProjectileBehaviour projectileBehaviour = null)
     {
         this.pierce = pierce;
         this.speed = speed;
         this.lifetime = lifetime;
+        this.unitLayer = unitLayer;
         this.projectileBehaviour = projectileBehaviour;
     }
 }
@@ -26,6 +28,7 @@ public class ProjectileBase : MonoBehaviour
     protected int pierce;
     protected float speed = 1f;
     protected float lifeTime = 1f;
+    protected LayerMask unitLayer;
     [SerializeField] protected TrailRenderer[] trailRenderers;
 
     public event Action<UnitBase, ProjectileBase> OnEnemyHit;
@@ -43,6 +46,7 @@ public class ProjectileBase : MonoBehaviour
     public float Speed => speed;
     public int Pierce => pierce;
     public int CurrentPierce => _pierce;
+    public LayerMask UnitLayer => unitLayer;
 
     private void Update()
     {
@@ -75,6 +79,7 @@ public class ProjectileBase : MonoBehaviour
         pierce = projectileSettings.pierce;
         speed = projectileSettings.speed;
         lifeTime = projectileSettings.lifetime;
+        unitLayer = projectileSettings.unitLayer;
         _lifetime = lifeTime;
         initialized = true;
 
@@ -87,6 +92,8 @@ public class ProjectileBase : MonoBehaviour
             this.projectileBehaviour = projectileBehaviour;
         }
 
+        Debug.Log(this.projectileBehaviour);
+        this.projectileBehaviour.Initialize(this);
         gameObject.SetActive(true);
     }
 

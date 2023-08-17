@@ -6,9 +6,9 @@ namespace ProjectileManagement
 {
     public class ProjectileBehaviourFactory
     {
-        private ProjectileBase context;
+        private Projectile context;
 
-        public ProjectileBehaviourFactory(ProjectileBase context)
+        public ProjectileBehaviourFactory(Projectile context)
         {
             this.context = context;
         }

@@ -19,24 +19,24 @@ public class SplitShot : Ability
         damageReduction = new int[4] { 75, 50, 25, 0 };
     }
 
-    protected override void OnProjectileCreated(GameObject bulletObject, ProjectileBase projectileScript)
+    protected override void OnProjectileCreated(GameObject bulletObject, Projectile projectileScript)
     {
         //if (RandomLogic.IntZeroTo(100) > chances[(int)levelHandler.Current - 1]) return;
 
-        tower.CreateBullet(out ProjectileBase leftProjectile, tower.ProjectilePrefabs[0], tower.ShootAnchors[1]);
-        leftProjectile.tags.Add("SplitShot", 1);
-        tower.SubscribeProjectileEvents(leftProjectile);
+        //tower.CreateBullet(out Projectile leftProjectile, tower.ProjectilePrefabs[0], tower.ShootAnchors[1]);
+        //leftProjectile.tags.Add("SplitShot", 1);
+        //tower.SubscribeProjectileEvents(leftProjectile);
 
-        tower.CreateBullet(out ProjectileBase rightProjectile, tower.ProjectilePrefabs[0], tower.ShootAnchors[2]);
-        rightProjectile.tags.Add("SplitShot", 1);
-        tower.SubscribeProjectileEvents(rightProjectile);
+        //tower.CreateBullet(out Projectile rightProjectile, tower.ProjectilePrefabs[0], tower.ShootAnchors[2]);
+        //rightProjectile.tags.Add("SplitShot", 1);
+        //tower.SubscribeProjectileEvents(rightProjectile);
     }
 
     protected override void OnProjectileHit(object sender, OnProjectileHitEventArgs eventArgs)
     {
-        if (eventArgs.projectile.tags.ContainsKey("SplitShot"))
-        {
-            eventArgs.unit.TakeDamage(tower.Damage / 100 * (100 - damageReduction[CurrentLevel - 1]));
-        }
+        //if (eventArgs.projectile.tags.ContainsKey("SplitShot"))
+        //{
+        //    eventArgs.unit.TakeDamage(tower.Damage / 100 * (100 - damageReduction[CurrentLevel - 1]));
+        //}
     }
 }

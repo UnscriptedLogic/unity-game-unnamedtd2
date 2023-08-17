@@ -102,10 +102,10 @@ public class Ability
     protected virtual void OnTargetFound(Transform target) { }
     protected virtual void WhileTargetFound(Transform target) { }
     protected virtual void OnTargetLost() { }
-    protected virtual void OnProjectileCreated(GameObject bulletObject, ProjectileBase projectileScript) { }
+    protected virtual void OnProjectileCreated(GameObject bulletObject, Projectile projectileScript) { }
     protected virtual void OnProjectileFired() { }
     protected virtual void OnProjectileHit(object sender, OnProjectileHitEventArgs eventArgs) { }
-    protected virtual void OnProjectileDestroyed(ProjectileBase projectileScript) { }
+    protected virtual void OnProjectileDestroyed(Projectile projectileScript) { }
     protected virtual void OnLevelUp() { }
 }
 

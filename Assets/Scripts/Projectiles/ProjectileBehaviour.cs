@@ -3,27 +3,28 @@ using UnityEngine;
 
 public class ProjectileBehaviour
 {
-    public virtual void Initialize(ProjectileBase parent)
-    {
+    protected Projectile parent;
 
+    public virtual void Initialize(Projectile parent)
+    {
+        this.parent = parent;
     }
 
-    public virtual void Move(ProjectileBase projBase)
+    public virtual void Move(Projectile projBase)
     {
-        projBase.transform.position += projBase.transform.forward * projBase.Speed * Time.deltaTime;
+        projBase.transform.position += projBase.transform.forward * projBase.ProjectileSettings.Speed * Time.deltaTime;
     }
 
-    public virtual void OnHit(Collider other, ProjectileBase projBase, Action<UnitBase, ProjectileBase> OnEnemyHit)
+    public virtual void OnHit(Collider other, Projectile projectile, EventHandler<UnitBase> OnEnemyHit)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            projBase.IncreasePierce();
-            OnEnemyHit?.Invoke(other.GetComponent<UnitBase>(), projBase);
+            projectile.IncreasePierce();
+            OnEnemyHit?.Invoke(this, other.GetComponent<UnitBase>());
 
-            if (projBase.CurrentPierce >= projBase.Pierce)
+            if (projectile.CurrentPierceCount >= projectile.ProjectileSettings.Pierce)
             {
-                //PoolManager.poolManagerInstance.PushToPool(projBase.gameObject);
-                UnityEngine.Object.Destroy(projBase.gameObject);
+                UnityEngine.Object.Destroy(projectile.gameObject);
             }
         }
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RiflerTower : TowerBase
+public class RiflerTower : TowerBehaviour
 {
     public ProjectileBehaviour projectileBehaviour;
     public bool useHitscan;
@@ -8,16 +8,14 @@ public class RiflerTower : TowerBase
     protected override void FireProjectile()
     {
         animator.SetTrigger("Attack");
-        soundManager.PlaySound(new AudioSettings(audioFields[0].clip, audioFields[0].volume, AudioType.TOWER), shootAnchors[0].position);
+        FXManager.instance.PlaySound(new AudioSettings(audioFields[0].clip, audioFields[0].volume, AudioType.TOWER), shootAnchors[0].position);
 
         if (useHitscan)
         {
-            OnProjectileFired();
             OnProjectileHit(currentTarget.GetComponent<UnitBase>(), null);
         } else
         {
             base.FireProjectile();
-            OnProjectileFired();
         }
     }
 

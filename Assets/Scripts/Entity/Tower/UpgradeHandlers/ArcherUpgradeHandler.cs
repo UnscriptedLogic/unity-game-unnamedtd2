@@ -6,7 +6,7 @@ public class ArcherUpgradeHandler : TowerUpgradeHandler
 {
     private AbilityHandler abilityHandler;
     private AbilityManager abilityManager;
-    private ArcherTower archerTower;
+    private ArcherBehaviour archerTower;
 
     protected override void InitUpgrades(TowerBase towerBase)
     {
@@ -14,7 +14,7 @@ public class ArcherUpgradeHandler : TowerUpgradeHandler
 
         abilityHandler = towerBase.GetComponent<AbilityHandler>();
         abilityManager = AbilityManager.instance;
-        archerTower = towerBase as ArcherTower;
+        archerTower = towerBase as ArcherBehaviour;
 
         //Level 1
         UpgradeGroup level1 = new UpgradeGroup();

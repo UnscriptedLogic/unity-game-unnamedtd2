@@ -21,14 +21,14 @@ public class OnPreviewEventArgs : EventArgs
     public GameObject previewObject;
 }
 
-public class BuildManager : MonoBehaviour, IBuilder<TowerBase, GameObject>
+public class BuildManager : MonoBehaviour, IBuilder<TowerController, GameObject>
 {
     [SerializeField] private Material previewMaterial;
     [SerializeField] private Material invalidSpotMaterial;
     [SerializeField] private LayerMask nodeLayer;
 
     private RaycastHit hit;
-    private BuildHandlerSimple<TowerBase, BuildManager, GameObject> buildHandler;
+    private BuildHandlerSimple<TowerController, BuildManager, GameObject> buildHandler;
     private TowerDefenseManager tdManager;
 
     private bool isBuilding;
@@ -36,7 +36,7 @@ public class BuildManager : MonoBehaviour, IBuilder<TowerBase, GameObject>
     private bool isValidSpot, setAsValid;
     private int towerBuildIndex;
 
-    public BuildHandlerSimple<TowerBase, BuildManager, GameObject> BuildHandler => buildHandler;
+    public BuildHandlerSimple<TowerController, BuildManager, GameObject> BuildHandler => buildHandler;
     public GameObject[] buildableContainers => GetContainers();
 
     public event EventHandler<OnBuildEventArgs> OnBuild;
@@ -54,12 +54,12 @@ public class BuildManager : MonoBehaviour, IBuilder<TowerBase, GameObject>
     {
         tdManager = TowerDefenseManager.instance;
 
-        buildHandler = new BuildHandlerSimple<TowerBase, BuildManager, GameObject>(this, buildableContainers.ToList());
-        buildHandler.adminBuildConditions = new List<AdminBuildCondition<TowerBase>>()
+        buildHandler = new BuildHandlerSimple<TowerController, BuildManager, GameObject>(this, buildableContainers.ToList());
+        buildHandler.adminBuildConditions = new List<AdminBuildCondition<TowerController>>()
         {
-            new AdminBuildCondition<TowerBase>("On Node Layer", tower => LayerMask.NameToLayer("Node").Equals(hit.collider.gameObject.layer), "Invalid Build Position", "Valid Build Position"),
-            new AdminBuildCondition<TowerBase>("Node Empty", tower => Physics.Raycast(hit.collider.transform.position, Vector3.up, 1f) == false),
-            new AdminBuildCondition<TowerBase>("Cash", tower => tdManager.CurrentCash >= tdManager.AllTowerList.GetSOFromTower(tower).TowerCost)
+            new AdminBuildCondition<TowerController>("On Node Layer", tower => LayerMask.NameToLayer("Node").Equals(hit.collider.gameObject.layer), "Invalid Build Position", "Valid Build Position"),
+            new AdminBuildCondition<TowerController>("Node Empty", tower => Physics.Raycast(hit.collider.transform.position, Vector3.up, 1f) == false),
+            new AdminBuildCondition<TowerController>("Cash", tower => tdManager.CurrentCash >= tdManager.AllTowerList.GetSOFromTower(tower).TowerCost)
         };
 
         InputManager.instance.OnMouseDown += InputManager_OnMouseDown;
@@ -139,7 +139,7 @@ public class BuildManager : MonoBehaviour, IBuilder<TowerBase, GameObject>
     private void SetBuildableMaterial(Material material)
     {
         GameObject buildable = BuildHandler.PreviewObject;
-        SkinnedMeshRenderer skinnedMeshRenderer = buildable.GetComponent<TowerBase>().TowerMeshRenderer;
+        SkinnedMeshRenderer skinnedMeshRenderer = buildable.GetComponent<TowerController>().SkinnedMeshRenderer;
 
         Material[] flashMats = new Material[skinnedMeshRenderer.materials.Length];
         for (int i = 0; i < skinnedMeshRenderer.materials.Length; i++)
@@ -183,7 +183,7 @@ public class BuildManager : MonoBehaviour, IBuilder<TowerBase, GameObject>
         });
     }
 
-    public void WhenCreatePreview(int index, Vector3 position, Quaternion rotation, GameObject buildableContainer, out TowerBase tower, out GameObject towerObject)
+    public void WhenCreatePreview(int index, Vector3 position, Quaternion rotation, GameObject buildableContainer, out TowerController tower, out GameObject towerObject)
     {
         towerObject = Instantiate(buildableContainer, position, rotation);
         towerObject.GetComponent<TowerBase>().enabled = false;
@@ -192,9 +192,9 @@ public class BuildManager : MonoBehaviour, IBuilder<TowerBase, GameObject>
         tower = WhenGetBuildable(buildableContainer);
     }
 
-    public TowerBase WhenGetBuildable(GameObject buildableObject) => buildableObject.GetComponent<TowerBase>();
+    public TowerController WhenGetBuildable(GameObject buildableObject) => buildableObject.GetComponent<TowerController>();
 
-    public void ClearPreview(TowerBase towerPreviewScript, GameObject towerPreviewObject)
+    public void ClearPreview(TowerController towerPreviewScript, GameObject towerPreviewObject)
     {
         Destroy(towerPreviewObject);
     }

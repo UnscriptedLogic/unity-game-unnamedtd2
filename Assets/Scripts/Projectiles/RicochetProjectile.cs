@@ -7,7 +7,7 @@ public class RicochetProjectile : ProjectileBehaviour
     private float checkRadius;
     private List<GameObject> taggedEnemies;
 
-    private ProjectileBase projectileBase;
+    private Projectile projectileBase;
 
     public RicochetProjectile(float checkRadius) : base()
     {
@@ -15,42 +15,42 @@ public class RicochetProjectile : ProjectileBehaviour
         taggedEnemies = new List<GameObject>();
     }
 
-    public override void OnHit(Collider other, ProjectileBase projBase, Action<UnitBase, ProjectileBase> OnEnemyHit)
+    public override void OnHit(Collider other, Projectile projectile, EventHandler<UnitBase> OnEnemyHit)
     {
-        if (projectileBase == null)
-        {
-            projectileBase = projBase;
-            projectileBase.OnProjectileDestroyed += ProjectileBase_OnProjectileDestroyed;
-        }
+        //if (projectileBase == null)
+        //{
+        //    projectileBase = projectile;
+        //    projectileBase.OnProjectileDestroyed += ProjectileBase_OnProjectileDestroyed;
+        //}
 
-        taggedEnemies.Add(other.gameObject);
+        //taggedEnemies.Add(other.gameObject);
 
-        Collider[] colliders = Physics.OverlapSphere(projBase.transform.position, checkRadius, LayerMask.GetMask("Unit"));
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (!colliders[i].CompareTag("Enemy")) continue;
+        //Collider[] colliders = Physics.OverlapSphere(projectile.transform.position, checkRadius, LayerMask.GetMask("Unit"));
+        //for (int i = 0; i < colliders.Length; i++)
+        //{
+        //    if (!colliders[i].CompareTag("Enemy")) continue;
 
-            if (!taggedEnemies.Contains(colliders[i].gameObject))
-            {
-                projBase.transform.LookAt(colliders[i].transform);
-                break;
-            }
-        }
+        //    if (!taggedEnemies.Contains(colliders[i].gameObject))
+        //    {
+        //        projectile.transform.LookAt(colliders[i].transform);
+        //        break;
+        //    }
+        //}
 
-        if (other.CompareTag("Enemy"))
-        {
-            projBase.IncreasePierce();
-            OnEnemyHit?.Invoke(other.GetComponent<UnitBase>(), projBase);
+        //if (other.CompareTag("Enemy"))
+        //{
+        //    projectile.IncreasePierce();
+        //    OnEnemyHit?.Invoke(other.GetComponent<UnitBase>(), projBase);
 
-            if (projBase.CurrentPierce >= projBase.Pierce)
-            {
-                PoolManager.poolManagerInstance.PushToPool(projBase.gameObject);
-                taggedEnemies = new List<GameObject>();
-            }
-        }
+        //    if (projectile.CurrentPierce >= projectile.Pierce)
+        //    {
+        //        PoolManager.poolManagerInstance.PushToPool(projectile.gameObject);
+        //        taggedEnemies = new List<GameObject>();
+        //    }
+        //}
     }
 
-    private void ProjectileBase_OnProjectileDestroyed(ProjectileBase obj)
+    private void ProjectileBase_OnProjectileDestroyed(Projectile obj)
     {
         taggedEnemies = new List<GameObject>();
     }

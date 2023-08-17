@@ -19,7 +19,7 @@ public class TippedArrows : Ability
 
         currentShot = 0;
 
-        tower.ApplyDamage = DistanceBasedDamage;
+        //tower.ApplyDamage = DistanceBasedDamage;
     }
 
     protected override void OnProjectileFired()
@@ -39,9 +39,9 @@ public class TippedArrows : Ability
         if (currentShot >= shotsBeforeNext)
         {
             //Distance based shot
-            float distance = Vector3.Distance(tower.transform.position, unit.transform.position);
-            float extraDamage = tower.Damage / 100 * extraDamagesPerMeter[CurrentLevel - 1];
-            damage += Mathf.RoundToInt(distance * extraDamage);
+            //float distance = Vector3.Distance(tower.transform.position, unit.transform.position);
+            //float extraDamage = tower.Damage / 100 * extraDamagesPerMeter[CurrentLevel - 1];
+            //damage += Mathf.RoundToInt(distance * extraDamage);
 
             (GameObject sound, GameObject effect) = fxManager.PlayFXPair(fxManager.GlobalEffects.Crit, unit.transform.position + Vector3.up, UnityEngine.Quaternion.identity, Vector3.one);
 

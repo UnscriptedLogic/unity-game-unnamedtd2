@@ -19,7 +19,7 @@ public class DoubleTap : Ability
     {
         if (RandomLogic.IntZeroTo(100) < procChancePercent)
         {
-            tower.CurrentReloadtime = quickReloadTime;
+            //tower.CurrentReloadtime = quickReloadTime;
         }
     }
 

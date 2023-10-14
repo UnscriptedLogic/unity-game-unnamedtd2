@@ -20,8 +20,8 @@ public class EntityHandler : MonoBehaviour
     {
         instance = this;
 
-        TowerBase.OnAnyTowerSpawned += Tower_OnAnyTowerSpawned;
-        TowerBase.OnAnyTowerDespawned += TowerBase_OnAnyTowerDespawned;
+        //TowerBase.OnAnyTowerSpawned += Tower_OnAnyTowerSpawned;
+        //TowerBase.OnAnyTowerDespawned += TowerBase_OnAnyTowerDespawned;
 
         UnitBase.OnAnyUnitSpawned += UnitBase_OnAnyUnitSpawned;
         UnitBase.OnAnyUnitDespawned += UnitBase_OnAnyUnitDespawned;

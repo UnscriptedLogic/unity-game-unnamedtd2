@@ -3,7 +3,7 @@ using UnscriptedLogic.MathUtils;
 
 public class DoubleTap : Ability
 {
-    private float quickReloadTime = 0.25f;
+    //private float quickReloadTime = 0.25f;
     private int procChancePercent = 10;
 
     public override void OnAdded()

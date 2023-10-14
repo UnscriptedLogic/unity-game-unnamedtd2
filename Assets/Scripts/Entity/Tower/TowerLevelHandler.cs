@@ -31,12 +31,12 @@ public class TowerLevelHandler : MonoBehaviour
 
         currentExperienceLevel = TowerDefenseManager.instance.ExperienceLevelsSO.ExpList[level];
 
-        tower.OnProjectileHitEvent += Tower_OnTowerProjectileHit;
+        //tower.OnProjectileHitEvent += Tower_OnTowerProjectileHit;
     }
 
     private void Tower_OnTowerProjectileHit(object sender, OnProjectileHitEventArgs e)
     {
-        experienceHandler.Modify(ModifyType.Add, tower.Damage);
+        //experienceHandler.Modify(ModifyType.Add, tower.Damage);
         CheckLevelUp();
     }
 

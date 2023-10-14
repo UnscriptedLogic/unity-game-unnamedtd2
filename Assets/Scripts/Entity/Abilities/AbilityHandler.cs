@@ -48,13 +48,13 @@ public class Ability
         towerLevelHandler = initSettings.towerLevelHandler;
         fxManager = initSettings.fxManager;
 
-        tower.OnTowerProjectileCreated += OnProjectileCreated;
-        tower.OnTowerProjectileFired += OnProjectileFired;
-        tower.OnProjectileHitEvent += OnProjectileHit;
-        tower.OnTowerProjectileDestroyed += OnProjectileDestroyed;
-        tower.OnTowerTargetFound += OnTargetFound;
-        tower.WhileTowerTargetFound += WhileTargetFound;
-        tower.OnTowerTargetLost += OnTargetLost;
+        //tower.OnTowerProjectileCreated += OnProjectileCreated;
+        //tower.OnTowerProjectileFired += OnProjectileFired;
+        //tower.OnProjectileHitEvent += OnProjectileHit;
+        //tower.OnTowerProjectileDestroyed += OnProjectileDestroyed;
+        //tower.OnTowerTargetFound += OnTargetFound;
+        //tower.WhileTowerTargetFound += WhileTargetFound;
+        //tower.OnTowerTargetLost += OnTargetLost;
 
         towerLevelHandler.OnLevelUp += TowerLevelHandler_OnLevelUp;
         OnAnyAbilityUpgraded += Ability_OnAnyAbilityUpgraded;

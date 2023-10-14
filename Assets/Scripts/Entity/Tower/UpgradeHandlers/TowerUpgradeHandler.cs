@@ -35,12 +35,12 @@ public class TowerUpgradeHandler : MonoBehaviour
 
         public UpgradeProperty(TowerBase towerBase)
         {
-            damage = towerBase.Damage;
-            range = towerBase.Range;
-            reloadTime = towerBase.ReloadTime;
-            projSpeed = towerBase.ProjectileSpeed;
-            projLifetime = towerBase.ProjectileLifetime;
-            projPierce = towerBase.ProjectilePierce;
+            //damage = towerBase.Damage;
+            //range = towerBase.Range;
+            //reloadTime = towerBase.ReloadTime;
+            //projSpeed = towerBase.ProjectileSpeed;
+            //projLifetime = towerBase.ProjectileLifetime;
+            //projPierce = towerBase.ProjectilePierce;
         }
 
         public static UpgradeProperty operator +(UpgradeProperty a, UpgradeProperty b)
@@ -147,14 +147,14 @@ public class TowerUpgradeHandler : MonoBehaviour
         propertySum = upgradePersistantProperty + abilityPersistentProperty;
 
         //Core settings
-        towerBase.Damage = propertySum.damage;
-        towerBase.Range = propertySum.range;
-        towerBase.ReloadTime = propertySum.reloadTime;
+        //towerBase.Damage = propertySum.damage;
+        //towerBase.Range = propertySum.range;
+        //towerBase.ReloadTime = propertySum.reloadTime;
 
         //Projectile settings
-        towerBase.ProjectilePierce = propertySum.projPierce;
-        towerBase.ProjectileSpeed = propertySum.projSpeed;
-        towerBase.ProjectileLifetime = propertySum.projLifetime;
+        //towerBase.ProjectilePierce = propertySum.projPierce;
+        //towerBase.ProjectileSpeed = propertySum.projSpeed;
+        //towerBase.ProjectileLifetime = propertySum.projLifetime;
     }
 
     /// <summary>

@@ -15,7 +15,7 @@ public class CriticalHits : Ability
 
         levelHandler = new CurrencyHandler(1, max: maxLevel);
 
-        tower.ApplyDamage = OverrideDamageMethod;
+        //tower.ApplyDamage = OverrideDamageMethod;
         upgradeHandler.UpdatePersistentStats(new TowerUpgradeHandler.UpgradeProperty(damage: 1));
     }
 

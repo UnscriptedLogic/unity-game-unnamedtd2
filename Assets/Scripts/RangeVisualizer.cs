@@ -39,7 +39,7 @@ public class RangeVisualizer : MonoBehaviour
         target = e.previewObject.transform;
         tower = towerbase;
         CreateMesh();
-        DrawFOV(e.previewObject.transform, towerbase.RangeHandler.Current);
+        //DrawFOV(e.previewObject.transform, towerbase.RangeHandler.Current);
         drawRange = true;
     }
 
@@ -55,7 +55,7 @@ public class RangeVisualizer : MonoBehaviour
         target = e.previewObject.transform;
         tower = towerbase;
         CreateMesh();
-        DrawFOV(e.previewObject.transform, towerbase.RangeHandler.Current);
+        //DrawFOV(e.previewObject.transform, towerbase.RangeHandler.Current);
         drawRange= true;
     }
 
@@ -66,7 +66,7 @@ public class RangeVisualizer : MonoBehaviour
         if (tower)
         {
             target = tower.transform;
-            range = tower.RangeHandler.Current;
+            //range = tower.RangeHandler.Current;
         }
 
         if (unit)

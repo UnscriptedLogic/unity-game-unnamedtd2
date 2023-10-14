@@ -91,7 +91,7 @@ public class InspectWindow : MonoBehaviour
                 if (towerInspectable as TowerBase)
                 {
                     inspectedTower = towerInspectable as TowerBase;
-                    inspectedTowerSO = TowerDefenseManager.instance.AllTowerList.GetSOFromTower(inspectedTower);
+                    //inspectedTowerSO = TowerDefenseManager.instance.AllTowerList.GetSOFromTower(inspectedTower);
                     inspectedTUH = inspectedTower.GetComponent<TowerUpgradeHandler>();
                     inspectedAbilityHandler = inspectedTower.GetComponent<AbilityHandler>();
                     inspectedLevelHandler = inspectedTower.GetComponent<TowerLevelHandler>();
@@ -184,22 +184,22 @@ public class InspectWindow : MonoBehaviour
 
     private void DisplayTowerStat(TowerBase tower)
     {
-        float damage = tower.Damage;
-        float range = tower.Range;
-        float rate = 60f / tower.ReloadTime / 60f;
+        //float damage = tower.Damage;
+        //float range = tower.Range;
+        //float rate = 60f / tower.ReloadTime / 60f;
 
-        GameObject attStat = Instantiate(statPrefab, statParent);
-        attStat.GetComponent<StatView>().Initialized("DMG", damage.ToString());
+        //GameObject attStat = Instantiate(statPrefab, statParent);
+        //attStat.GetComponent<StatView>().Initialized("DMG", damage.ToString());
 
-        GameObject rangeStat = Instantiate(statPrefab, statParent);
-        rangeStat.GetComponent<StatView>().Initialized("RNG", range.ToString());
+        //GameObject rangeStat = Instantiate(statPrefab, statParent);
+        //rangeStat.GetComponent<StatView>().Initialized("RNG", range.ToString());
 
-        GameObject rateStat = Instantiate(statPrefab, statParent);
-        rateStat.GetComponent<StatView>().Initialized("RATE", $"{Math.Round(rate, 2)}/s");
+        //GameObject rateStat = Instantiate(statPrefab, statParent);
+        //rateStat.GetComponent<StatView>().Initialized("RATE", $"{Math.Round(rate, 2)}/s");
 
-        tower.DamageHandler.OnModified += StatRefreshWindow;
-        tower.RangeHandler.OnModified += StatRefreshWindow;
-        tower.ReloadTimeHandler.OnModified += StatRefreshWindow;
+        //tower.DamageHandler.OnModified += StatRefreshWindow;
+        //tower.RangeHandler.OnModified += StatRefreshWindow;
+        //tower.ReloadTimeHandler.OnModified += StatRefreshWindow;
     }
 
     private void DisplayTowerAbilities()
@@ -277,9 +277,9 @@ public class InspectWindow : MonoBehaviour
 
     private void UnsubscribeTowerStatEvents(TowerBase tower)
     {
-        tower.DamageHandler.OnModified -= StatRefreshWindow;
-        tower.RangeHandler.OnModified -= StatRefreshWindow;
-        tower.ReloadTimeHandler.OnModified -= StatRefreshWindow;
+        //tower.DamageHandler.OnModified -= StatRefreshWindow;
+        //tower.RangeHandler.OnModified -= StatRefreshWindow;
+        //tower.ReloadTimeHandler.OnModified -= StatRefreshWindow;
     }
 
     #endregion

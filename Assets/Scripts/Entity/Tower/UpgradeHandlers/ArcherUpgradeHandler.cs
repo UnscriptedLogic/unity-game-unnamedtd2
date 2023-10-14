@@ -14,7 +14,7 @@ public class ArcherUpgradeHandler : TowerUpgradeHandler
 
         abilityHandler = towerBase.GetComponent<AbilityHandler>();
         abilityManager = AbilityManager.instance;
-        archerTower = towerBase as ArcherBehaviour;
+        //archerTower = towerBase as ArcherBehaviour;
 
         //Level 1
         UpgradeGroup level1 = new UpgradeGroup();

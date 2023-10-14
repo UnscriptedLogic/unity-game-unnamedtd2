@@ -15,7 +15,7 @@ public class RiflerUpgradeHandler : TowerUpgradeHandler
 
         abilityHandler = towerBase.GetComponent<AbilityHandler>();
         abilityManager = AbilityManager.instance;
-        riflerTower = towerBase as RiflerTower;
+        //riflerTower = towerBase as RiflerTower;
 
         //Level 1
         UpgradeGroup level1 = new UpgradeGroup();
